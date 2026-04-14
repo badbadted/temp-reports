@@ -201,6 +201,24 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
   object-fit: cover; max-height: 140px; opacity: 0.9;
 }
 
+/* Info box */
+.info-box {
+  background: var(--xmas-gold-light); border: 1px solid #f3d9a0;
+  border-radius: 8px; padding: 0.8rem 1rem; margin-top: 0.6rem;
+  font-size: 0.85rem;
+}
+.info-box h4 {
+  font-size: 0.85rem; font-weight: 700; color: var(--xmas-gold);
+  margin-bottom: 0.4rem;
+}
+.info-box ul { padding-left: 1.2rem; margin: 0.2rem 0; }
+.info-box li { margin-bottom: 0.2rem; }
+.info-box .warn {
+  color: var(--xmas-red); font-weight: 600; font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+.info-box a { color: var(--xmas-gold); text-decoration: underline; }
+
 /* Wreath decoration — small floating image */
 .wreath-deco {
   display: flex; align-items: center; gap: 1rem;
@@ -238,6 +256,7 @@ footer {
       <button class="dropdown-btn">參考資料 ▾</button>
       <div class="dropdown-menu">
         <a href="snowboard-guide.html">單板滑雪板購買指南</a>
+        <a href="https://www.pokepark-kanto.co.jp/ppark/ticketInfo/type/index?languageKind=zh_TW" target="_blank">PokéPark KANTO 購票</a>
       </div>
     </div>
   </div>
@@ -410,8 +429,23 @@ footer {
       <div class="t-item">
         <div class="t-dot" style="background:var(--xmas-red)"></div>
         <div class="t-time">全天</div>
-        <div class="t-content"><span class="tag tag-play">景點</span> 寶可夢樂園（Pokemon Wonder）</div>
+        <div class="t-content"><span class="tag tag-play">景點</span> PokéPark KANTO 寶可夢主題樂園</div>
       </div>
+    </div>
+    <div class="info-box">
+      <h4>🎫 PokéPark KANTO 票種資訊</h4>
+      <ul>
+        <li><strong>精英訓練家通行證</strong> — 無限次進出寶可夢森林＋草紗鎮、免費搭乘 2 種遊樂設施（優先通道）、預約草紗道館表演、進入草紗公館迎賓會</li>
+        <li><strong>訓練家通行證</strong> — 寶可夢森林限時進入 1 次（不可再入）＋草紗鎮無限次</li>
+        <li><strong>小鎮通行證</strong> — 僅草紗鎮（無法進入寶可夢森林）</li>
+      </ul>
+      <ul>
+        <li>全票（13 歲↑）／兒童票（3 歲↑）／敬老票（65 歲↑）／身心障礙票</li>
+        <li>未滿 3 歲免費入園</li>
+        <li>票價依入園日期浮動，需上官網確認</li>
+      </ul>
+      <p class="warn">⚠ 未滿 5 歲不可進入寶可夢森林（即使有大人陪伴）・需註冊官方會員才能購票</p>
+      <p style="margin-top:0.3rem"><a href="https://www.pokepark-kanto.co.jp/ppark/ticketInfo/type/index?languageKind=zh_TW" target="_blank">→ 官方購票頁面</a></p>
     </div>
     <div class="night-section">
       <span class="night-label">夜間</span> 東京晴空塔聖誕市集
