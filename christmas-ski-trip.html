@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026 聖誕滑雪旅行 — 行程表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root {
   /* Christmas palette */
@@ -23,77 +25,76 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
-  background: var(--s1); color: var(--t1); line-height: 1.6;
+  font-family: "Klee One", "Noto Sans TC", sans-serif;
+  font-weight: 600;
+  background: var(--s1); color: var(--t1); line-height: 1.7;
+}
+h1, h2, h3, h4, h5, .hero-bar h2, .greeting {
+  font-family: "Caveat", "Klee One", cursive;
 }
 
-/* Nav — deep pine green */
-nav {
-  background: linear-gradient(90deg, #14532d, #1a3c2a);
-  color: white;
-  padding: 0.6rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+/* Floating reference button */
+.fab-ref {
+  position: fixed; bottom: 1.2rem; right: 1.2rem; z-index: 300;
 }
-nav h1 { font-size: 1.1rem; font-weight: 700; }
-nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
-.nav-right { display: flex; gap: 0.5rem; align-items: center; }
-
-/* Dropdown */
-.dropdown { position: relative; }
-.dropdown-btn {
-  cursor: pointer; color: white; padding: 0.35rem 0.7rem;
-  border-radius: 6px; font-size: 0.8rem; font-weight: 500;
-  background: rgba(255,255,255,0.12); border: none;
+.fab-ref .fab-btn {
+  width: 40px; height: 40px; border-radius: 12px; border: 1.5px dashed rgba(255,255,255,0.4);
+  cursor: pointer;
+  background: rgba(60,50,40,0.7); backdrop-filter: blur(8px);
+  color: white; font-size: 0.7rem; font-weight: 600; font-family: "Klee One", sans-serif;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s, background 0.15s;
+  letter-spacing: 0.05em;
 }
-.dropdown-btn:hover { background: rgba(255,255,255,0.25); }
-.dropdown-menu {
-  display: none; position: absolute; right: 0; top: 100%; margin-top: 0.3rem;
-  background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  min-width: 200px; overflow: hidden; z-index: 200;
+.fab-ref .fab-btn:hover { transform: scale(1.05); background: rgba(60,50,40,0.85); }
+.fab-ref .fab-menu {
+  display: none; position: absolute; bottom: 52px; right: 0;
+  background: white; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  min-width: 220px; overflow: hidden;
 }
-.dropdown:hover .dropdown-menu { display: block; }
-.dropdown-menu a {
+.fab-ref.open .fab-menu { display: block; }
+.fab-ref .fab-menu a {
   display: block; padding: 0.6rem 1rem; color: var(--t1); text-decoration: none;
-  font-size: 0.85rem; background: white; border-bottom: 1px solid var(--s2);
+  font-size: 0.85rem; border-bottom: 1px solid #f0f0f0;
 }
-.dropdown-menu a:hover { background: var(--xmas-gold-light); }
-.dropdown-menu a:last-child { border-bottom: none; }
+.fab-ref .fab-menu a:hover { background: var(--xmas-gold-light); }
+.fab-ref .fab-menu a:last-child { border-bottom: none; }
 
-/* Hero — Christmas banner */
-.hero-bar {
-  background: linear-gradient(135deg, rgba(20,40,20,0.6) 0%, rgba(140,20,20,0.5) 50%, rgba(20,40,20,0.6) 100%),
-              url('img/xmas-hero.jpg') center/cover no-repeat;
-  color: white;
-  padding: 1.8rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+/* Hero — illustration banner + text below */
+.hero-img {
+  width: 100%; display: block;
+  border-bottom: 1.5px dashed var(--s2);
 }
-.hero-bar h2 {
-  font-size: 1.5rem; font-weight: 800;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+.hero-text {
+  background: var(--xmas-cream);
+  text-align: center; padding: 0.8rem 1rem 0.7rem;
+  border-bottom: 1.5px dashed var(--s2);
 }
-.hero-bar .route {
-  font-size: 0.85rem; opacity: 0.95;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+.hero-text h2 {
+  font-family: "Caveat", cursive;
+  font-size: 2rem; font-weight: 700; line-height: 1.2;
+  color: #3d2b1a;
+}
+.hero-text .hero-date {
+  font-family: "Caveat", cursive;
+  font-size: 1.05rem; color: #6b5040; margin-top: 0.05rem;
+}
+.hero-text .route {
+  font-size: 0.78rem; color: #7a6b5d; margin-top: 0.15rem;
 }
 .hero-stats {
-  display: flex; gap: 1.2rem; font-size: 0.85rem; font-weight: 600;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  display: flex; gap: 0.5rem; font-size: 0.78rem; font-weight: 600;
+  justify-content: center; margin-top: 0.3rem; flex-wrap: wrap;
 }
-.hero-stats span { white-space: nowrap; }
+.hero-stats span {
+  white-space: nowrap; background: rgba(255,255,255,0.7);
+  padding: 0.12rem 0.5rem; border-radius: 20px; color: #5a4a3a;
+}
 
 /* People bar */
 .people-bar {
-  background: var(--xmas-cream); border-bottom: 1px solid var(--s2);
+  background: var(--xmas-cream); border-bottom: 1.5px dashed var(--s2);
   padding: 0.5rem 1.5rem;
   display: flex; align-items: center; gap: 0.6rem;
   cursor: pointer; user-select: none;
@@ -120,11 +121,11 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
 /* Container */
 .container { max-width: 900px; margin: 0 auto; padding: 0.8rem 1rem 3rem; }
 
-/* Day Card */
+/* Day Card — sketch style */
 .day-card {
-  background: white; border-radius: 12px; margin-bottom: 0.8rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden;
-  border: 1px solid var(--s2);
+  background: white; border-radius: 14px; margin-bottom: 0.8rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
+  border: 1.5px dashed var(--s2);
 }
 .day-header {
   padding: 0.7rem 1.2rem; display: flex; align-items: center; gap: 0.8rem;
@@ -132,9 +133,11 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
 }
 .day-header:hover { background: var(--s1); }
 .day-num {
-  width: 40px; height: 40px; border-radius: 10px;
+  width: 40px; height: 40px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 0.95rem; color: white; flex-shrink: 0;
+  font-family: "Caveat", cursive;
+  font-weight: 700; font-size: 1.1rem; flex-shrink: 0;
+  border: 1.5px dashed;
 }
 .day-info { flex: 1; }
 .day-info h3 { font-size: 0.95rem; font-weight: 700; }
@@ -177,23 +180,23 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
 }
 .flight-inline .fa { color: var(--xmas-gold); font-weight: 700; }
 
-/* Night section — deep Christmas red */
+/* Night section — soft sketch */
 .night-section {
-  background: linear-gradient(135deg, #7f1d1d, #991b1b);
-  color: white; border-radius: 8px;
+  background: linear-gradient(135deg, #4a2030, #6b2040);
+  color: white; border-radius: 10px;
   padding: 0.5rem 0.8rem; margin-top: 0.6rem;
   display: flex; align-items: center; gap: 0.5rem;
-  font-size: 0.85rem;
+  font-size: 0.85rem; border: 1.5px dashed rgba(255,255,255,0.2);
 }
 .night-label { opacity: 0.7; font-size: 0.75rem; white-space: nowrap; }
 
-/* Day badge colors — Christmas alternating red/green/gold */
-.day1 .day-num { background: linear-gradient(135deg, #b91c1c, #dc2626); }
-.day2 .day-num { background: linear-gradient(135deg, #166534, #15803d); }
-.day3 .day-num { background: linear-gradient(135deg, #92400e, #b45309); }
-.day4 .day-num { background: linear-gradient(135deg, #b91c1c, #dc2626); }
-.day5 .day-num { background: linear-gradient(135deg, #166534, #15803d); }
-.day6 .day-num { background: linear-gradient(135deg, #92400e, #b45309); }
+/* Day badge — macaron pastel alternating */
+.day1 .day-num { background: #fde8ed; color: #c4687a; border-color: #f4a0b0; }
+.day2 .day-num { background: #e4f5ed; color: #4a9a74; border-color: #8ecfb5; }
+.day3 .day-num { background: #fdf5de; color: #a08530; border-color: #f0d07a; }
+.day4 .day-num { background: #fde8ed; color: #c4687a; border-color: #f4a0b0; }
+.day5 .day-num { background: #e4f5ed; color: #4a9a74; border-color: #8ecfb5; }
+.day6 .day-num { background: #fdf5de; color: #a08530; border-color: #f0d07a; }
 
 /* Decorative image strip */
 .deco-img {
@@ -202,46 +205,64 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
 }
 
 /* Accommodation section */
-.accom-section {
-  margin-bottom: 0.8rem;
-}
+.accom-section { margin-bottom: 0.8rem; }
 .accom-title {
   display: flex; align-items: center; gap: 0.5rem;
   padding: 0.7rem 1.2rem; cursor: pointer; user-select: none;
-  background: white; border: 1px solid var(--s2); border-radius: 12px;
-  font-size: 0.95rem; font-weight: 700; color: var(--xmas-green);
+  background: white; border: 1.5px dashed var(--s2); border-radius: 14px;
+  font-size: 0.95rem; font-weight: 700; color: var(--t1);
 }
 .accom-title:hover { background: var(--s1); }
 .accom-title .toggle { margin-left: auto; color: var(--t2); font-size: 1rem; transition: transform 0.2s; }
-.accom-section.open .accom-title { border-radius: 12px 12px 0 0; }
+.accom-section.open .accom-title { border-radius: 14px 14px 0 0; border-bottom: none; }
 .accom-section.open .accom-title .toggle { transform: rotate(180deg); }
 .accom-body {
-  display: none; background: white; border: 1px solid var(--s2); border-top: none;
-  border-radius: 0 0 12px 12px; padding: 0.8rem 1.2rem;
+  display: none; background: white; border: 1.5px dashed var(--s2); border-top: none;
+  border-radius: 0 0 14px 14px; padding: 0.8rem 1.2rem;
 }
 .accom-section.open .accom-body { display: block; }
 .accom-grid { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
-@media (min-width: 600px) { .accom-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 600px) { .accom-grid { grid-template-columns: 1fr 1fr 1fr; } }
+/* Macaron palette */
 .accom-card {
-  border-radius: 8px; padding: 0.7rem 0.9rem; font-size: 0.85rem;
-  border-left: 4px solid;
+  background: white; border-radius: 10px; padding: 0.7rem 0.9rem; font-size: 0.84rem;
+  border: 1px solid #e8e8e8; border-top: 3px solid; position: relative;
+  transition: box-shadow 0.15s;
 }
-.accom-card h5 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.2rem; }
-.accom-card .accom-who { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem; }
-.accom-card ul { padding-left: 1rem; margin: 0; }
-.accom-card li { margin-bottom: 0.15rem; }
-.accom-card.hotel-red { background: var(--xmas-red-light); border-color: var(--xmas-red); }
-.accom-card.hotel-red h5 { color: var(--xmas-red); }
-.accom-card.hotel-green { background: var(--xmas-green-light); border-color: var(--xmas-green); }
-.accom-card.hotel-green h5 { color: var(--xmas-green); }
-.accom-card.hotel-gold { background: var(--xmas-gold-light); border-color: var(--xmas-gold); }
-.accom-card.hotel-gold h5 { color: var(--xmas-gold); }
-.accom-note { font-size: 0.8rem; color: var(--t2); margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px solid var(--s2); }
+.accom-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.accom-card .accom-who {
+  display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
+  padding: 0.15rem 0.5rem; border-radius: 10px; margin-bottom: 0.35rem;
+}
+.accom-card h5 { font-size: 0.88rem; font-weight: 700; color: var(--t1); margin-bottom: 0.1rem; }
+.accom-card .accom-sub { font-size: 0.78rem; color: var(--t2); margin-bottom: 0.35rem; }
+.accom-card .accom-highlights { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.35rem; }
+.accom-card .hl {
+  display: inline-block; font-size: 0.7rem; padding: 0.12rem 0.4rem;
+  border-radius: 4px; background: #f5f5f5; color: var(--t2); white-space: nowrap;
+}
+.accom-card .accom-detail { display: none; font-size: 0.8rem; margin-top: 0.3rem; padding-top: 0.3rem; border-top: 1px dashed #e8e8e8; }
+.accom-card .accom-detail ul { padding-left: 1rem; margin: 0; }
+.accom-card .accom-detail li { margin-bottom: 0.1rem; }
+.accom-card.open .accom-detail { display: block; }
+.accom-more {
+  font-size: 0.72rem; color: var(--t2); cursor: pointer; margin-top: 0.25rem;
+  user-select: none; opacity: 0.7;
+}
+.accom-more:hover { opacity: 1; }
+/* Macaron colors — pink / mint / lemon */
+.accom-card.hotel-pink { border-top-color: #f4a0b0; }
+.accom-card.hotel-pink .accom-who { background: #fde8ed; color: #c4687a; }
+.accom-card.hotel-mint { border-top-color: #8ecfb5; }
+.accom-card.hotel-mint .accom-who { background: #e4f5ed; color: #4a9a74; }
+.accom-card.hotel-lemon { border-top-color: #f0d07a; }
+.accom-card.hotel-lemon .accom-who { background: #fdf5de; color: #a08530; }
+.accom-note { font-size: 0.8rem; color: var(--t2); margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px solid #eee; }
 
-/* Info box */
+/* Info box — sketch */
 .info-box {
-  background: var(--xmas-gold-light); border: 1px solid #f3d9a0;
-  border-radius: 8px; padding: 0.8rem 1rem; margin-top: 0.6rem;
+  background: #fffbf0; border: 1.5px dashed #e8d5a8;
+  border-radius: 10px; padding: 0.8rem 1rem; margin-top: 0.6rem;
   font-size: 0.85rem;
 }
 .info-box h4 {
@@ -256,61 +277,60 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
 }
 .info-box a { color: var(--xmas-gold); text-decoration: underline; }
 
-/* Wreath decoration — small floating image */
+/* Wreath decoration — hand-drawn */
 .wreath-deco {
   display: flex; align-items: center; gap: 1rem;
-  background: var(--xmas-cream); border: 1px solid var(--s2);
-  border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 0.8rem;
+  background: var(--xmas-cream); border: 1.5px dashed var(--s2);
+  border-radius: 14px; padding: 0.8rem 1rem; margin-bottom: 0.8rem;
 }
 .wreath-deco img {
   width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
-  border: 2px solid var(--xmas-gold);
+  border: none;
 }
 .wreath-deco .greeting {
-  font-size: 0.9rem; color: var(--xmas-green); font-weight: 600;
+  font-family: "Caveat", cursive;
+  font-size: 1.15rem; color: var(--xmas-green); font-weight: 700;
 }
 .wreath-deco .greeting-sub {
-  font-size: 0.8rem; color: var(--t2);
+  font-size: 0.82rem; color: var(--t2);
 }
 
 footer {
-  text-align: center; padding: 1rem; color: var(--t2); font-size: 0.75rem;
+  text-align: center; padding: 1.2rem; color: var(--t2); font-size: 0.8rem;
+  font-family: "Caveat", cursive; letter-spacing: 0.03em;
+  border-top: 1.5px dashed var(--s2); margin-top: 1rem;
 }
 
 @media (max-width: 600px) {
-  nav { flex-direction: column; gap: 0.3rem; }
-  .hero-bar { flex-direction: column; text-align: center; padding: 1.2rem 1rem; }
-  .hero-stats { justify-content: center; flex-wrap: wrap; }
+  .hero-text h2 { font-size: 1.6rem; }
+  .hero-stats { gap: 0.4rem; }
+  .accom-grid { grid-template-columns: 1fr !important; }
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <h1>2026 聖誕滑雪旅行 <span>12/24 — 12/29</span></h1>
-  <div class="nav-right">
-    <div class="dropdown">
-      <button class="dropdown-btn">參考資料 ▾</button>
-      <div class="dropdown-menu">
-        <a href="snowboard-guide.html">單板滑雪板購買指南</a>
-        <a href="https://www.pokepark-kanto.co.jp/ppark/ticketInfo/type/index?languageKind=zh_TW" target="_blank">PokéPark KANTO 購票</a>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<!-- Hero with Christmas banner -->
-<div class="hero-bar">
-  <div>
-    <h2>Merry Christmas Ski Trip</h2>
-    <div class="route">高雄 → 東京 → 神樂/石打丸山 → 東京 → 高雄</div>
-  </div>
+<!-- Hero — illustration + text -->
+<img src="img/hero-handdrawn.jpg" alt="Christmas Ski Trip" class="hero-img">
+<div class="hero-text">
+  <h2>Merry Christmas Ski Trip ⛷️</h2>
+  <div class="hero-date">12 / 24 — 12 / 29, 2026</div>
+  <div class="route">高雄 → 東京 → 神樂 / 石打丸山 → 東京 → 高雄</div>
   <div class="hero-stats">
     <span>6 天</span>
     <span>6 家庭</span>
     <span>10 大人</span>
     <span>8 小孩</span>
   </div>
+</div>
+
+<!-- Floating reference button -->
+<div class="fab-ref" onclick="this.classList.toggle('open')">
+  <div class="fab-menu">
+    <a href="snowboard-guide.html">📖 單板滑雪板購買指南</a>
+    <a href="https://www.pokepark-kanto.co.jp/ppark/ticketInfo/type/index?languageKind=zh_TW" target="_blank">🎫 PokéPark KANTO 購票</a>
+  </div>
+  <button class="fab-btn" title="參考資料">參考</button>
 </div>
 
 <!-- People bar -->
@@ -333,56 +353,50 @@ footer {
 <div class="container">
 
 <!-- Accommodation -->
-<div class="accom-section open">
+<div class="accom-section">
   <div class="accom-title" onclick="this.parentElement.classList.toggle('open')">
-    🏨 住宿資訊 <span style="font-weight:400;font-size:0.8rem;color:var(--t2)">（全部在錦糸町，步行可達）</span>
+    🏨 住宿資訊 <span style="font-weight:400;font-size:0.8rem;color:var(--t2)">全部在錦糸町・步行互達</span>
     <span class="toggle">▼</span>
   </div>
   <div class="accom-body">
     <div class="accom-grid">
 
-      <div class="accom-card hotel-red">
-        <div class="accom-who">🔴 妞家・恩家</div>
+      <div class="accom-card hotel-pink">
+        <div class="accom-who">妞家・恩家</div>
         <h5>Moxy Tokyo Kinshicho</h5>
-        <ul>
-          <li>萬豪旗下潮牌飯店・工業風設計</li>
-          <li>JR / 半藏門線「錦糸町站」步行 5 分鐘</li>
-          <li>吧台 Check-in＋免費迎賓飲料</li>
-          <li>24hr Bar & Lounge・健身房・桌遊交誼區</li>
-          <li>205 間客房・50 吋電視・步入式淋浴（無浴缸）</li>
-          <li>自助洗衣・自行車租借</li>
-        </ul>
+        <div class="accom-sub">📍 墨田區江東橋 3-4-2｜錦糸町站走 5 分</div>
+        <div class="accom-highlights">
+          <span class="hl">免費迎賓飲料</span>
+          <span class="hl">24hr Lounge</span>
+          <span class="hl">自助洗衣</span>
+        </div>
       </div>
 
-      <div class="accom-card hotel-green" style="grid-column: 1 / -1;">
-        <div class="accom-who">🟢 鈞家・岑家・多家（3 家庭包棟）</div>
-        <h5>Skytree 12pax Family-Friendly w/ Indoor Playground</h5>
-        <ul>
-          <li>Airbnb 獨棟別墅・最多 12 人・可看晴空塔</li>
-          <li>錦糸町站步行約 7 分鐘</li>
-          <li>4 臥室 + 2 日式閣樓・8 張床・2 間廁所・大浴缸</li>
-          <li><strong>兒童室內體能遊樂場</strong>（攀爬設施＋遊戲空間，雨天也能放電）</li>
-          <li>嬰兒推車・嬰兒床・兒童高腳椅・帳篷玩具一應俱全</li>
-          <li>75 吋電視・大廚房・1G Wi-Fi・免費停車位（可停 Alphard）</li>
-        </ul>
+      <div class="accom-card hotel-mint">
+        <div class="accom-who">鈞家・岑家・多家</div>
+        <h5>Skytree 親子包棟民宿</h5>
+        <div class="accom-sub">📍 墨田區（Airbnb）｜錦糸町站走 7 分</div>
+        <div class="accom-highlights">
+          <span class="hl">室內遊樂場</span>
+          <span class="hl">免費停車</span>
+          <span class="hl">嬰兒備品齊全</span>
+        </div>
       </div>
 
-      <div class="accom-card hotel-gold">
-        <div class="accom-who">🟡 淇家</div>
-        <h5>京成里士滿飯店 錦糸町</h5>
-        <ul>
-          <li>2021 年開幕・設備新穎</li>
-          <li>JR / 半藏門線「錦糸町站」步行 5 分鐘</li>
-          <li>特色早餐：相撲火鍋（每日換湯頭）+ 40 種菜色</li>
-          <li>12 歲以下不佔床免費・可借嬰兒床＆床圍</li>
-          <li>Amenity Bar 自助取用・投幣洗衣・免治馬桶</li>
-          <li>直達東京站 8 分鐘・晴空塔搭半藏門線 1 站</li>
-        </ul>
+      <div class="accom-card hotel-lemon">
+        <div class="accom-who">淇家</div>
+        <h5>京成里士滿飯店</h5>
+        <div class="accom-sub">📍 墨田區江東橋 3-2-7｜錦糸町站走 5 分</div>
+        <div class="accom-highlights">
+          <span class="hl">12歲以下免費同住</span>
+          <span class="hl">嬰兒備品可借</span>
+          <span class="hl">相撲火鍋早餐</span>
+        </div>
       </div>
 
     </div>
     <div class="accom-note">
-      📍 三間住宿皆在<strong>墨田區錦糸町</strong>，彼此步行 5～7 分鐘內，生活機能極佳（PARCO・阿卡將・唐吉訶德・Bic Camera）。距晴空塔、淺草、秋葉原車程皆在 15 分鐘以內。
+      📍 三間住宿皆在<strong>墨田區錦糸町</strong>，步行 5～7 分鐘互達。周邊有 PARCO・阿卡將・唐吉訶德・Bic Camera，距晴空塔、淺草、秋葉原車程 15 分鐘內。
     </div>
   </div>
 </div>
@@ -583,6 +597,32 @@ footer {
       </ul>
       <p style="margin-top:0.4rem"><strong>兒童滑雪學校（Skids Camp）：</strong>3 歲↑可報名「玩雪方案」或全日課程含午餐，等於實質托兒，大人可放心去滑</p>
       <p class="warn">⚠ 營業 08:30～17:00 ／ 玩雪樂園 & The Veranda 10:00～16:00 ／ 可租雪靴雪衣手套，空手來也 OK</p>
+    </div>
+    <div class="info-box" style="margin-top:0.5rem; background:#f5faf7; border-color:#b8d8c8;">
+      <h4 style="color:var(--xmas-green)">🏕️ The Veranda 圓頂帳篷 — 餐飲菜單</h4>
+      <p style="margin-bottom:0.3rem">搭纜車上山腰，在透明暖帳裡邊看雪景邊用餐。以下為精選：</p>
+      <p style="margin-bottom:0.2rem"><strong>🥞 鬆餅（雪山の Pancake）</strong></p>
+      <ul>
+        <li>巧克力香蕉 ¥1,700 ／ 焦糖香蕉 ¥1,850 ／ 綜合莓果 ¥1,700 ／ 蘋果肉桂 ¥1,700</li>
+      </ul>
+      <p style="margin-top:0.3rem;margin-bottom:0.2rem"><strong>🍽️ 主餐</strong></p>
+      <ul>
+        <li>手撕豬肉三明治 ¥1,800 ／ 海與山鮮味咖哩 ¥1,750 ／ <strong>兒童咖哩 ¥800</strong></li>
+        <li>烤牛肉丼 ¥2,200（八海山醬油麴・限量）／ 歐姆蛋牛肉燴飯 ¥1,850</li>
+        <li>鷹嘴豆馬薩拉咖哩 ¥1,800（🌱 素食）</li>
+      </ul>
+      <p style="margin-top:0.3rem;margin-bottom:0.2rem"><strong>🍟 小食</strong></p>
+      <ul>
+        <li>水牛城辣雞翅 ¥1,000(4pc) ／ 炸魚薯條 ¥1,300 ／ 炸薯條 ¥600 ／ 日式炸雞 ¥700</li>
+        <li>拉克萊特起司＋香腸 ¥2,500（限內用）</li>
+      </ul>
+      <p style="margin-top:0.3rem;margin-bottom:0.2rem"><strong>☕ 飲料精選</strong></p>
+      <ul>
+        <li>咖啡 ¥600 ／ 拿鐵 ¥700 ／ 熱巧克力 ¥700 ／ 皇家奶茶 ¥950</li>
+        <li>麴拉西 ¥600（八海山甜酒製）／ 檸檬特調 ¥650 ／ 果汁 ¥400</li>
+        <li>🍺 奧地利生啤 ¥1,000 ／ 角嗨 ¥850 ／ 熱紅酒 ¥850</li>
+      </ul>
+      <p style="margin-top:0.4rem"><a href="https://ishiuchi.or.jp/winter/wp/wp-content/uploads/2025/12/2512vc_winter_a4_compressed-1.pdf" target="_blank" style="color:var(--xmas-green)">→ 完整菜單 PDF</a></p>
     </div>
     <div class="night-section">
       <span class="night-label">夜間</span> 澀谷街頭體驗
