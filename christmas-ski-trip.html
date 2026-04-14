@@ -6,21 +6,20 @@
 <title>2026 聖誕滑雪旅行 — 行程表</title>
 <style>
 :root {
-  --bg: #ffffff;
-  --s1: #f8fafc;
-  --s2: #e2e8f0;
-  --t1: #1e293b;
-  --t2: #64748b;
-  --accent: #2563eb;
-  --accent-light: #dbeafe;
-  --red: #dc2626;
-  --red-light: #fef2f2;
-  --green: #059669;
-  --green-light: #ecfdf5;
-  --amber: #d97706;
-  --amber-light: #fffbeb;
-  --purple: #7c3aed;
-  --purple-light: #f5f3ff;
+  /* Christmas palette */
+  --bg: #fffdf7;
+  --s1: #fef9f0;
+  --s2: #e8dfd0;
+  --t1: #2d1f1a;
+  --t2: #7a6b5d;
+  --xmas-red: #b91c1c;
+  --xmas-red-light: #fef2f2;
+  --xmas-green: #166534;
+  --xmas-green-light: #ecfdf5;
+  --xmas-gold: #b45309;
+  --xmas-gold-light: #fef3c7;
+  --xmas-dark: #1a2e1a;
+  --xmas-cream: #fdf6e3;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -28,9 +27,9 @@ body {
   background: var(--s1); color: var(--t1); line-height: 1.6;
 }
 
-/* Nav */
+/* Nav — deep pine green */
 nav {
-  background: #1e3a5f;
+  background: linear-gradient(90deg, #14532d, #1a3c2a);
   color: white;
   padding: 0.6rem 1.5rem;
   display: flex;
@@ -39,7 +38,7 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 nav h1 { font-size: 1.1rem; font-weight: 700; }
 nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
@@ -63,43 +62,49 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
   display: block; padding: 0.6rem 1rem; color: var(--t1); text-decoration: none;
   font-size: 0.85rem; background: white; border-bottom: 1px solid var(--s2);
 }
-.dropdown-menu a:hover { background: var(--accent-light); }
+.dropdown-menu a:hover { background: var(--xmas-gold-light); }
 .dropdown-menu a:last-child { border-bottom: none; }
 
-/* Compact hero with background image */
+/* Hero — Christmas banner */
 .hero-bar {
-  background: linear-gradient(135deg, rgba(30,58,95,0.82) 0%, rgba(37,99,235,0.75) 60%, rgba(56,189,248,0.7) 100%),
-              url('img/hero-banner.jpg') center/cover no-repeat;
+  background: linear-gradient(135deg, rgba(20,40,20,0.6) 0%, rgba(140,20,20,0.5) 50%, rgba(20,40,20,0.6) 100%),
+              url('img/xmas-hero.jpg') center/cover no-repeat;
   color: white;
-  padding: 1.5rem 1.5rem;
+  padding: 1.8rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-.hero-bar h2 { font-size: 1.4rem; font-weight: 800; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
-.hero-bar .route { font-size: 0.85rem; opacity: 0.9; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+.hero-bar h2 {
+  font-size: 1.5rem; font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+.hero-bar .route {
+  font-size: 0.85rem; opacity: 0.95;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
 .hero-stats {
   display: flex; gap: 1.2rem; font-size: 0.85rem; font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 .hero-stats span { white-space: nowrap; }
 
-/* People bar — collapsible inline */
+/* People bar */
 .people-bar {
-  background: white; border-bottom: 1px solid var(--s2);
+  background: var(--xmas-cream); border-bottom: 1px solid var(--s2);
   padding: 0.5rem 1.5rem;
   display: flex; align-items: center; gap: 0.6rem;
   cursor: pointer; user-select: none;
   font-size: 0.85rem;
 }
-.people-bar:hover { background: var(--s1); }
-.people-bar .label { font-weight: 600; color: var(--t2); }
+.people-bar:hover { background: var(--xmas-gold-light); }
+.people-bar .label { font-weight: 600; color: var(--xmas-green); }
 .people-bar .toggle { color: var(--t2); font-size: 0.75rem; margin-left: auto; transition: transform 0.2s; }
 .people-bar.open .toggle { transform: rotate(180deg); }
 .people-detail {
-  display: none; background: white; border-bottom: 1px solid var(--s2);
+  display: none; background: var(--xmas-cream); border-bottom: 1px solid var(--s2);
   padding: 0.5rem 1.5rem 0.7rem;
 }
 .people-bar.open + .people-detail { display: block; }
@@ -107,9 +112,9 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
 .chip {
   display: inline-flex; align-items: center; gap: 0.3rem;
   padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.8rem;
-  background: var(--s1); border: 1px solid var(--s2);
+  background: white; border: 1px solid var(--s2);
 }
-.chip .cname { font-weight: 600; }
+.chip .cname { font-weight: 600; color: var(--xmas-red); }
 .chip .ccount { color: var(--t2); }
 
 /* Container */
@@ -155,44 +160,62 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
 .t-time { font-size: 0.75rem; color: var(--t2); font-weight: 600; }
 .t-content { font-size: 0.9rem; }
 
-/* Tags */
+/* Tags — Christmas colors */
 .tag {
   display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px;
   font-size: 0.7rem; font-weight: 600; margin-right: 0.2rem;
 }
-.tag-flight { background: var(--accent-light); color: var(--accent); }
-.tag-ski { background: var(--green-light); color: var(--green); }
-.tag-play { background: var(--purple-light); color: var(--purple); }
-.tag-xmas { background: var(--red-light); color: var(--red); }
-.tag-shop { background: var(--amber-light); color: var(--amber); }
+.tag-flight { background: var(--xmas-gold-light); color: var(--xmas-gold); }
+.tag-ski { background: var(--xmas-green-light); color: var(--xmas-green); }
+.tag-play { background: var(--xmas-red-light); color: var(--xmas-red); }
+.tag-xmas { background: var(--xmas-red-light); color: var(--xmas-red); }
+.tag-shop { background: var(--xmas-gold-light); color: var(--xmas-gold); }
 
-/* Flight — inline single line */
+/* Flight inline */
 .flight-inline {
   font-size: 0.8rem; color: var(--t2); margin-top: 0.1rem;
 }
-.flight-inline .fa { color: var(--accent); font-weight: 700; }
+.flight-inline .fa { color: var(--xmas-gold); font-weight: 700; }
 
-/* Night section — compact */
+/* Night section — deep Christmas red */
 .night-section {
-  background: #1e1b4b; color: white; border-radius: 8px;
+  background: linear-gradient(135deg, #7f1d1d, #991b1b);
+  color: white; border-radius: 8px;
   padding: 0.5rem 0.8rem; margin-top: 0.6rem;
   display: flex; align-items: center; gap: 0.5rem;
   font-size: 0.85rem;
 }
-.night-label { opacity: 0.6; font-size: 0.75rem; white-space: nowrap; }
+.night-label { opacity: 0.7; font-size: 0.75rem; white-space: nowrap; }
 
-/* Day colors */
-.day1 .day-num { background: linear-gradient(135deg, #dc2626, #ef4444); }
-.day2 .day-num { background: linear-gradient(135deg, #d97706, #f59e0b); }
-.day3 .day-num { background: linear-gradient(135deg, #059669, #10b981); }
-.day4 .day-num { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
-.day5 .day-num { background: linear-gradient(135deg, #2563eb, #3b82f6); }
-.day6 .day-num { background: linear-gradient(135deg, #475569, #64748b); }
+/* Day badge colors — Christmas alternating red/green/gold */
+.day1 .day-num { background: linear-gradient(135deg, #b91c1c, #dc2626); }
+.day2 .day-num { background: linear-gradient(135deg, #166534, #15803d); }
+.day3 .day-num { background: linear-gradient(135deg, #92400e, #b45309); }
+.day4 .day-num { background: linear-gradient(135deg, #b91c1c, #dc2626); }
+.day5 .day-num { background: linear-gradient(135deg, #166534, #15803d); }
+.day6 .day-num { background: linear-gradient(135deg, #92400e, #b45309); }
 
 /* Decorative image strip */
 .deco-img {
   width: 100%; border-radius: 8px; margin-top: 0.6rem;
   object-fit: cover; max-height: 140px; opacity: 0.9;
+}
+
+/* Wreath decoration — small floating image */
+.wreath-deco {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--xmas-cream); border: 1px solid var(--s2);
+  border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 0.8rem;
+}
+.wreath-deco img {
+  width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
+  border: 2px solid var(--xmas-gold);
+}
+.wreath-deco .greeting {
+  font-size: 0.9rem; color: var(--xmas-green); font-weight: 600;
+}
+.wreath-deco .greeting-sub {
+  font-size: 0.8rem; color: var(--t2);
 }
 
 footer {
@@ -201,8 +224,8 @@ footer {
 
 @media (max-width: 600px) {
   nav { flex-direction: column; gap: 0.3rem; }
-  .hero-bar { flex-direction: column; text-align: center; }
-  .hero-stats { justify-content: center; }
+  .hero-bar { flex-direction: column; text-align: center; padding: 1.2rem 1rem; }
+  .hero-stats { justify-content: center; flex-wrap: wrap; }
 }
 </style>
 </head>
@@ -220,10 +243,10 @@ footer {
   </div>
 </nav>
 
-<!-- Compact hero -->
+<!-- Hero with Christmas banner -->
 <div class="hero-bar">
   <div>
-    <h2>聖誕滑雪之旅</h2>
+    <h2>Merry Christmas Ski Trip</h2>
     <div class="route">高雄 → 東京 → 神樂/石打丸山 → 東京 → 高雄</div>
   </div>
   <div class="hero-stats">
@@ -234,7 +257,7 @@ footer {
   </div>
 </div>
 
-<!-- People — collapsible bar -->
+<!-- People bar -->
 <div class="people-bar" onclick="this.classList.toggle('open')">
   <span class="label">成員</span>
   <span>妞・恩・鈞・淇・多・岑（共 18 人）</span>
@@ -253,6 +276,15 @@ footer {
 
 <div class="container">
 
+<!-- Wreath greeting -->
+<div class="wreath-deco">
+  <img src="img/xmas-wreath.jpg" alt="Christmas Wreath">
+  <div>
+    <div class="greeting">Merry Christmas & Happy Skiing!</div>
+    <div class="greeting-sub">6 個家庭的聖誕滑雪冒險，一起留下最棒的回憶</div>
+  </div>
+</div>
+
 <!-- DAY 1 -->
 <div class="day-card day1 open">
   <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
@@ -266,18 +298,18 @@ footer {
   <div class="day-body">
     <div class="timeline">
       <div class="t-item">
-        <div class="t-dot" style="background:var(--accent)"></div>
+        <div class="t-dot" style="background:var(--xmas-gold)"></div>
         <div class="t-time">07:00</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（淇家）</div>
         <div class="flight-inline">KHH <span class="fa">→</span> NRT T1 ・ 長榮 ・ 11:25 抵達</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--purple)"></div>
+        <div class="t-dot" style="background:var(--xmas-red)"></div>
         <div class="t-time">~12:00</div>
         <div class="t-content"><span class="tag tag-play">景點</span> Sanrio 旗艦店 + Cafe</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--accent)"></div>
+        <div class="t-dot" style="background:var(--xmas-gold)"></div>
         <div class="t-time">13:05</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（妞媽・鈞・岑）</div>
         <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 17:25 抵達</div>
@@ -299,30 +331,30 @@ footer {
   <div class="day-body">
     <div class="timeline">
       <div class="t-item">
-        <div class="t-dot" style="background:var(--accent)"></div>
+        <div class="t-dot" style="background:var(--xmas-gold)"></div>
         <div class="t-time">07:00</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（恩爸）</div>
         <div class="flight-inline">KHH <span class="fa">→</span> NRT T1 ・ 長榮 ・ 11:25 抵達</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--accent)"></div>
+        <div class="t-dot" style="background:var(--xmas-gold)"></div>
         <div class="t-time">08:00</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（恩+媽・妞）</div>
         <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 12:20 抵達</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--amber)"></div>
+        <div class="t-dot" style="background:var(--xmas-gold)"></div>
         <div class="t-time">~11:00</div>
         <div class="t-content"><span class="tag tag-shop">逛街</span> 早上逛街購物（先到的人）</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--accent)"></div>
+        <div class="t-dot" style="background:var(--xmas-gold)"></div>
         <div class="t-time">13:05</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（多家）</div>
         <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 17:25 抵達</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--purple)"></div>
+        <div class="t-dot" style="background:var(--xmas-red)"></div>
         <div class="t-time">15:00</div>
         <div class="t-content"><span class="tag tag-play">體驗</span> 淺草和服體驗</div>
       </div>
@@ -347,12 +379,12 @@ footer {
   <div class="day-body">
     <div class="timeline">
       <div class="t-item">
-        <div class="t-dot" style="background:var(--green)"></div>
+        <div class="t-dot" style="background:var(--xmas-green)"></div>
         <div class="t-time">全天</div>
         <div class="t-content"><span class="tag tag-ski">滑雪</span> 神樂滑雪場（かぐらスキー場）</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--green)"></div>
+        <div class="t-dot" style="background:var(--xmas-green)"></div>
         <div class="t-content"><span class="tag tag-ski">教練</span> 請教練教學（初學者 & 小朋友）</div>
       </div>
     </div>
@@ -376,7 +408,7 @@ footer {
   <div class="day-body">
     <div class="timeline">
       <div class="t-item">
-        <div class="t-dot" style="background:var(--purple)"></div>
+        <div class="t-dot" style="background:var(--xmas-red)"></div>
         <div class="t-time">全天</div>
         <div class="t-content"><span class="tag tag-play">景點</span> 寶可夢樂園（Pokemon Wonder）</div>
       </div>
@@ -400,12 +432,12 @@ footer {
   <div class="day-body">
     <div class="timeline">
       <div class="t-item">
-        <div class="t-dot" style="background:var(--green)"></div>
+        <div class="t-dot" style="background:var(--xmas-green)"></div>
         <div class="t-time">白天</div>
         <div class="t-content"><span class="tag tag-ski">滑雪</span> 石打丸山滑雪場（自由玩）</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--purple)"></div>
+        <div class="t-dot" style="background:var(--xmas-red)"></div>
         <div class="t-content"><span class="tag tag-play">住宿</span> 圓頂帳篷體驗（Glamping）</div>
       </div>
     </div>
@@ -428,18 +460,18 @@ footer {
   <div class="day-body">
     <div class="timeline">
       <div class="t-item">
-        <div class="t-dot" style="background:var(--purple)"></div>
+        <div class="t-dot" style="background:var(--xmas-red)"></div>
         <div class="t-time">上午</div>
         <div class="t-content"><span class="tag tag-play">景點</span> teamLab Planets Tokyo</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--accent)"></div>
+        <div class="t-dot" style="background:var(--xmas-gold)"></div>
         <div class="t-time">12:25</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> 恩家回程</div>
         <div class="flight-inline">NRT T1 <span class="fa">→</span> KHH ・ 長榮 ・ 15:45 抵達高雄</div>
       </div>
       <div class="t-item">
-        <div class="t-dot" style="background:var(--accent)"></div>
+        <div class="t-dot" style="background:var(--xmas-gold)"></div>
         <div class="t-time">18:25</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> 其餘成員回程（妞・鈞・淇・岑・多）</div>
         <div class="flight-inline">NRT T2 <span class="fa">→</span> KHH ・ 華航 ・ 22:05 抵達高雄</div>
