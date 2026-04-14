@@ -201,6 +201,43 @@ nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
   object-fit: cover; max-height: 140px; opacity: 0.9;
 }
 
+/* Accommodation section */
+.accom-section {
+  margin-bottom: 0.8rem;
+}
+.accom-title {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1.2rem; cursor: pointer; user-select: none;
+  background: white; border: 1px solid var(--s2); border-radius: 12px;
+  font-size: 0.95rem; font-weight: 700; color: var(--xmas-green);
+}
+.accom-title:hover { background: var(--s1); }
+.accom-title .toggle { margin-left: auto; color: var(--t2); font-size: 1rem; transition: transform 0.2s; }
+.accom-section.open .accom-title { border-radius: 12px 12px 0 0; }
+.accom-section.open .accom-title .toggle { transform: rotate(180deg); }
+.accom-body {
+  display: none; background: white; border: 1px solid var(--s2); border-top: none;
+  border-radius: 0 0 12px 12px; padding: 0.8rem 1.2rem;
+}
+.accom-section.open .accom-body { display: block; }
+.accom-grid { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
+@media (min-width: 600px) { .accom-grid { grid-template-columns: 1fr 1fr; } }
+.accom-card {
+  border-radius: 8px; padding: 0.7rem 0.9rem; font-size: 0.85rem;
+  border-left: 4px solid;
+}
+.accom-card h5 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.2rem; }
+.accom-card .accom-who { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem; }
+.accom-card ul { padding-left: 1rem; margin: 0; }
+.accom-card li { margin-bottom: 0.15rem; }
+.accom-card.hotel-red { background: var(--xmas-red-light); border-color: var(--xmas-red); }
+.accom-card.hotel-red h5 { color: var(--xmas-red); }
+.accom-card.hotel-green { background: var(--xmas-green-light); border-color: var(--xmas-green); }
+.accom-card.hotel-green h5 { color: var(--xmas-green); }
+.accom-card.hotel-gold { background: var(--xmas-gold-light); border-color: var(--xmas-gold); }
+.accom-card.hotel-gold h5 { color: var(--xmas-gold); }
+.accom-note { font-size: 0.8rem; color: var(--t2); margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px solid var(--s2); }
+
 /* Info box */
 .info-box {
   background: var(--xmas-gold-light); border: 1px solid #f3d9a0;
@@ -294,6 +331,61 @@ footer {
 </div>
 
 <div class="container">
+
+<!-- Accommodation -->
+<div class="accom-section open">
+  <div class="accom-title" onclick="this.parentElement.classList.toggle('open')">
+    🏨 住宿資訊 <span style="font-weight:400;font-size:0.8rem;color:var(--t2)">（全部在錦糸町，步行可達）</span>
+    <span class="toggle">▼</span>
+  </div>
+  <div class="accom-body">
+    <div class="accom-grid">
+
+      <div class="accom-card hotel-red">
+        <div class="accom-who">🔴 妞家・恩家</div>
+        <h5>Moxy Tokyo Kinshicho</h5>
+        <ul>
+          <li>萬豪旗下潮牌飯店・工業風設計</li>
+          <li>JR / 半藏門線「錦糸町站」步行 5 分鐘</li>
+          <li>吧台 Check-in＋免費迎賓飲料</li>
+          <li>24hr Bar & Lounge・健身房・桌遊交誼區</li>
+          <li>205 間客房・50 吋電視・步入式淋浴（無浴缸）</li>
+          <li>自助洗衣・自行車租借</li>
+        </ul>
+      </div>
+
+      <div class="accom-card hotel-green" style="grid-column: 1 / -1;">
+        <div class="accom-who">🟢 鈞家・岑家・多家（3 家庭包棟）</div>
+        <h5>Skytree 12pax Family-Friendly w/ Indoor Playground</h5>
+        <ul>
+          <li>Airbnb 獨棟別墅・最多 12 人・可看晴空塔</li>
+          <li>錦糸町站步行約 7 分鐘</li>
+          <li>4 臥室 + 2 日式閣樓・8 張床・2 間廁所・大浴缸</li>
+          <li><strong>兒童室內體能遊樂場</strong>（攀爬設施＋遊戲空間，雨天也能放電）</li>
+          <li>嬰兒推車・嬰兒床・兒童高腳椅・帳篷玩具一應俱全</li>
+          <li>75 吋電視・大廚房・1G Wi-Fi・免費停車位（可停 Alphard）</li>
+        </ul>
+      </div>
+
+      <div class="accom-card hotel-gold">
+        <div class="accom-who">🟡 淇家</div>
+        <h5>京成里士滿飯店 錦糸町</h5>
+        <ul>
+          <li>2021 年開幕・設備新穎</li>
+          <li>JR / 半藏門線「錦糸町站」步行 5 分鐘</li>
+          <li>特色早餐：相撲火鍋（每日換湯頭）+ 40 種菜色</li>
+          <li>12 歲以下不佔床免費・可借嬰兒床＆床圍</li>
+          <li>Amenity Bar 自助取用・投幣洗衣・免治馬桶</li>
+          <li>直達東京站 8 分鐘・晴空塔搭半藏門線 1 站</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="accom-note">
+      📍 三間住宿皆在<strong>墨田區錦糸町</strong>，彼此步行 5～7 分鐘內，生活機能極佳（PARCO・阿卡將・唐吉訶德・Bic Camera）。距晴空塔、淺草、秋葉原車程皆在 15 分鐘以內。
+    </div>
+  </div>
+</div>
 
 <!-- Wreath greeting -->
 <div class="wreath-deco">
@@ -474,6 +566,23 @@ footer {
         <div class="t-dot" style="background:var(--xmas-red)"></div>
         <div class="t-content"><span class="tag tag-play">住宿</span> 圓頂帳篷體驗（Glamping）</div>
       </div>
+    </div>
+    <div class="info-box">
+      <h4>⛷️ 石打丸山 — 小朋友玩雪攻略</h4>
+      <p style="margin-bottom:0.4rem"><strong>兩大兒童區域：</strong></p>
+      <ul>
+        <li><strong>山麓「玩雪樂園」</strong> — 免搭纜車直達，電動魔毯代步，雪橇＋海綿遊具，適合幼童初體驗</li>
+        <li><strong>山腰「The Veranda」</strong> — 搭 Sunrise Express 包廂纜車上山（約 7 分鐘），有透明圓頂暖帳＋咖啡廳＋雪上競速車＋雪地滑步車＋充氣滑梯，邊看絕景邊玩</li>
+      </ul>
+      <p style="margin-top:0.4rem"><strong>票價參考：</strong></p>
+      <ul>
+        <li>大人 1 日券 ¥7,000 ／ 中小學生 ¥3,800 ／ 幼童（4 歲～未就學）¥1,500</li>
+        <li>3 歲以下免費（每 1 大人帶 1 名）</li>
+        <li>持 1 日券或纜車來回券 → 玩雪樂園<strong>免費入場</strong>；無券則 ¥1,000</li>
+        <li>The Veranda 纜車來回：大人 ~¥3,000 ／ 中小學生 ~¥1,600</li>
+      </ul>
+      <p style="margin-top:0.4rem"><strong>兒童滑雪學校（Skids Camp）：</strong>3 歲↑可報名「玩雪方案」或全日課程含午餐，等於實質托兒，大人可放心去滑</p>
+      <p class="warn">⚠ 營業 08:30～17:00 ／ 玩雪樂園 & The Veranda 10:00～16:00 ／ 可租雪靴雪衣手套，空手來也 OK</p>
     </div>
     <div class="night-section">
       <span class="night-label">夜間</span> 澀谷街頭體驗
