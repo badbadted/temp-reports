@@ -32,7 +32,7 @@ body {
 nav {
   background: #1e3a5f;
   color: white;
-  padding: 0.8rem 1.5rem;
+  padding: 0.6rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,108 +41,124 @@ nav {
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-nav h1 { font-size: 1.2rem; font-weight: 700; }
-nav h1 span { font-weight: 400; font-size: 0.9rem; opacity: 0.8; }
-.nav-links { display: flex; gap: 0.5rem; align-items: center; }
-.nav-links a {
-  color: white; text-decoration: none; padding: 0.4rem 0.8rem;
-  border-radius: 6px; font-size: 0.85rem; font-weight: 500;
-  background: rgba(255,255,255,0.12); transition: background 0.2s;
-}
-.nav-links a:hover { background: rgba(255,255,255,0.25); }
+nav h1 { font-size: 1.1rem; font-weight: 700; }
+nav h1 span { font-weight: 400; font-size: 0.85rem; opacity: 0.8; }
+.nav-right { display: flex; gap: 0.5rem; align-items: center; }
 
 /* Dropdown */
 .dropdown { position: relative; }
 .dropdown-btn {
-  cursor: pointer; color: white; padding: 0.4rem 0.8rem;
-  border-radius: 6px; font-size: 0.85rem; font-weight: 500;
+  cursor: pointer; color: white; padding: 0.35rem 0.7rem;
+  border-radius: 6px; font-size: 0.8rem; font-weight: 500;
   background: rgba(255,255,255,0.12); border: none;
-  display: flex; align-items: center; gap: 0.3rem;
 }
 .dropdown-btn:hover { background: rgba(255,255,255,0.25); }
 .dropdown-menu {
   display: none; position: absolute; right: 0; top: 100%; margin-top: 0.3rem;
   background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  min-width: 220px; overflow: hidden; z-index: 200;
+  min-width: 200px; overflow: hidden; z-index: 200;
 }
 .dropdown:hover .dropdown-menu { display: block; }
 .dropdown-menu a {
-  display: block; padding: 0.7rem 1rem; color: var(--t1); text-decoration: none;
-  font-size: 0.9rem; background: white; border-bottom: 1px solid var(--s2);
+  display: block; padding: 0.6rem 1rem; color: var(--t1); text-decoration: none;
+  font-size: 0.85rem; background: white; border-bottom: 1px solid var(--s2);
 }
 .dropdown-menu a:hover { background: var(--accent-light); }
 .dropdown-menu a:last-child { border-bottom: none; }
-.dropdown-menu .menu-label {
-  padding: 0.5rem 1rem; font-size: 0.75rem; color: var(--t2);
-  text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;
-}
 
-/* Hero */
-.hero {
-  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 40%, #38bdf8 100%);
-  color: white; text-align: center; padding: 2.5rem 1.5rem 2rem; position: relative;
-}
-.hero::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
-  background: var(--s1); clip-path: ellipse(55% 100% at 50% 100%);
-}
-.hero h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.3rem; }
-.hero p { opacity: 0.9; font-size: 1rem; }
-.hero .stats {
-  display: flex; justify-content: center; gap: 2rem; margin-top: 1.2rem;
+/* Compact hero with background image */
+.hero-bar {
+  background: linear-gradient(135deg, rgba(30,58,95,0.82) 0%, rgba(37,99,235,0.75) 60%, rgba(56,189,248,0.7) 100%),
+              url('img/hero-banner.jpg') center/cover no-repeat;
+  color: white;
+  padding: 1.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
-.hero .stat { text-align: center; }
-.hero .stat-num { font-size: 1.8rem; font-weight: 800; }
-.hero .stat-label { font-size: 0.8rem; opacity: 0.8; }
+.hero-bar h2 { font-size: 1.4rem; font-weight: 800; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.hero-bar .route { font-size: 0.85rem; opacity: 0.9; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+.hero-stats {
+  display: flex; gap: 1.2rem; font-size: 0.85rem; font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.hero-stats span { white-space: nowrap; }
+
+/* People bar — collapsible inline */
+.people-bar {
+  background: white; border-bottom: 1px solid var(--s2);
+  padding: 0.5rem 1.5rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  cursor: pointer; user-select: none;
+  font-size: 0.85rem;
+}
+.people-bar:hover { background: var(--s1); }
+.people-bar .label { font-weight: 600; color: var(--t2); }
+.people-bar .toggle { color: var(--t2); font-size: 0.75rem; margin-left: auto; transition: transform 0.2s; }
+.people-bar.open .toggle { transform: rotate(180deg); }
+.people-detail {
+  display: none; background: white; border-bottom: 1px solid var(--s2);
+  padding: 0.5rem 1.5rem 0.7rem;
+}
+.people-bar.open + .people-detail { display: block; }
+.people-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.chip {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.8rem;
+  background: var(--s1); border: 1px solid var(--s2);
+}
+.chip .cname { font-weight: 600; }
+.chip .ccount { color: var(--t2); }
 
 /* Container */
-.container { max-width: 900px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+.container { max-width: 900px; margin: 0 auto; padding: 0.8rem 1rem 3rem; }
 
 /* Day Card */
 .day-card {
-  background: white; border-radius: 16px; margin-bottom: 1.2rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
+  background: white; border-radius: 12px; margin-bottom: 0.8rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden;
   border: 1px solid var(--s2);
 }
 .day-header {
-  padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem;
+  padding: 0.7rem 1.2rem; display: flex; align-items: center; gap: 0.8rem;
   cursor: pointer; user-select: none;
 }
 .day-header:hover { background: var(--s1); }
 .day-num {
-  width: 48px; height: 48px; border-radius: 12px;
+  width: 40px; height: 40px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 1.1rem; color: white; flex-shrink: 0;
+  font-weight: 800; font-size: 0.95rem; color: white; flex-shrink: 0;
 }
 .day-info { flex: 1; }
-.day-info h3 { font-size: 1.05rem; font-weight: 700; }
-.day-info .day-sub { font-size: 0.85rem; color: var(--t2); }
-.day-toggle { font-size: 1.2rem; color: var(--t2); transition: transform 0.2s; }
+.day-info h3 { font-size: 0.95rem; font-weight: 700; }
+.day-info .day-sub { font-size: 0.8rem; color: var(--t2); }
+.day-toggle { font-size: 1rem; color: var(--t2); transition: transform 0.2s; }
 .day-card.open .day-toggle { transform: rotate(180deg); }
-.day-body { padding: 0 1.5rem 1.2rem; display: none; }
+.day-body { padding: 0 1.2rem 1rem; display: none; }
 .day-card.open .day-body { display: block; }
 
 /* Timeline */
-.timeline { position: relative; padding-left: 24px; }
+.timeline { position: relative; padding-left: 20px; }
 .timeline::before {
-  content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+  content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px;
   width: 2px; background: var(--s2);
 }
-.t-item { position: relative; margin-bottom: 1rem; }
+.t-item { position: relative; margin-bottom: 0.6rem; }
 .t-item:last-child { margin-bottom: 0; }
 .t-dot {
-  position: absolute; left: -20px; top: 6px;
-  width: 12px; height: 12px; border-radius: 50%;
-  border: 2px solid white; box-shadow: 0 0 0 2px var(--s2);
+  position: absolute; left: -17px; top: 5px;
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid white; box-shadow: 0 0 0 1.5px var(--s2);
 }
-.t-time { font-size: 0.8rem; color: var(--t2); font-weight: 600; }
-.t-content { font-size: 0.95rem; margin-top: 0.1rem; }
+.t-time { font-size: 0.75rem; color: var(--t2); font-weight: 600; }
+.t-content { font-size: 0.9rem; }
 
 /* Tags */
 .tag {
-  display: inline-block; padding: 0.15rem 0.5rem; border-radius: 6px;
-  font-size: 0.75rem; font-weight: 600; margin-right: 0.3rem;
+  display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px;
+  font-size: 0.7rem; font-weight: 600; margin-right: 0.2rem;
 }
 .tag-flight { background: var(--accent-light); color: var(--accent); }
 .tag-ski { background: var(--green-light); color: var(--green); }
@@ -150,41 +166,20 @@ nav h1 span { font-weight: 400; font-size: 0.9rem; opacity: 0.8; }
 .tag-xmas { background: var(--red-light); color: var(--red); }
 .tag-shop { background: var(--amber-light); color: var(--amber); }
 
-/* Flight box */
-.flight-box {
-  background: var(--s1); border: 1px solid var(--s2); border-radius: 10px;
-  padding: 0.6rem 1rem; margin-top: 0.3rem; font-size: 0.85rem;
-  display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+/* Flight — inline single line */
+.flight-inline {
+  font-size: 0.8rem; color: var(--t2); margin-top: 0.1rem;
 }
-.flight-route { font-weight: 700; white-space: nowrap; }
-.flight-arrow { color: var(--accent); font-weight: 700; }
-.flight-pax { color: var(--t2); font-size: 0.8rem; }
+.flight-inline .fa { color: var(--accent); font-weight: 700; }
 
-/* Night section */
+/* Night section — compact */
 .night-section {
-  background: linear-gradient(135deg, #1e1b4b, #312e81);
-  color: white; border-radius: 10px; padding: 0.8rem 1rem; margin-top: 0.8rem;
+  background: #1e1b4b; color: white; border-radius: 8px;
+  padding: 0.5rem 0.8rem; margin-top: 0.6rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.85rem;
 }
-.night-section h4 { font-size: 0.85rem; opacity: 0.7; margin-bottom: 0.3rem; }
-.night-section p { font-size: 0.95rem; }
-
-/* People section */
-.people-section {
-  background: white; border-radius: 16px; padding: 1.5rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid var(--s2);
-  margin-bottom: 1.2rem;
-}
-.people-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
-.people-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 0.8rem;
-}
-.person-card {
-  text-align: center; padding: 0.8rem; border-radius: 10px;
-  background: var(--s1); border: 1px solid var(--s2);
-}
-.person-card .name { font-weight: 700; font-size: 1rem; margin-bottom: 0.2rem; }
-.person-card .count { font-size: 0.8rem; color: var(--t2); }
+.night-label { opacity: 0.6; font-size: 0.75rem; white-space: nowrap; }
 
 /* Day colors */
 .day1 .day-num { background: linear-gradient(135deg, #dc2626, #ef4444); }
@@ -194,15 +189,20 @@ nav h1 span { font-weight: 400; font-size: 0.9rem; opacity: 0.8; }
 .day5 .day-num { background: linear-gradient(135deg, #2563eb, #3b82f6); }
 .day6 .day-num { background: linear-gradient(135deg, #475569, #64748b); }
 
+/* Decorative image strip */
+.deco-img {
+  width: 100%; border-radius: 8px; margin-top: 0.6rem;
+  object-fit: cover; max-height: 140px; opacity: 0.9;
+}
+
 footer {
-  text-align: center; padding: 1.5rem; color: var(--t2); font-size: 0.8rem;
+  text-align: center; padding: 1rem; color: var(--t2); font-size: 0.75rem;
 }
 
 @media (max-width: 600px) {
-  nav { flex-direction: column; gap: 0.5rem; }
-  .hero .stats { gap: 1rem; }
-  .hero .stat-num { font-size: 1.4rem; }
-  .flight-box { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+  nav { flex-direction: column; gap: 0.3rem; }
+  .hero-bar { flex-direction: column; text-align: center; }
+  .hero-stats { justify-content: center; }
 }
 </style>
 </head>
@@ -210,45 +210,48 @@ footer {
 
 <nav>
   <h1>2026 聖誕滑雪旅行 <span>12/24 — 12/29</span></h1>
-  <div class="nav-links">
+  <div class="nav-right">
     <div class="dropdown">
       <button class="dropdown-btn">參考資料 ▾</button>
       <div class="dropdown-menu">
-        <div class="menu-label">行前準備</div>
         <a href="snowboard-guide.html">單板滑雪板購買指南</a>
-        <div class="menu-label">更多（持續新增）</div>
-        <a href="#" style="color:var(--t2);pointer-events:none;">裝備打包清單（即將新增）</a>
-        <a href="#" style="color:var(--t2);pointer-events:none;">滑雪場資訊（即將新增）</a>
       </div>
     </div>
   </div>
 </nav>
 
-<div class="hero">
-  <h2>聖誕滑雪之旅</h2>
-  <p>東京 → 神樂/石打丸山 → 東京</p>
-  <div class="stats">
-    <div class="stat"><div class="stat-num">6</div><div class="stat-label">天</div></div>
-    <div class="stat"><div class="stat-num">6</div><div class="stat-label">家庭</div></div>
-    <div class="stat"><div class="stat-num">10</div><div class="stat-label">大人</div></div>
-    <div class="stat"><div class="stat-num">8</div><div class="stat-label">小孩</div></div>
+<!-- Compact hero -->
+<div class="hero-bar">
+  <div>
+    <h2>聖誕滑雪之旅</h2>
+    <div class="route">高雄 → 東京 → 神樂/石打丸山 → 東京 → 高雄</div>
+  </div>
+  <div class="hero-stats">
+    <span>6 天</span>
+    <span>6 家庭</span>
+    <span>10 大人</span>
+    <span>8 小孩</span>
+  </div>
+</div>
+
+<!-- People — collapsible bar -->
+<div class="people-bar" onclick="this.classList.toggle('open')">
+  <span class="label">成員</span>
+  <span>妞・恩・鈞・淇・多・岑（共 18 人）</span>
+  <span class="toggle">▼</span>
+</div>
+<div class="people-detail">
+  <div class="people-chips">
+    <span class="chip"><span class="cname">妞家</span><span class="ccount">1大1小</span></span>
+    <span class="chip"><span class="cname">恩家</span><span class="ccount">2大1小</span></span>
+    <span class="chip"><span class="cname">鈞家</span><span class="ccount">2大2小</span></span>
+    <span class="chip"><span class="cname">淇家</span><span class="ccount">1大1小</span></span>
+    <span class="chip"><span class="cname">多家</span><span class="ccount">2大2小</span></span>
+    <span class="chip"><span class="cname">岑家</span><span class="ccount">2大1小</span></span>
   </div>
 </div>
 
 <div class="container">
-
-<!-- People -->
-<div class="people-section">
-  <h3>參加成員</h3>
-  <div class="people-grid">
-    <div class="person-card"><div class="name">妞家</div><div class="count">1 大 1 小</div></div>
-    <div class="person-card"><div class="name">恩家</div><div class="count">2 大 1 小</div></div>
-    <div class="person-card"><div class="name">鈞家</div><div class="count">2 大 2 小</div></div>
-    <div class="person-card"><div class="name">淇家</div><div class="count">1 大 1 小</div></div>
-    <div class="person-card"><div class="name">多家</div><div class="count">2 大 2 小</div></div>
-    <div class="person-card"><div class="name">岑家</div><div class="count">2 大 1 小</div></div>
-  </div>
-</div>
 
 <!-- DAY 1 -->
 <div class="day-card day1 open">
@@ -265,13 +268,8 @@ footer {
       <div class="t-item">
         <div class="t-dot" style="background:var(--accent)"></div>
         <div class="t-time">07:00</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（淇）</div>
-        <div class="flight-box">
-          <span class="flight-route">KHH <span class="flight-arrow">→</span> NRT T1</span>
-          <span>長榮航空</span>
-          <span class="flight-pax">淇家</span>
-          <span>11:25 抵達</span>
-        </div>
+        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（淇家）</div>
+        <div class="flight-inline">KHH <span class="fa">→</span> NRT T1 ・ 長榮 ・ 11:25 抵達</div>
       </div>
       <div class="t-item">
         <div class="t-dot" style="background:var(--purple)"></div>
@@ -282,12 +280,7 @@ footer {
         <div class="t-dot" style="background:var(--accent)"></div>
         <div class="t-time">13:05</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（妞媽・鈞・岑）</div>
-        <div class="flight-box">
-          <span class="flight-route">KHH <span class="flight-arrow">→</span> NRT T2</span>
-          <span>華航</span>
-          <span class="flight-pax">妞媽、鈞家、岑家</span>
-          <span>17:25 抵達</span>
-        </div>
+        <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 17:25 抵達</div>
       </div>
     </div>
   </div>
@@ -309,23 +302,13 @@ footer {
         <div class="t-dot" style="background:var(--accent)"></div>
         <div class="t-time">07:00</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（恩爸）</div>
-        <div class="flight-box">
-          <span class="flight-route">KHH <span class="flight-arrow">→</span> NRT T1</span>
-          <span>長榮航空</span>
-          <span class="flight-pax">恩爸</span>
-          <span>11:25 抵達</span>
-        </div>
+        <div class="flight-inline">KHH <span class="fa">→</span> NRT T1 ・ 長榮 ・ 11:25 抵達</div>
       </div>
       <div class="t-item">
         <div class="t-dot" style="background:var(--accent)"></div>
         <div class="t-time">08:00</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（恩+媽+妞）</div>
-        <div class="flight-box">
-          <span class="flight-route">KHH <span class="flight-arrow">→</span> NRT T2</span>
-          <span>華航</span>
-          <span class="flight-pax">恩+媽、妞</span>
-          <span>12:20 抵達</span>
-        </div>
+        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（恩+媽・妞）</div>
+        <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 12:20 抵達</div>
       </div>
       <div class="t-item">
         <div class="t-dot" style="background:var(--amber)"></div>
@@ -335,13 +318,8 @@ footer {
       <div class="t-item">
         <div class="t-dot" style="background:var(--accent)"></div>
         <div class="t-time">13:05</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（多）</div>
-        <div class="flight-box">
-          <span class="flight-route">KHH <span class="flight-arrow">→</span> NRT T2</span>
-          <span>華航</span>
-          <span class="flight-pax">多家</span>
-          <span>17:25 抵達</span>
-        </div>
+        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（多家）</div>
+        <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 17:25 抵達</div>
       </div>
       <div class="t-item">
         <div class="t-dot" style="background:var(--purple)"></div>
@@ -349,9 +327,9 @@ footer {
         <div class="t-content"><span class="tag tag-play">體驗</span> 淺草和服體驗</div>
       </div>
     </div>
+    <img src="img/xmas-market.jpg" alt="聖誕市集" class="deco-img">
     <div class="night-section">
-      <h4>夜間活動</h4>
-      <p>六本木之丘聖誕市集（東京最經典）</p>
+      <span class="night-label">夜間</span> 六本木之丘聖誕市集（東京最經典）
     </div>
   </div>
 </div>
@@ -375,13 +353,12 @@ footer {
       </div>
       <div class="t-item">
         <div class="t-dot" style="background:var(--green)"></div>
-        <div class="t-time"></div>
         <div class="t-content"><span class="tag tag-ski">教練</span> 請教練教學（初學者 & 小朋友）</div>
       </div>
     </div>
+    <img src="img/family-ski.jpg" alt="家庭滑雪" class="deco-img">
     <div class="night-section">
-      <h4>夜間活動</h4>
-      <p>明治神宮外苑 Christmas Market（多數年份需購票入場）</p>
+      <span class="night-label">夜間</span> 明治神宮外苑 Christmas Market（需購票入場）
     </div>
   </div>
 </div>
@@ -405,8 +382,7 @@ footer {
       </div>
     </div>
     <div class="night-section">
-      <h4>夜間活動</h4>
-      <p>東京晴空塔聖誕市集</p>
+      <span class="night-label">夜間</span> 東京晴空塔聖誕市集
     </div>
   </div>
 </div>
@@ -417,7 +393,7 @@ footer {
     <div class="day-num">D5</div>
     <div class="day-info">
       <h3>12/28（一）</h3>
-      <div class="day-sub">石打丸山・圓頂帳篷・自由活動</div>
+      <div class="day-sub">石打丸山・圓頂帳篷</div>
     </div>
     <div class="day-toggle">▼</div>
   </div>
@@ -430,13 +406,11 @@ footer {
       </div>
       <div class="t-item">
         <div class="t-dot" style="background:var(--purple)"></div>
-        <div class="t-time"></div>
         <div class="t-content"><span class="tag tag-play">住宿</span> 圓頂帳篷體驗（Glamping）</div>
       </div>
     </div>
     <div class="night-section">
-      <h4>夜間活動</h4>
-      <p>澀谷街頭體驗擁擠？</p>
+      <span class="night-label">夜間</span> 澀谷街頭體驗
     </div>
   </div>
 </div>
@@ -447,7 +421,7 @@ footer {
     <div class="day-num">D6</div>
     <div class="day-info">
       <h3>12/29（二）回程</h3>
-      <div class="day-sub">TEAM LAB Planet・回家</div>
+      <div class="day-sub">teamLab Planets・回家</div>
     </div>
     <div class="day-toggle">▼</div>
   </div>
@@ -462,23 +436,13 @@ footer {
         <div class="t-dot" style="background:var(--accent)"></div>
         <div class="t-time">12:25</div>
         <div class="t-content"><span class="tag tag-flight">航班</span> 恩家回程</div>
-        <div class="flight-box">
-          <span class="flight-route">NRT T1 <span class="flight-arrow">→</span> KHH</span>
-          <span>長榮航空</span>
-          <span class="flight-pax">恩家</span>
-          <span>15:45 抵達高雄</span>
-        </div>
+        <div class="flight-inline">NRT T1 <span class="fa">→</span> KHH ・ 長榮 ・ 15:45 抵達高雄</div>
       </div>
       <div class="t-item">
         <div class="t-dot" style="background:var(--accent)"></div>
         <div class="t-time">18:25</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> 其餘成員回程</div>
-        <div class="flight-box">
-          <span class="flight-route">NRT T2 <span class="flight-arrow">→</span> KHH</span>
-          <span>華航</span>
-          <span class="flight-pax">妞、鈞、淇、岑、多</span>
-          <span>22:05 抵達高雄</span>
-        </div>
+        <div class="t-content"><span class="tag tag-flight">航班</span> 其餘成員回程（妞・鈞・淇・岑・多）</div>
+        <div class="flight-inline">NRT T2 <span class="fa">→</span> KHH ・ 華航 ・ 22:05 抵達高雄</div>
       </div>
     </div>
   </div>
@@ -487,12 +451,8 @@ footer {
 </div>
 
 <footer>
-  2026 聖誕滑雪之旅 ・ 6 家庭 18 人 ・ 行程持續更新中
+  2026 聖誕滑雪之旅 ・ 6 家庭 18 人
 </footer>
-
-<script>
-// Default: only DAY1 open, rest collapsed
-</script>
 
 </body>
 </html>
