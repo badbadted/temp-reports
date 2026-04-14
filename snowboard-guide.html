@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單板滑雪板完整購買指南 2024-2026</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --s1: #f8fafc;
+  --s2: #e2e8f0;
+  --t1: #1e293b;
+  --t2: #64748b;
+  --accent: #3b82f6;
+  --accent-light: #dbeafe;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+  background: var(--bg);
+  color: var(--t1);
+  line-height: 1.7;
+  padding: 0;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* Header */
+.hero {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #60a5fa 100%);
+  color: white;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+.hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; position: relative; }
+.hero p { font-size: 1.1rem; opacity: 0.9; position: relative; }
+
+/* TOC */
+.toc {
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin: 2rem 0;
+}
+.toc h2 { font-size: 1.1rem; color: var(--t2); margin-bottom: 0.8rem; }
+.toc ol { padding-left: 1.5rem; }
+.toc li { margin: 0.4rem 0; }
+.toc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.toc a:hover { text-decoration: underline; }
+
+/* Sections */
+section { margin: 2.5rem 0; }
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--t1);
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
+h3 { font-size: 1.2rem; font-weight: 600; color: var(--t1); margin: 1.5rem 0 0.8rem; }
+p { margin-bottom: 1rem; color: var(--t1); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: var(--bg);
+  border: 1px solid var(--s2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+thead { background: var(--s1); }
+th {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--t1);
+  border-bottom: 2px solid var(--s2);
+  white-space: nowrap;
+}
+td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--s2);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover { background: var(--accent-light); }
+
+/* Cards */
+.card {
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+.card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badge-soft { background: #d1fae5; color: #065f46; }
+.badge-med { background: #fef3c7; color: #92400e; }
+.badge-hard { background: #fee2e2; color: #991b1b; }
+.badge-price { background: var(--accent-light); color: #1e40af; }
+
+/* Tips */
+.tip {
+  background: #f0fdf4;
+  border-left: 4px solid var(--success);
+  padding: 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+}
+.tip strong { color: #065f46; }
+.warning {
+  background: #fffbeb;
+  border-left: 4px solid var(--warning);
+  padding: 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+}
+.warning strong { color: #92400e; }
+
+/* Formula */
+.formula {
+  background: var(--s1);
+  border: 2px dashed var(--accent);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--t2);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--s2);
+  margin-top: 3rem;
+}
+
+/* Grid for recommendations */
+.rec-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin: 1rem 0; }
+.rec-card {
+  background: var(--s1);
+  border: 1px solid var(--s2);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+}
+.rec-card h4 { color: var(--accent); margin-bottom: 0.3rem; }
+.rec-card .price { font-size: 1.1rem; font-weight: 700; color: var(--t1); }
+.rec-card .specs { font-size: 0.85rem; color: var(--t2); margin: 0.3rem 0; }
+.rec-card .reason { font-size: 0.9rem; margin-top: 0.5rem; }
+
+@media (min-width: 768px) {
+  .rec-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>單板滑雪板完整購買指南</h1>
+  <p>種類 / 長度 / 軟硬度 / 板型 / 品牌 / 價格 / 二手 / 購買地點 — 2024-2026</p>
+</div>
+
+<div class="container">
+
+<nav class="toc">
+  <h2>目錄</h2>
+  <ol>
+    <li><a href="#types">雪板種類與適合滑法</a></li>
+    <li><a href="#length">長度選擇指南</a></li>
+    <li><a href="#flex">軟硬度（Flex）分級</a></li>
+    <li><a href="#profile">板型差異（Camber / Rocker / Hybrid）</a></li>
+    <li><a href="#brands">主流品牌推薦 2024-2026</a></li>
+    <li><a href="#price">新品價格範圍</a></li>
+    <li><a href="#used">二手雪板市場</a></li>
+    <li><a href="#tw">台灣購買管道</a></li>
+    <li><a href="#jp">日本購買推薦</a></li>
+    <li><a href="#rec">各階段玩家推薦板款</a></li>
+  </ol>
+</nav>
+
+<!-- 1. Types -->
+<section id="types">
+<h2>1. 雪板種類與適合滑法</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>種類</th><th>幾何特徵</th><th>適合地形與滑法</th><th>目標族群</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>All-Mountain<br>全山板</strong></td>
+  <td>Directional Twin，重心微靠後</td>
+  <td>70% 壓雪道 + 30% 未整雪區，偶爾進公園</td>
+  <td>初學至進階，「一板走天下」</td>
+</tr>
+<tr>
+  <td><strong>Freestyle / Park<br>平花/公園板</strong></td>
+  <td>True Twin（純雙向），無站姿後移</td>
+  <td>公園道具（Box, Rail）、跳台、平地花式</td>
+  <td>技巧派、反腳滑行愛好者</td>
+</tr>
+<tr>
+  <td><strong>Freeride<br>自由滑行板</strong></td>
+  <td>Directional，板頭比板尾寬（Taper），重心明顯後移</td>
+  <td>野雪、樹林、陡坡，追求高速穩定</td>
+  <td>中高級至專家，大山路線玩家</td>
+</tr>
+<tr>
+  <td><strong>Powder<br>粉雪板</strong></td>
+  <td>誇張 Directional，常帶燕尾（Swallowtail）或極寬板頭</td>
+  <td>深厚粉雪，類似衝浪體驗</td>
+  <td>常赴北海道或北美大雪區者</td>
+</tr>
+<tr>
+  <td><strong>Carving<br>刻滑板</strong></td>
+  <td>有效鋼邊極長，板身窄，硬度極高</td>
+  <td>壓雪道大角度 S 型轉彎（Euro Carve）</td>
+  <td>追求速度極限的專精型玩家</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- 2. Length -->
+<section id="length">
+<h2>2. 長度選擇指南</h2>
+<p><strong>體重才是首要指標</strong>，不是身高。過去「雪板到下巴」的說法已過時。雪板浮力與彈性是根據滑行者的下壓重量設計的。</p>
+
+<div class="formula">
+標準全山板長度 ≈ 身高(cm) × 0.88 ~ 0.90<br>
+<span style="font-size:0.85rem;font-weight:400">初學者再減 2-3 cm ｜ 粉雪玩家加 3-5 cm 或改選短寬 Volume-shifted 板</span>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>考量因素</th><th>選短板的影響</th><th>選長板的影響</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>體重</strong></td><td>適合較輕者。超重→板頭下沉、高速抖動</td><td>適合較重者。承載力足、鋼邊抓地力佳</td></tr>
+<tr><td><strong>技術</strong></td><td>轉向靈活容易操控，適合初學者</td><td>穩定度高容錯率低，適合中高階</td></tr>
+<tr><td><strong>風格</strong></td><td>Freestyle、樹林穿梭</td><td>Freeride、粉雪、高速 Carving</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip">
+<strong>Volume-shifted 設計：</strong>近年趨勢，如 Lib Tech Orca、K2 Excavator，縮短長度但加寬板腰，可選比平常短 3-6 cm 的板子，保有優異粉雪浮力 + 極高靈活性。
+</div>
+</section>
+
+<!-- 3. Flex -->
+<section id="flex">
+<h2>3. 軟硬度（Flex）分級</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>硬度</th><th>特性</th><th>適用滑法</th><th>玩家等級</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><span class="badge badge-soft">軟 1-3</span></td>
+  <td>極易形變，容錯率高，不容易卡鋼邊。但高速/硬雪面會劇烈震動</td>
+  <td>Jibbing（道具）、平地花式（Butter）</td>
+  <td>絕對初學者、平花專攻</td>
+</tr>
+<tr>
+  <td><span class="badge badge-med">中等 4-6</span></td>
+  <td>完美平衡。穩定性足以中速滑行，同時保留跳躍彈性</td>
+  <td>All-Mountain、跳台、樹林</td>
+  <td>所有等級，特別是準備進階的中級</td>
+</tr>
+<tr>
+  <td><span class="badge badge-hard">硬 7-8</span></td>
+  <td>反應迅速，高速穩定如軌道。能切碎冰面與爛雪</td>
+  <td>Freeride、陡坡、高速 Carving、半管</td>
+  <td>高階至專家，需強大腿力</td>
+</tr>
+<tr>
+  <td><span class="badge badge-hard">極硬 9-10</span></td>
+  <td>如鋼鐵般堅硬，容錯率極低</td>
+  <td>職業競速、極端 Euro Carve</td>
+  <td>職業選手</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- 4. Profile -->
+<section id="profile">
+<h2>4. 板型差異</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>板型</th><th>形狀</th><th>優勢</th><th>劣勢</th><th>適合對象</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Traditional Camber</strong></td>
+  <td>中央拱起 ∩</td>
+  <td>彈性最強、鋼邊抓地極高、高速最穩</td>
+  <td>容錯率低，易卡逆刃，粉雪板頭易下沉</td>
+  <td>進階玩家、Carving 愛好者</td>
+</tr>
+<tr>
+  <td><strong>Rocker（香蕉板）</strong></td>
+  <td>中央貼地兩端上翹 ∪</td>
+  <td>粉雪浮力佳、不易卡刃、平花旋轉輕鬆</td>
+  <td>缺彈性、冰面抓地差、高速易失控</td>
+  <td>新手、粉雪/平花專攻</td>
+</tr>
+<tr>
+  <td><strong>Flat（平切板）</strong></td>
+  <td>雙腳間完全平貼</td>
+  <td>不易卡刃、上 Box/Rail 平穩</td>
+  <td>表現中庸，缺乏個性</td>
+  <td>公園道具玩家</td>
+</tr>
+<tr>
+  <td><strong>Hybrid Camber</strong><br>（最主流）</td>
+  <td>腳間 Camber + 頭尾 Rocker</td>
+  <td>保留 Camber 彈性＋Rocker 容錯與粉雪浮力</td>
+  <td>極端專精領域略遜專屬板型</td>
+  <td>80% 全山/Freeride 玩家首選</td>
+</tr>
+<tr>
+  <td><strong>Hybrid Rocker</strong><br>（Double Camber）</td>
+  <td>腳間 Rocker + 腳下 Camber（M 形）</td>
+  <td>靈活性極高、鋼邊轉換極快、粉雪好</td>
+  <td>極硬冰面抓地力略遜</td>
+  <td>靈活操作、樹林穿梭</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- 5. Brands -->
+<section id="brands">
+<h2>5. 主流品牌推薦 2024-2026</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>品牌</th><th>定位</th><th>核心科技</th><th>代表型號</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Burton</strong></td><td>業界龍頭，最完整產品線</td><td>The Channel 滑軌、Step-On 快穿</td><td>Custom、Gril Master</td></tr>
+<tr><td><strong>Jones</strong></td><td>Freeride 頂級，環保材質</td><td>3D Contour Base、Traction Tech</td><td>Stratos、Flagship</td></tr>
+<tr><td><strong>Lib Tech</strong></td><td>美國手工，狂野科技</td><td>Magne-Traction 鋸齒鋼邊（切冰神器）</td><td>T.Rice Orca、T.Rice Pro</td></tr>
+<tr><td><strong>GNU</strong></td><td>不對稱設計專家</td><td>Asymmetric Sidecuts + Magne-Traction</td><td>Riders Choice、GWO</td></tr>
+<tr><td><strong>CAPiTA</strong></td><td>太空科技 + 日系美學</td><td>Alpine V3 Profile、環保 Mothership 工廠</td><td>SUPER D.O.A.、Aeronaut</td></tr>
+<tr><td><strong>Ride</strong></td><td>街頭粗獷風</td><td>Pig Series 容積轉移先驅、Slimewalls 減震</td><td>Twinpig、Warpig</td></tr>
+<tr><td><strong>K2</strong></td><td>老牌大廠，Freeride 復興</td><td>Carbon Backbone、容積轉移設計</td><td>Excavator、Almanac</td></tr>
+<tr><td><strong>Nitro</strong></td><td>歐洲大廠，設計簡約</td><td>Powerlite Core</td><td>Team、Alternator</td></tr>
+<tr><td><strong>Salomon</strong></td><td>極致性價比</td><td>Rock Out Camber、Popster Core</td><td>Assassin、Dancehaul</td></tr>
+<tr><td><strong>YES.</strong></td><td>創新高 CP 值</td><td>UnderBite 鋼邊內凹（轉彎抓地力大增）</td><td>Basic、Typo</td></tr>
+<tr><td><strong>Arbor</strong></td><td>實木貼面，環保質感</td><td>Grip-Tech 增加鋼邊接觸點</td><td>Westmark、Element</td></tr>
+<tr><td><strong>Rome SDS</strong></td><td>獨立精神，高耐用度</td><td>HotRods 碳纖維管</td><td>Agent、Ravine Pro</td></tr>
+<tr><td><strong>Rossignol</strong></td><td>邊緣控制技術</td><td>Serrated Edges（波浪邊）</td><td>Jibsaw、Evader</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- 6. Price -->
+<section id="price">
+<h2>6. 新品價格範圍</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>定位</th><th>美金</th><th>台幣</th><th>規格特點</th><th>代表款</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><span class="badge badge-soft">入門</span></td>
+  <td>$350-450</td>
+  <td>11,200-14,400</td>
+  <td>擠壓板底（Extruded），木芯簡單，少碳纖維</td>
+  <td>Burton Ripcord</td>
+</tr>
+<tr>
+  <td><span class="badge badge-med">中階</span></td>
+  <td>$480-600</td>
+  <td>15,360-19,200</td>
+  <td>燒結板底（Sintered），碳纖維條增彈性</td>
+  <td>Salomon Assassin ($550)<br>K2 Almanac ($549)</td>
+</tr>
+<tr>
+  <td><span class="badge badge-hard">高階</span></td>
+  <td>$600-750</td>
+  <td>19,200-24,000</td>
+  <td>超輕木芯、三軸玻纖、高密度燒結板底</td>
+  <td>Lib Tech Orca ($699)<br>CAPiTA Aeronaut ($649)</td>
+</tr>
+<tr>
+  <td><span class="badge badge-price">頂級</span></td>
+  <td>$800-1,200+</td>
+  <td>25,600-38,400+</td>
+  <td>航太級材質、手工限量、極致輕量化</td>
+  <td>Jones Project X<br>Burton Custom X</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tip">
+<strong>省錢秘訣：</strong>每年 2 月底至 4 月的季末清倉，新品可享 20%-40% 折扣。台灣店家夏天（反季）也會有大促。
+</div>
+</section>
+
+<!-- 7. Used -->
+<section id="used">
+<h2>7. 二手雪板市場</h2>
+
+<div class="warning">
+<strong>二手驗貨 Checklist：</strong>
+<ol style="margin-top:0.5rem;padding-left:1.5rem;">
+<li>板底有無深達木芯的刮痕（Core shot）？</li>
+<li>鋼邊是否嚴重生鏽或變形？板底是否脫層（Delamination）？</li>
+<li>固定器螺絲孔是否滑牙或生鏽？</li>
+<li>超過 5 年的板子→膠水與塑膠層可能硬化變脆</li>
+<li>彈性測試：Camber 弧度是否還在？壓下去有無回彈？</li>
+</ol>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>管道</th><th>平台/店家</th><th>優點</th><th>合理價格</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>日本實體二手店</strong></td>
+  <td>Hard Off、Bookoff Super Bazaar</td>
+  <td>價格極便宜，可親自檢查。曾有人 ¥4,800 買到含固定器整組</td>
+  <td>$30-200 USD<br>(1,000-6,400 TWD)</td>
+</tr>
+<tr>
+  <td><strong>日本線上二手</strong></td>
+  <td>Mercari、Yahoo 拍賣</td>
+  <td>貨源極大，近 1-2 年的新品也有</td>
+  <td>$100-400 USD<br>(3,200-12,800 TWD)</td>
+</tr>
+<tr>
+  <td><strong>台灣社群</strong></td>
+  <td>FB 滑雪裝備二手社團<br>PTT SkiSnowboard 板、Dcard</td>
+  <td>中文溝通、可面交驗貨</td>
+  <td>$150-450 USD<br>(5,000-15,000 TWD)</td>
+</tr>
+<tr>
+  <td><strong>海外 Outlet</strong></td>
+  <td>Evo.com 二手區、雪場退役板</td>
+  <td>來源有保障，有整理過</td>
+  <td>$100-300 USD<br>(3,200-9,600 TWD)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- 8. Taiwan -->
+<section id="tw">
+<h2>8. 台灣購買管道</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>管道</th><th>代表店家</th><th>優點</th><th>缺點</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>專業實體店</strong></td>
+  <td>ALL RIDE（內湖/台中）<br>王子登山滑雪（台北）<br>雪物嚴選 iSKI<br>DU SPORT（台中）</td>
+  <td>現場試穿、專業諮詢、保固維修、打蠟保養</td>
+  <td>定價略高於海外（但季末可達 7 折）</td>
+</tr>
+<tr>
+  <td><strong>平價量販</strong></td>
+  <td>迪卡儂（Decathlon）</td>
+  <td>價格最便宜（自有品牌 Wedze）、退換貨方便</td>
+  <td>專業度與性能上限較低</td>
+</tr>
+<tr>
+  <td><strong>海外網購</strong></td>
+  <td>Evo.com、Backcountry<br>Blue Tomato、淘寶</td>
+  <td>款式最齊全、黑五/春季折扣大</td>
+  <td>國際運費+關稅、無法試穿、退換麻煩</td>
+</tr>
+<tr>
+  <td><strong>日本代購</strong></td>
+  <td>Buyee、Zenmarket<br>+ 日本樂天/Mercari</td>
+  <td>可接觸日本限定款與便宜中古品</td>
+  <td>手續費+當地運費+國際空運費加總後優勢削弱</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tip">
+<strong>重要建議：</strong>雪鞋（Boots）和固定器（Bindings）強烈建議在實體店面試穿購買！腳型吻合度直接影響滑雪舒適與安全。雪板若已確定型號，可網購找折扣。
+</div>
+</section>
+
+<!-- 9. Japan -->
+<section id="jp">
+<h2>9. 日本購買推薦</h2>
+<p>東京<strong>御茶之水/神田</strong>（Ochanomizu/Kanda）的靖國通街道上，聚集超過數十家大型雪具店，是全球罕見的雪具密集區。外國遊客享 <strong>10% 免稅</strong>。</p>
+
+<div class="card">
+<h4>最佳購買時機</h4>
+<p style="margin:0">
+<strong>10月：</strong>新貨上架款式最齊全（特殊款極快斷貨）<br>
+<strong>1月末-2月：</strong>季末大減價開始<br>
+<strong>3月後：</strong>庫存大幅減少<br><br>
+幾乎所有大型店皆提供「宅急便」，可將雪板寄至滑雪場飯店甚至機場（寄長野約 ¥2,000）。
+</p>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>店家</th><th>類型</th><th>特色</th><th>適合對象</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Murasaki Sports</strong><br>(神田小川町)</td><td>大型連鎖</td><td>日本最大極限運動連鎖，品牌齊全、活動折扣多</td><td>所有級別</td></tr>
+<tr><td><strong>Victoria</strong><br>(御茶之水本店)</td><td>綜合量販</td><td>8 層樓，全東京最大規模，兒童用品齊全</td><td>家庭客、一站式買齊</td></tr>
+<tr><td><strong>F-JANCK</strong></td><td>單板專門店</td><td>30 年老字號，1-4 樓全為雪板配件，進階玩家最愛</td><td>中高階，追求品質</td></tr>
+<tr><td><strong>FUSO SNOWBOARD</strong></td><td>專業老舖</td><td>經營逾 50 年，有雙語店員，提供打蠟調校一條龍</td><td>需要深度諮詢者</td></tr>
+<tr><td><strong>Bookoff Super Bazaar</strong></td><td>二手連鎖</td><td>專門體育用品區（札幌店庫存高達 6,000 副），鑑價系統透明</td><td>找 3-4 年內優質二手板</td></tr>
+<tr><td><strong>Hard Off</strong></td><td>二手收購</td><td>價格極低，偶有「新古品」寶物</td><td>懂辨識板況的尋寶玩家</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- 10. Recommendations -->
+<section id="rec">
+<h2>10. 各階段玩家推薦板款</h2>
+
+<h3>初學者 — 軟硬度 2-4，高容錯率</h3>
+<div class="rec-grid">
+  <div class="rec-card">
+    <h4>Bataleon Disaster</h4>
+    <div class="price">~$499 USD / ~15,968 TWD</div>
+    <div class="specs"><span class="badge badge-soft">軟 2/10</span> Freestyle / Low-Camber</div>
+    <div class="reason">3BT 湯匙形板底，雖為 Camber 卻極度不易卡刃，初學者神板</div>
+  </div>
+  <div class="rec-card">
+    <h4>YES. Basic</h4>
+    <div class="price">~$499 USD / ~15,968 TWD</div>
+    <div class="specs"><span class="badge badge-med">中偏軟 4/10</span> All-Mountain / Hybrid Camber</div>
+    <div class="reason">UnderBite 鋼邊內凹技術，冰面轉彎抓地力大增，可一路陪到中級</div>
+  </div>
+  <div class="rec-card">
+    <h4>GNU GWO</h4>
+    <div class="price">~$450 USD / ~14,400 TWD</div>
+    <div class="specs"><span class="badge badge-med">中偏軟 4/10</span> All-Mountain / Hybrid Rocker</div>
+    <div class="reason">Magne-Traction 波浪鋼邊補足 Rocker 冰面弱點，容錯率極高</div>
+  </div>
+</div>
+
+<h3>中級玩家 — 軟硬度 5-7，穩定 + 彈性兼備</h3>
+<div class="rec-grid">
+  <div class="rec-card">
+    <h4>CAPiTA Aeronaut</h4>
+    <div class="price">$649 USD / ~20,798 TWD</div>
+    <div class="specs"><span class="badge badge-med">中偏硬 6/10</span> All-Mountain / Alpine V3 Camber</div>
+    <div class="reason">Arthur Longo 聯名，Ollie 彈性極佳，適合道內外找自然跳台</div>
+  </div>
+  <div class="rec-card">
+    <h4>Salomon Assassin</h4>
+    <div class="price">~$550 USD / ~17,600 TWD</div>
+    <div class="specs"><span class="badge badge-hard">硬 7/10</span> All-Mountain Freestyle / Hybrid Camber</div>
+    <div class="reason">被評為市面上最優秀的全山板之一，Rock Out Camber 提供穩定 + 粉雪浮力</div>
+  </div>
+  <div class="rec-card">
+    <h4>YES. Typo</h4>
+    <div class="price">~$530 USD / ~16,960 TWD</div>
+    <div class="specs"><span class="badge badge-med">中等 5/10</span> All-Mountain / Hybrid Camber</div>
+    <div class="reason">Basic 的進階版，略增硬度與方向性，提升速度與切雪品質</div>
+  </div>
+</div>
+
+<h3>進階 / 專家 — 軟硬度 7-9，特定地形特化</h3>
+<div class="rec-grid">
+  <div class="rec-card">
+    <h4>Lib Tech T.Rice Orca</h4>
+    <div class="price">$699 USD / ~22,399 TWD</div>
+    <div class="specs"><span class="badge badge-hard">硬 7/10</span> Freeride 容積轉移 / C2X Hybrid</div>
+    <div class="reason">滑雪圈神板！燕尾 + 波浪鋼邊，無敵粉雪浮力 + 冰面極致刻滑</div>
+  </div>
+  <div class="rec-card">
+    <h4>Burton Gril Master</h4>
+    <div class="price">$679 USD / ~21,728 TWD</div>
+    <div class="specs"><span class="badge badge-hard">中偏硬 5-8/10</span> Freeride / Directional Camber</div>
+    <div class="reason">紀念傳奇 Marko Grilc。15mm Taper 深雪無往不利，壓雪道 Carving 也優雅凌厲</div>
+  </div>
+  <div class="rec-card">
+    <h4>Jones Stratos</h4>
+    <div class="price">$670 USD / ~21,440 TWD</div>
+    <div class="specs"><span class="badge badge-hard">中偏硬 7/10</span> All-Mountain Freeride / Directional Rocker</div>
+    <div class="reason">Freeride 力量感 + Freestyle 靈活度，3D 底座讓大山巡航終極萬用</div>
+  </div>
+  <div class="rec-card">
+    <h4>K2 Excavator</h4>
+    <div class="price">~$600 USD / ~19,200 TWD</div>
+    <div class="specs"><span class="badge badge-hard">硬 7/10</span> Freeride 容積轉移 / Directional Camber</div>
+    <div class="reason">碳纖維結構，切碎積雪 + 深雪浮力兼備，高速穩如泰山</div>
+  </div>
+</div>
+</section>
+
+<section>
+<h2>結語</h2>
+<p>沒有最完美的雪板，只有「最適合當下技術與雪況」的雪板。建議新手從容錯率高的中軟板入手（善用二手市場或季末折扣），待技術成熟、確立方向後，再針對性投資高階特化板。</p>
+<p><strong>記住：裝備的靈魂在於「人」。持續練習與課程進修，才是駕馭頂級雪板的不二法門。</strong></p>
+</section>
+
+</div>
+
+<footer>
+  Gemini Deep Research 產出 ｜ 2026-04-14 ｜ 匯率以 1 USD ≈ 32 TWD 估算
+</footer>
+
+</body>
+</html>
