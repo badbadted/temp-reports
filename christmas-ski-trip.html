@@ -5,745 +5,527 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026 聖誕滑雪旅行 — 行程表</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* Christmas palette */
-  --bg: #fffdf7;
-  --s1: #fef9f0;
-  --s2: #e8dfd0;
-  --t1: #2d1f1a;
-  --t2: #7a6b5d;
-  --xmas-red: #b91c1c;
-  --xmas-red-light: #fef2f2;
-  --xmas-green: #166534;
-  --xmas-green-light: #ecfdf5;
-  --xmas-gold: #b45309;
-  --xmas-gold-light: #fef3c7;
-  --xmas-dark: #1a2e1a;
-  --xmas-cream: #fdf6e3;
+  --bg: #faf7f2;
+  --card: #ffffff;
+  --line: #eae4da;
+  --t1: #2d241c;
+  --t2: #8a7d6f;
+  --red: #c0392b;
+  --red-bg: #fdeeec;
+  --green: #1e7a46;
+  --green-bg: #e9f6ee;
+  --gold: #b07818;
+  --gold-bg: #fcf3dd;
+  --blue: #2563a8;
+  --blue-bg: #e9f1fa;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: "Klee One", "Noto Sans TC", sans-serif;
-  font-weight: 600;
-  background: var(--s1); color: var(--t1); line-height: 1.7;
+  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  background: var(--bg); color: var(--t1); line-height: 1.7;
 }
-h1, h2, h3, h4, h5, .hero-bar h2, .greeting {
-  font-family: "Caveat", "Klee One", cursive;
-}
+a { color: var(--green); }
 
-/* Floating reference button */
-.fab-ref {
-  position: fixed; bottom: 1.2rem; right: 1.2rem; z-index: 300;
-}
-.fab-ref .fab-btn {
-  width: 40px; height: 40px; border-radius: 12px; border: 1.5px dashed rgba(255,255,255,0.4);
-  cursor: pointer;
-  background: rgba(60,50,40,0.7); backdrop-filter: blur(8px);
-  color: white; font-size: 0.7rem; font-weight: 600; font-family: "Klee One", sans-serif;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.15s, background 0.15s;
-  letter-spacing: 0.05em;
-}
-.fab-ref .fab-btn:hover { transform: scale(1.05); background: rgba(60,50,40,0.85); }
-.fab-ref .fab-menu {
-  display: none; position: absolute; bottom: 52px; right: 0;
-  background: white; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  min-width: 220px; overflow: hidden;
-}
-.fab-ref.open .fab-menu { display: block; }
-.fab-ref .fab-menu a {
-  display: block; padding: 0.6rem 1rem; color: var(--t1); text-decoration: none;
-  font-size: 0.85rem; border-bottom: 1px solid #f0f0f0;
-}
-.fab-ref .fab-menu a:hover { background: var(--xmas-gold-light); }
-.fab-ref .fab-menu a:last-child { border-bottom: none; }
+.container { max-width: 720px; margin: 0 auto; padding: 0 1rem 3rem; }
 
-/* Hero — illustration banner + text below */
-.hero-img {
-  width: 100%; display: block; max-height: 120px; object-fit: cover;
-  opacity: 0.45;
-  border-bottom: 1.5px dashed var(--s2);
+/* ===== Header ===== */
+header {
+  text-align: center; padding: 1.6rem 1rem 1.2rem;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-bottom: 1px solid var(--line);
 }
-.hero-text {
-  background: var(--xmas-cream);
-  text-align: center; padding: 0.8rem 1rem 0.7rem;
-  border-bottom: 1.5px dashed var(--s2);
+header h1 { font-size: 1.5rem; font-weight: 900; letter-spacing: 0.02em; }
+header h1 .xmas { color: var(--red); }
+header .date {
+  font-size: 1.05rem; font-weight: 700; color: var(--green); margin-top: 0.2rem;
 }
-.hero-text h2 {
-  font-family: "Caveat", cursive;
-  font-size: 2rem; font-weight: 700; line-height: 1.2;
-  color: #3d2b1a;
-}
-.hero-text .hero-date {
-  font-family: "Caveat", cursive;
-  font-size: 1.05rem; color: #6b5040; margin-top: 0.05rem;
-}
-.hero-text .route {
-  font-size: 0.78rem; color: #7a6b5d; margin-top: 0.15rem;
-}
-.hero-stats {
-  display: flex; gap: 0.5rem; font-size: 0.78rem; font-weight: 600;
-  justify-content: center; margin-top: 0.3rem; flex-wrap: wrap;
-}
-.hero-stats span {
-  white-space: nowrap; background: rgba(255,255,255,0.7);
-  padding: 0.12rem 0.5rem; border-radius: 20px; color: #5a4a3a;
-}
+header .meta { font-size: 0.85rem; color: var(--t2); margin-top: 0.2rem; }
 
-/* People bar */
-.people-bar {
-  background: var(--xmas-cream); border-bottom: 1.5px dashed var(--s2);
-  padding: 0.5rem 1.5rem;
-  display: flex; align-items: center; gap: 0.6rem;
-  cursor: pointer; user-select: none;
-  font-size: 0.85rem;
+/* ===== 行程一覽 ===== */
+.glance { margin-top: 1.2rem; }
+.glance h2, .section-h {
+  font-size: 1.05rem; font-weight: 900; margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.4rem;
 }
-.people-bar:hover { background: var(--xmas-gold-light); }
-.people-bar .label { font-weight: 600; color: var(--xmas-green); }
-.people-bar .toggle { color: var(--t2); font-size: 0.75rem; margin-left: auto; transition: transform 0.2s; }
-.people-bar.open .toggle { transform: rotate(180deg); }
-.people-detail {
-  display: none; background: var(--xmas-cream); border-bottom: 1px solid var(--s2);
-  padding: 0.5rem 1.5rem 0.7rem;
+.glance-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.glance-row {
+  display: flex; align-items: center; gap: 0.8rem;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 0.7rem 0.9rem; text-decoration: none; color: var(--t1);
+  border-left: 6px solid var(--line);
+  transition: transform 0.1s, box-shadow 0.1s;
 }
-.people-bar.open + .people-detail { display: block; }
-.people-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.chip {
-  display: inline-flex; align-items: center; gap: 0.3rem;
-  padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.8rem;
-  background: white; border: 1px solid var(--s2);
-}
-.chip .cname { font-weight: 600; color: var(--xmas-red); }
-.chip .ccount { color: var(--t2); }
+.glance-row:active { transform: scale(0.99); }
+.glance-row:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+.glance-row.c-fly { border-left-color: var(--gold); }
+.glance-row.c-tokyo { border-left-color: var(--red); }
+.glance-row.c-ski { border-left-color: var(--green); }
+.g-date { flex-shrink: 0; text-align: center; width: 3.2rem; line-height: 1.25; }
+.g-date .d { font-size: 1.15rem; font-weight: 900; }
+.g-date .w { font-size: 0.75rem; color: var(--t2); }
+.g-emoji { font-size: 1.7rem; flex-shrink: 0; }
+.g-main { flex: 1; }
+.g-main .place { font-size: 1.08rem; font-weight: 900; }
+.g-main .night { font-size: 0.82rem; color: var(--t2); }
 
-/* Container */
-.container { max-width: 900px; margin: 0 auto; padding: 0.8rem 1rem 3rem; }
-
-/* Day Card — sketch style */
+/* ===== Day cards ===== */
+.days { margin-top: 1.8rem; }
 .day-card {
-  background: white; border-radius: 14px; margin-bottom: 0.8rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden;
-  border: 1.5px dashed var(--s2);
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  margin-bottom: 1rem; overflow: hidden; scroll-margin-top: 0.8rem;
 }
-.day-header {
-  padding: 0.7rem 1.2rem; display: flex; align-items: center; gap: 0.8rem;
-  cursor: pointer; user-select: none;
+.day-head {
+  padding: 0.9rem 1.1rem 0.7rem;
+  border-left: 6px solid var(--line);
 }
-.day-header:hover { background: var(--s1); }
-.day-num {
-  width: 40px; height: 40px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: "Caveat", cursive;
-  font-weight: 700; font-size: 1.1rem; flex-shrink: 0;
-  border: 1.5px dashed;
-}
-.day-info { flex: 1; }
-.day-info h3 { font-size: 0.95rem; font-weight: 700; }
-.day-info .day-sub { font-size: 0.8rem; color: var(--t2); }
-.day-toggle { font-size: 1rem; color: var(--t2); transition: transform 0.2s; }
-.day-card.open .day-toggle { transform: rotate(180deg); }
-.day-body { padding: 0 1.2rem 1rem; display: none; }
-.day-card.open .day-body { display: block; }
+.day-card.c-fly .day-head { border-left-color: var(--gold); }
+.day-card.c-tokyo .day-head { border-left-color: var(--red); }
+.day-card.c-ski .day-head { border-left-color: var(--green); }
+.day-head .d-date { font-size: 0.85rem; font-weight: 700; color: var(--t2); }
+.day-head .d-place { font-size: 1.25rem; font-weight: 900; line-height: 1.4; }
+.day-body { padding: 0.2rem 1.1rem 1rem calc(1.1rem + 6px); }
 
-/* Timeline */
-.timeline { position: relative; padding-left: 20px; }
-.timeline::before {
-  content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px;
-  width: 2px; background: var(--s2);
+.plan { list-style: none; }
+.plan li {
+  display: flex; gap: 0.7rem; padding: 0.35rem 0; font-size: 0.95rem;
+  align-items: baseline;
 }
-.t-item { position: relative; margin-bottom: 0.6rem; }
-.t-item:last-child { margin-bottom: 0; }
-.t-dot {
-  position: absolute; left: -17px; top: 5px;
-  width: 10px; height: 10px; border-radius: 50%;
-  border: 2px solid white; box-shadow: 0 0 0 1.5px var(--s2);
+.plan .when {
+  flex-shrink: 0; width: 3.6rem; font-size: 0.8rem; font-weight: 700;
+  color: var(--t2); text-align: right;
 }
-.t-time { font-size: 0.75rem; color: var(--t2); font-weight: 600; }
-.t-content { font-size: 0.9rem; }
+.plan .what { flex: 1; }
+.plan .what strong { font-weight: 700; }
+.plan .sub { display: block; font-size: 0.8rem; color: var(--t2); }
 
-/* Tags — Christmas colors */
-.tag {
-  display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px;
-  font-size: 0.7rem; font-weight: 600; margin-right: 0.2rem;
+/* details 摺疊 */
+details.more {
+  margin-top: 0.6rem; border: 1px solid var(--line); border-radius: 10px;
+  background: #fbfaf7; font-size: 0.87rem;
 }
-.tag-flight { background: var(--xmas-gold-light); color: var(--xmas-gold); }
-.tag-ski { background: var(--xmas-green-light); color: var(--xmas-green); }
-.tag-play { background: var(--xmas-red-light); color: var(--xmas-red); }
-.tag-xmas { background: var(--xmas-red-light); color: var(--xmas-red); }
-.tag-shop { background: var(--xmas-gold-light); color: var(--xmas-gold); }
-
-/* Flight inline */
-.flight-inline {
-  font-size: 0.8rem; color: var(--t2); margin-top: 0.1rem;
+details.more summary {
+  padding: 0.5rem 0.9rem; cursor: pointer; font-weight: 700;
+  color: var(--t2); font-size: 0.85rem; user-select: none; list-style: none;
 }
-.flight-inline .fa { color: var(--xmas-gold); font-weight: 700; }
+details.more summary::before { content: "▸ "; }
+details.more[open] summary::before { content: "▾ "; }
+details.more summary::-webkit-details-marker { display: none; }
+details.more .inner { padding: 0 0.9rem 0.8rem; }
+details.more h4 { font-size: 0.88rem; margin: 0.5rem 0 0.25rem; }
+details.more ul { padding-left: 1.2rem; margin: 0.15rem 0; }
+details.more li { margin-bottom: 0.15rem; }
+details.more .warn { color: var(--red); font-weight: 700; font-size: 0.82rem; margin-top: 0.35rem; }
+details.more p { margin-top: 0.3rem; }
 
-/* Night section — soft sketch */
-.night-section {
-  background: linear-gradient(135deg, #4a2030, #6b2040);
-  color: white; border-radius: 10px;
-  padding: 0.5rem 0.8rem; margin-top: 0.6rem;
+/* ===== 底部資訊區 ===== */
+.info-section { margin-top: 2rem; }
+details.big {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  margin-bottom: 0.8rem; overflow: hidden;
+}
+details.big > summary {
+  padding: 0.9rem 1.1rem; cursor: pointer; font-weight: 900; font-size: 1rem;
+  user-select: none; list-style: none;
   display: flex; align-items: center; gap: 0.5rem;
-  font-size: 0.85rem; border: 1.5px dashed rgba(255,255,255,0.2);
 }
-.night-label { opacity: 0.7; font-size: 0.75rem; white-space: nowrap; }
+details.big > summary::-webkit-details-marker { display: none; }
+details.big > summary .hint { font-weight: 400; font-size: 0.8rem; color: var(--t2); }
+details.big > summary .arrow { margin-left: auto; color: var(--t2); transition: transform 0.2s; }
+details.big[open] > summary .arrow { transform: rotate(180deg); }
+details.big .big-inner { padding: 0 1.1rem 1rem; }
 
-/* Day badge — macaron pastel alternating */
-.day1 .day-num { background: #fde8ed; color: #c4687a; border-color: #f4a0b0; }
-.day2 .day-num { background: #e4f5ed; color: #4a9a74; border-color: #8ecfb5; }
-.day3 .day-num { background: #fdf5de; color: #a08530; border-color: #f0d07a; }
-.day4 .day-num { background: #fde8ed; color: #c4687a; border-color: #f4a0b0; }
-.day5 .day-num { background: #e4f5ed; color: #4a9a74; border-color: #8ecfb5; }
-.day6 .day-num { background: #fdf5de; color: #a08530; border-color: #f0d07a; }
-
-/* Decorative image strip */
-.deco-img {
-  width: 100%; border-radius: 8px; margin-top: 0.6rem;
-  object-fit: cover; max-height: 140px; opacity: 0.9;
-}
-
-/* Accommodation section */
-.accom-section { margin-bottom: 0.8rem; }
-.accom-title {
-  display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.7rem 1.2rem; cursor: pointer; user-select: none;
-  background: white; border: 1.5px dashed var(--s2); border-radius: 14px;
-  font-size: 0.95rem; font-weight: 700; color: var(--t1);
-}
-.accom-title:hover { background: var(--s1); }
-.accom-title .toggle { margin-left: auto; color: var(--t2); font-size: 1rem; transition: transform 0.2s; }
-.accom-section.open .accom-title { border-radius: 14px 14px 0 0; border-bottom: none; }
-.accom-section.open .accom-title .toggle { transform: rotate(180deg); }
-.accom-body {
-  display: none; background: white; border: 1.5px dashed var(--s2); border-top: none;
-  border-radius: 0 0 14px 14px; padding: 0.8rem 1.2rem;
-}
-.accom-section.open .accom-body { display: block; }
 .accom-grid { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
 @media (min-width: 600px) { .accom-grid { grid-template-columns: 1fr 1fr 1fr; } }
-/* Macaron palette */
 .accom-card {
-  background: white; border-radius: 10px; padding: 0.7rem 0.9rem; font-size: 0.84rem;
-  border: 1px solid #e8e8e8; border-top: 3px solid; position: relative;
-  transition: box-shadow 0.15s;
+  border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem 0.9rem;
+  font-size: 0.84rem; border-top: 4px solid;
 }
-.accom-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
-.accom-card .accom-who {
-  display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
-  padding: 0.15rem 0.5rem; border-radius: 10px; margin-bottom: 0.35rem;
+.accom-card .who {
+  display: inline-block; font-size: 0.74rem; font-weight: 700;
+  padding: 0.12rem 0.55rem; border-radius: 10px; margin-bottom: 0.3rem;
 }
-.accom-card h5 { font-size: 0.88rem; font-weight: 700; color: var(--t1); margin-bottom: 0.1rem; }
-.accom-card .accom-sub { font-size: 0.78rem; color: var(--t2); margin-bottom: 0.35rem; }
-.accom-card .accom-highlights { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.35rem; }
+.accom-card h5 { font-size: 0.92rem; font-weight: 900; }
+.accom-card .sub { font-size: 0.78rem; color: var(--t2); margin-bottom: 0.3rem; }
 .accom-card .hl {
-  display: inline-block; font-size: 0.7rem; padding: 0.12rem 0.4rem;
-  border-radius: 4px; background: #f5f5f5; color: var(--t2); white-space: nowrap;
+  display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.45rem;
+  border-radius: 5px; background: #f4f1ec; color: var(--t2); margin: 0 0.15rem 0.2rem 0;
 }
-.accom-card .accom-detail { display: none; font-size: 0.8rem; margin-top: 0.3rem; padding-top: 0.3rem; border-top: 1px dashed #e8e8e8; }
-.accom-card .accom-detail ul { padding-left: 1rem; margin: 0; }
-.accom-card .accom-detail li { margin-bottom: 0.1rem; }
-.accom-card.open .accom-detail { display: block; }
-.accom-more {
-  font-size: 0.72rem; color: var(--t2); cursor: pointer; margin-top: 0.25rem;
-  user-select: none; opacity: 0.7;
-}
-.accom-more:hover { opacity: 1; }
-/* Macaron colors — pink / mint / lemon */
-.accom-card.hotel-pink { border-top-color: #f4a0b0; }
-.accom-card.hotel-pink .accom-who { background: #fde8ed; color: #c4687a; }
-.accom-card.hotel-mint { border-top-color: #8ecfb5; }
-.accom-card.hotel-mint .accom-who { background: #e4f5ed; color: #4a9a74; }
-.accom-card.hotel-lemon { border-top-color: #f0d07a; }
-.accom-card.hotel-lemon .accom-who { background: #fdf5de; color: #a08530; }
-.accom-note { font-size: 0.8rem; color: var(--t2); margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px solid #eee; }
+.accom-card.pink { border-top-color: #e88a9c; }
+.accom-card.pink .who { background: #fde8ed; color: #c4687a; }
+.accom-card.mint { border-top-color: #6cc39c; }
+.accom-card.mint .who { background: #e4f5ed; color: #3c8a64; }
+.accom-card.lemon { border-top-color: #e5bd4e; }
+.accom-card.lemon .who { background: #fdf5de; color: #a08530; }
+.accom-note { font-size: 0.8rem; color: var(--t2); margin-top: 0.6rem; }
 
-/* Info box — sketch */
-.info-box {
-  background: #fffbf0; border: 1.5px dashed #e8d5a8;
-  border-radius: 10px; padding: 0.8rem 1rem; margin-top: 0.6rem;
-  font-size: 0.85rem;
-}
-.info-box h4 {
-  font-size: 0.85rem; font-weight: 700; color: var(--xmas-gold);
-  margin-bottom: 0.4rem;
-}
-.info-box ul { padding-left: 1.2rem; margin: 0.2rem 0; }
-.info-box li { margin-bottom: 0.2rem; }
-.info-box .warn {
-  color: var(--xmas-red); font-weight: 600; font-size: 0.8rem;
-  margin-top: 0.4rem;
-}
-.info-box a { color: var(--xmas-gold); text-decoration: underline; }
+.trans-opt { border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 0.84rem; margin-bottom: 0.5rem; }
+.trans-opt .small { font-size: 0.78rem; color: var(--t2); }
 
-/* Wreath decoration — hand-drawn */
-.wreath-deco {
-  display: flex; align-items: center; gap: 1rem;
-  background: var(--xmas-cream); border: 1.5px dashed var(--s2);
-  border-radius: 14px; padding: 0.8rem 1rem; margin-bottom: 0.8rem;
+.members { font-size: 0.85rem; color: var(--t2); text-align: center; margin-top: 0.4rem; }
+.member-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-top: 0.4rem; }
+.chip {
+  padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.78rem;
+  background: var(--card); border: 1px solid var(--line);
 }
-.wreath-deco img {
-  width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
-  border: none;
+.chip b { color: var(--red); font-weight: 700; }
+
+.links-section { margin-top: 1.5rem; }
+.links-grid { display: flex; flex-direction: column; gap: 0.4rem; }
+.links-grid a {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 0.55rem 0.9rem; font-size: 0.85rem; text-decoration: none; color: var(--t1);
 }
-.wreath-deco .greeting {
-  font-family: "Caveat", cursive;
-  font-size: 1.15rem; color: var(--xmas-green); font-weight: 700;
-}
-.wreath-deco .greeting-sub {
-  font-size: 0.82rem; color: var(--t2);
-}
+.links-grid a:hover { background: var(--gold-bg); }
 
 footer {
-  text-align: center; padding: 1.2rem; color: var(--t2); font-size: 0.8rem;
-  font-family: "Caveat", cursive; letter-spacing: 0.03em;
-  border-top: 1.5px dashed var(--s2); margin-top: 1rem;
-}
-
-@media (max-width: 600px) {
-  .hero-text h2 { font-size: 1.6rem; }
-  .hero-stats { gap: 0.4rem; }
-  .accom-grid { grid-template-columns: 1fr !important; }
+  text-align: center; padding: 1.5rem 1rem; color: var(--t2); font-size: 0.8rem;
+  border-top: 1px solid var(--line); margin-top: 2rem;
 }
 </style>
 </head>
 <body>
 
-<!-- Hero — illustration + text -->
-<img src="img/hero-handdrawn.jpg" alt="Christmas Ski Trip" class="hero-img">
-<div class="hero-text">
-  <h2>Merry Christmas Ski Trip ⛷️</h2>
-  <div class="hero-date">12 / 24 — 12 / 29, 2026</div>
-  <div class="route">高雄 → 東京 → 神樂 / 石打丸山 → 東京 → 高雄</div>
-  <div class="hero-stats">
-    <span>6 天</span>
-    <span>6 家庭</span>
-    <span>10 大人</span>
-    <span>8 小孩</span>
+<header>
+  <h1>🎄 2026 <span class="xmas">聖誕滑雪旅行</span> ⛷️</h1>
+  <div class="date">12/24（四）— 12/29（二）・6 天</div>
+  <div class="meta">高雄 ⇄ 東京 ⇄ 神樂／石打丸山雪場｜6 家庭 18 人（10 大 8 小）</div>
+</header>
+
+<div class="container">
+
+<!-- ===== 行程一覽 ===== -->
+<div class="glance">
+  <h2>📌 這幾天要去哪</h2>
+  <div class="glance-list">
+    <a class="glance-row c-fly" href="#d1">
+      <div class="g-date"><div class="d">12/24</div><div class="w">四・平安夜</div></div>
+      <div class="g-emoji">✈️</div>
+      <div class="g-main">
+        <div class="place">飛東京・Sanrio 旗艦店</div>
+        <div class="night">第一批出發（淇家先到）</div>
+      </div>
+    </a>
+    <a class="glance-row c-tokyo" href="#d2">
+      <div class="g-date"><div class="d">12/25</div><div class="w">五・聖誕節</div></div>
+      <div class="g-emoji">👘</div>
+      <div class="g-main">
+        <div class="place">淺草和服體驗</div>
+        <div class="night">晚上：六本木之丘聖誕市集 🎄</div>
+      </div>
+    </a>
+    <a class="glance-row c-ski" href="#d3">
+      <div class="g-date"><div class="d">12/26</div><div class="w">六</div></div>
+      <div class="g-emoji">⛷️</div>
+      <div class="g-main">
+        <div class="place">神樂滑雪場（請教練）</div>
+        <div class="night">晚上：明治神宮外苑聖誕市集 🎄</div>
+      </div>
+    </a>
+    <a class="glance-row c-tokyo" href="#d4">
+      <div class="g-date"><div class="d">12/27</div><div class="w">日</div></div>
+      <div class="g-emoji">🎮</div>
+      <div class="g-main">
+        <div class="place">PokéPark 寶可夢樂園</div>
+        <div class="night">晚上：晴空塔聖誕市集 🎄</div>
+      </div>
+    </a>
+    <a class="glance-row c-ski" href="#d5">
+      <div class="g-date"><div class="d">12/28</div><div class="w">一</div></div>
+      <div class="g-emoji">🏂</div>
+      <div class="g-main">
+        <div class="place">石打丸山滑雪・圓頂帳篷</div>
+        <div class="night">晚上：澀谷街頭</div>
+      </div>
+    </a>
+    <a class="glance-row c-fly" href="#d6">
+      <div class="g-date"><div class="d">12/29</div><div class="w">二</div></div>
+      <div class="g-emoji">🖼️</div>
+      <div class="g-main">
+        <div class="place">teamLab Planets・回高雄</div>
+        <div class="night">寄行李 → 玩完直奔機場</div>
+      </div>
+    </a>
   </div>
 </div>
 
-<!-- Floating reference button -->
-<div class="fab-ref" onclick="this.classList.toggle('open')">
-  <div class="fab-menu">
+<!-- ===== 每日行程 ===== -->
+<div class="days">
+  <h2 class="section-h">🗓️ 每日行程</h2>
+
+  <!-- D1 -->
+  <div class="day-card c-fly" id="d1">
+    <div class="day-head">
+      <div class="d-date">12/24（四）平安夜</div>
+      <div class="d-place">✈️ 飛東京・Sanrio 旗艦店</div>
+    </div>
+    <div class="day-body">
+      <ul class="plan">
+        <li><span class="when">07:00</span><span class="what"><strong>淇家出發</strong><span class="sub">長榮 KHH → 成田 T1，11:25 抵達</span></span></li>
+        <li><span class="when">~12:00</span><span class="what">Sanrio 旗艦店 + Cafe 🎀</span></li>
+        <li><span class="when">13:05</span><span class="what"><strong>妞媽・鈞・岑出發</strong><span class="sub">華航 KHH → 成田 T2，17:25 抵達</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- D2 -->
+  <div class="day-card c-tokyo" id="d2">
+    <div class="day-head">
+      <div class="d-date">12/25（五）聖誕節・全員到齊</div>
+      <div class="d-place">👘 淺草和服 → 🎄 六本木聖誕市集</div>
+    </div>
+    <div class="day-body">
+      <ul class="plan">
+        <li><span class="when">上午</span><span class="what"><strong>剩餘成員抵達</strong><span class="sub">恩爸 07:00 長榮（11:25 到）／ 恩+媽・妞 08:00 華航（12:20 到）／ 多家 13:05 華航（17:25 到）</span></span></li>
+        <li><span class="when">~11:00</span><span class="what">先到的人逛街購物 🛍️</span></li>
+        <li><span class="when">15:00</span><span class="what"><strong>淺草和服體驗</strong></span></li>
+        <li><span class="when">晚上</span><span class="what"><strong>六本木之丘聖誕市集</strong>（東京最經典）</span></li>
+      </ul>
+      <details class="more">
+        <summary>六本木聖誕市集資訊</summary>
+        <div class="inner">
+          <ul>
+            <li>📍 港區六本木 6-10-1（欅坂通 / 66 廣場 / 大屋頂廣場）</li>
+            <li>📅 11/4（二）～ 12/25（四）</li>
+            <li>💡 點燈：欅坂 17:00～23:00 ／ 66 廣場 17:00～24:00（最終日至 23:00）</li>
+            <li>🎫 燈飾免費參觀｜市集依店舖消費</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- D3 -->
+  <div class="day-card c-ski" id="d3">
+    <div class="day-head">
+      <div class="d-date">12/26（六）</div>
+      <div class="d-place">⛷️ 神樂滑雪場 → 🎄 明治神宮外苑市集</div>
+    </div>
+    <div class="day-body">
+      <ul class="plan">
+        <li><span class="when">全天</span><span class="what"><strong>神樂滑雪場</strong>（かぐらスキー場）<span class="sub">初學者 & 小朋友請教練教學</span></span></li>
+        <li><span class="when">晚上</span><span class="what"><strong>明治神宮外苑 Christmas Market</strong><span class="sub">需購票入場</span></span></li>
+      </ul>
+      <details class="more">
+        <summary>滑雪教練費用（SNOWIN 25/26 雪季）</summary>
+        <div class="inner">
+          <ul>
+            <li><strong>神樂滑雪場</strong> — 全日 5 小時 NT$15,300</li>
+            <li><strong>石打丸山</strong> — 全日 3 小時 NT$14,400 ／ 全日 5 小時 NT$18,900</li>
+          </ul>
+          <p style="font-size:0.8rem;color:var(--t2)">SNOWIN 會員獨家價（9/1～季末）｜湯澤地區另有東北藏王方案：3hr NT$11,600 / 5hr NT$14,200</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- D4 -->
+  <div class="day-card c-tokyo" id="d4">
+    <div class="day-head">
+      <div class="d-date">12/27（日）</div>
+      <div class="d-place">🎮 PokéPark 寶可夢樂園 → 🎄 晴空塔市集</div>
+    </div>
+    <div class="day-body">
+      <ul class="plan">
+        <li><span class="when">全天</span><span class="what"><strong>PokéPark KANTO 寶可夢主題樂園</strong></span></li>
+        <li><span class="when">晚上</span><span class="what"><strong>東京晴空塔聖誕市集</strong></span></li>
+      </ul>
+      <details class="more">
+        <summary>PokéPark 票種與購票注意</summary>
+        <div class="inner">
+          <h4>票種</h4>
+          <ul>
+            <li><strong>精英訓練家通行證</strong> — 無限次進出寶可夢森林＋草紗鎮、免費搭 2 種遊樂設施（優先通道）、預約草紗道館表演、進入草紗公館迎賓會</li>
+            <li><strong>訓練家通行證</strong> — 寶可夢森林限時進入 1 次（不可再入）＋草紗鎮無限次</li>
+            <li><strong>小鎮通行證</strong> — 僅草紗鎮（無法進入寶可夢森林）</li>
+          </ul>
+          <h4>票價</h4>
+          <ul>
+            <li>全票（13 歲↑）／兒童票（3 歲↑）／敬老票（65 歲↑）／身心障礙票；未滿 3 歲免費</li>
+            <li>票價依入園日期浮動，需上官網確認</li>
+          </ul>
+          <p class="warn">⚠ 未滿 5 歲不可進入寶可夢森林（即使有大人陪伴）・需註冊官方會員才能購票</p>
+          <p><a href="https://www.pokepark-kanto.co.jp/ppark/ticketInfo/type/index?languageKind=zh_TW" target="_blank">→ 官方購票頁面</a></p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- D5 -->
+  <div class="day-card c-ski" id="d5">
+    <div class="day-head">
+      <div class="d-date">12/28（一）</div>
+      <div class="d-place">🏂 石打丸山滑雪・🏕️ 圓頂帳篷</div>
+    </div>
+    <div class="day-body">
+      <ul class="plan">
+        <li><span class="when">白天</span><span class="what"><strong>石打丸山滑雪場</strong>（自由玩）<span class="sub">小朋友有玩雪樂園＋山腰 The Veranda 遊樂區</span></span></li>
+        <li><span class="when">下午</span><span class="what"><strong>圓頂帳篷 Glamping 體驗</strong><span class="sub">透明暖帳看雪景吃美食，建議先網路預約</span></span></li>
+        <li><span class="when">晚上</span><span class="what">澀谷街頭體驗</span></li>
+      </ul>
+      <details class="more">
+        <summary>小朋友玩雪攻略＋纜車票價</summary>
+        <div class="inner">
+          <h4>兩大兒童區域</h4>
+          <ul>
+            <li><strong>山麓「玩雪樂園」</strong> — 免搭纜車直達，電動魔毯代步，雪橇＋海綿遊具，適合幼童初體驗</li>
+            <li><strong>山腰「The Veranda」</strong> — 搭 Sunrise Express 包廂纜車上山（約 7 分鐘），透明圓頂暖帳＋咖啡廳＋雪上競速車＋雪地滑步車＋充氣滑梯</li>
+          </ul>
+          <h4>票價參考</h4>
+          <ul>
+            <li>大人 1 日券 ¥7,000 ／ 中小學生 ¥3,800 ／ 幼童（4 歲～未就學）¥1,500</li>
+            <li>3 歲以下免費（每 1 大人帶 1 名）</li>
+            <li>持 1 日券或纜車來回券 → 玩雪樂園<strong>免費入場</strong>；無券則 ¥1,000</li>
+            <li>The Veranda 纜車來回：大人 ~¥3,000 ／ 中小學生 ~¥1,600</li>
+          </ul>
+          <p><strong>兒童滑雪學校（Skids Camp）：</strong>3 歲↑可報名「玩雪方案」或全日課程含午餐，等於實質托兒，大人可放心去滑</p>
+          <p class="warn">⚠ 營業 08:30～17:00 ／ 玩雪樂園 & The Veranda 10:00～16:00 ／ 可租雪靴雪衣手套，空手來也 OK</p>
+        </div>
+      </details>
+      <details class="more">
+        <summary>圓頂帳篷費用・預約・菜單</summary>
+        <div class="inner">
+          <h4>💰 費用（60 分鐘 / 棟）</h4>
+          <ul>
+            <li>大人（高中↑）¥2,400 ／ 中小學生 ¥1,000 ／ 幼童（4 歲～未就學）¥1,500 ／ 3 歲以下免費</li>
+            <li>每棟 2～8 人，1 人使用也收 2 人費用</li>
+            <li>另需纜車來回券：大人 ¥3,500 ／ 中小學生 ¥1,800</li>
+          </ul>
+          <h4>📋 預約方式</h4>
+          <ul>
+            <li>強烈建議<strong>事前網路預約</strong>（官網 / KKday / じゃらん）</li>
+            <li>有「纜車＋帳篷」套票和「含餐」方案，比分開買划算</li>
+            <li>當日有空位也可現場排，但旺季常滿</li>
+          </ul>
+          <h4>🥞 菜單精選</h4>
+          <ul>
+            <li>鬆餅：巧克力香蕉 ¥1,700 ／ 焦糖香蕉 ¥1,850 ／ 綜合莓果 ¥1,700 ／ 蘋果肉桂 ¥1,700</li>
+            <li>主餐：手撕豬肉三明治 ¥1,800 ／ 海與山鮮味咖哩 ¥1,750 ／ <strong>兒童咖哩 ¥800</strong> ／ 烤牛肉丼 ¥2,200（限量）／ 歐姆蛋牛肉燴飯 ¥1,850 ／ 鷹嘴豆馬薩拉咖哩 ¥1,800（🌱 素食）</li>
+            <li>小食：水牛城辣雞翅 ¥1,000(4pc) ／ 炸魚薯條 ¥1,300 ／ 炸薯條 ¥600 ／ 日式炸雞 ¥700 ／ 拉克萊特起司＋香腸 ¥2,500（限內用）</li>
+            <li>飲料：咖啡 ¥600 ／ 拿鐵 ¥700 ／ 熱巧克力 ¥700 ／ 皇家奶茶 ¥950 ／ 麴拉西 ¥600 ／ 檸檬特調 ¥650 ／ 果汁 ¥400 ／ 🍺 奧地利生啤 ¥1,000 ／ 角嗨 ¥850 ／ 熱紅酒 ¥850</li>
+          </ul>
+          <p><a href="https://ishiuchi.or.jp/winter/wp/wp-content/uploads/2025/12/2512vc_winter_a4_compressed-1.pdf" target="_blank">→ 完整菜單 PDF</a></p>
+          <p class="warn">⚠ 預約時間前 60 分鐘抵達山麓 → 搭纜車 7 分鐘 → 30 分前到帳篷受付報到 → 先點餐再入帳。禁帶外食，需在旁邊咖啡廳買外帶入帳。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- D6 -->
+  <div class="day-card c-fly" id="d6">
+    <div class="day-head">
+      <div class="d-date">12/29（二）回程</div>
+      <div class="d-place">🖼️ teamLab Planets → ✈️ 回高雄</div>
+    </div>
+    <div class="day-body">
+      <ul class="plan">
+        <li><span class="when">退房後</span><span class="what"><strong>ecbo cloak 寄放行李</strong><span class="sub">錦糸町周邊店家，線上預約 → 寄放 → 玩完再取</span></span></li>
+        <li><span class="when">上午</span><span class="what"><strong>teamLab Planets Tokyo</strong></span></li>
+        <li><span class="when">12:25</span><span class="what"><strong>恩家回程</strong><span class="sub">長榮 成田 T1 → KHH，15:45 抵達高雄</span></span></li>
+        <li><span class="when">18:25</span><span class="what"><strong>其餘成員回程</strong>（妞・鈞・淇・岑・多）<span class="sub">華航 成田 T2 → KHH，22:05 抵達高雄</span></span></li>
+      </ul>
+      <details class="more">
+        <summary>ecbo cloak 行李寄放說明</summary>
+        <div class="inner">
+          <ul>
+            <li>退房後將行李寄放在車站周邊合作店家，空手去玩</li>
+            <li><strong>費用：</strong>背包 ¥400／行李箱 ¥800（每件每日）</li>
+            <li><strong>流程：</strong>網站預約 → 到店出示 QR Code → 寄放 → 回來取件</li>
+            <li>比車站投幣置物櫃便宜，大行李也放得下</li>
+          </ul>
+          <p><a href="https://cloak.ecbo.io/zh-TW/jpn/city/tokyo/221" target="_blank">→ ecbo cloak 東京寄物預約</a></p>
+        </div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 住宿・交通・成員 ===== -->
+<div class="info-section">
+  <h2 class="section-h">ℹ️ 住宿・交通・成員</h2>
+
+  <details class="big">
+    <summary>🏨 住宿資訊 <span class="hint">全部在錦糸町・步行互達</span><span class="arrow">▼</span></summary>
+    <div class="big-inner">
+      <div class="accom-grid">
+        <div class="accom-card pink">
+          <div class="who">妞家・恩家</div>
+          <h5>Moxy Tokyo Kinshicho</h5>
+          <div class="sub"><a href="https://maps.google.com/?q=Moxy+Tokyo+Kinshicho" target="_blank">📍 墨田區江東橋 3-4-2</a>｜錦糸町站走 5 分</div>
+          <span class="hl">免費迎賓飲料</span><span class="hl">24hr Lounge</span><span class="hl">自助洗衣</span>
+        </div>
+        <div class="accom-card mint">
+          <div class="who">鈞家・岑家・多家</div>
+          <h5>Skytree 親子包棟民宿</h5>
+          <div class="sub"><a href="https://maps.google.com/?q=Skytree+Family+Friendly+Airbnb+Sumida" target="_blank">📍 墨田區（Airbnb）</a>｜錦糸町站走 7 分</div>
+          <span class="hl">室內遊樂場</span><span class="hl">免費停車</span><span class="hl">嬰兒備品齊全</span>
+        </div>
+        <div class="accom-card lemon">
+          <div class="who">淇家</div>
+          <h5>京成里士滿飯店</h5>
+          <div class="sub"><a href="https://maps.google.com/?q=京成リッチモンドホテル東京錦糸町" target="_blank">📍 墨田區江東橋 3-2-7</a>｜錦糸町站走 5 分</div>
+          <span class="hl">12歲以下免費同住</span><span class="hl">嬰兒備品可借</span><span class="hl">相撲火鍋早餐</span>
+        </div>
+      </div>
+      <div class="accom-note">📍 三間住宿皆在<strong>墨田區錦糸町</strong>，步行 5～7 分鐘互達。周邊有 PARCO・阿卡將・唐吉訶德・Bic Camera，距晴空塔、淺草、秋葉原車程 15 分鐘內。</div>
+    </div>
+  </details>
+
+  <details class="big">
+    <summary>🚌 錦糸町 ↔ 成田機場交通<span class="arrow">▼</span></summary>
+    <div class="big-inner">
+      <div class="trans-opt" style="background:var(--green-bg)">
+        <strong style="color:var(--green)">★ 首選：天空樹穿梭巴士</strong><br>
+        ¥2,000／兒童 ¥1,000｜約 80 分鐘｜錦糸町站前 PARCO 前上車<br>
+        <span class="small">司機搬行李、保證有座、小孩可睡｜班次：07:55 / 10:50 / 13:00 / 16:00</span>
+      </div>
+      <div class="trans-opt" style="background:var(--gold-bg)">
+        <strong style="color:var(--gold)">JR 總武線快速（直達免轉車）</strong><br>
+        ¥1,340／兒童 ¥670｜約 80 分鐘｜JR 錦糸町站<br>
+        <span class="small">班次多但通勤車。帶小孩建議加 ¥1,000 買綠色車廂（寬敞對號座）</span>
+      </div>
+      <div class="trans-opt" style="background:var(--red-bg)">
+        <strong style="color:var(--red)">利木津巴士</strong><br>
+        ¥3,100／兒童 ¥1,550｜約 90 分鐘｜東武黎凡特飯店上車<br>
+        <span class="small">最貴但最輕鬆，飯店大廳直接上車｜建議入住時先劃位</span>
+      </div>
+      <p style="font-size:0.78rem;color:var(--t2)">❌ 不建議搭地鐵轉京成（押上轉車扛行李＋推車 = 噩夢）</p>
+    </div>
+  </details>
+
+  <details class="big">
+    <summary>👨‍👩‍👧‍👦 成員 <span class="hint">6 家庭・18 人</span><span class="arrow">▼</span></summary>
+    <div class="big-inner">
+      <div class="member-chips">
+        <span class="chip"><b>妞家</b> 1大1小</span>
+        <span class="chip"><b>恩家</b> 2大1小</span>
+        <span class="chip"><b>鈞家</b> 2大2小</span>
+        <span class="chip"><b>淇家</b> 1大1小</span>
+        <span class="chip"><b>多家</b> 2大2小</span>
+        <span class="chip"><b>岑家</b> 2大1小</span>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ===== 實用連結 ===== -->
+<div class="links-section">
+  <h2 class="section-h">🔗 實用連結・勸敗清單</h2>
+  <div class="links-grid">
     <a href="snowboard-guide.html">📖 單板滑雪板購買指南</a>
     <a href="https://www.pokepark-kanto.co.jp/ppark/ticketInfo/type/index?languageKind=zh_TW" target="_blank">🎫 PokéPark KANTO 購票</a>
     <a href="https://cloak.ecbo.io/zh-TW/jpn/city/tokyo/221" target="_blank">🧳 ecbo cloak 東京寄物</a>
     <a href="https://www.momoshop.com.tw/goods.momo?i_code=13597142" target="_blank">🎧 Cardo PACKTALK 滑雪對講耳機</a>
-  </div>
-  <button class="fab-btn" title="勸敗清單">勸敗</button>
-</div>
-
-<!-- People bar -->
-<div class="people-bar" onclick="this.classList.toggle('open')">
-  <span class="label">成員</span>
-  <span>妞・恩・鈞・淇・多・岑（共 18 人）</span>
-  <span class="toggle">▼</span>
-</div>
-<div class="people-detail">
-  <div class="people-chips">
-    <span class="chip"><span class="cname">妞家</span><span class="ccount">1大1小</span></span>
-    <span class="chip"><span class="cname">恩家</span><span class="ccount">2大1小</span></span>
-    <span class="chip"><span class="cname">鈞家</span><span class="ccount">2大2小</span></span>
-    <span class="chip"><span class="cname">淇家</span><span class="ccount">1大1小</span></span>
-    <span class="chip"><span class="cname">多家</span><span class="ccount">2大2小</span></span>
-    <span class="chip"><span class="cname">岑家</span><span class="ccount">2大1小</span></span>
-  </div>
-</div>
-
-<div class="container">
-
-<!-- Accommodation -->
-<div class="accom-section">
-  <div class="accom-title" onclick="this.parentElement.classList.toggle('open')">
-    🏨 住宿資訊 <span style="font-weight:400;font-size:0.8rem;color:var(--t2)">全部在錦糸町・步行互達</span>
-    <span class="toggle">▼</span>
-  </div>
-  <div class="accom-body">
-    <div class="accom-grid">
-
-      <div class="accom-card hotel-pink">
-        <div class="accom-who">妞家・恩家</div>
-        <h5>Moxy Tokyo Kinshicho</h5>
-        <div class="accom-sub"><a href="https://maps.google.com/?q=Moxy+Tokyo+Kinshicho" target="_blank" style="color:inherit;text-decoration:none;">📍 墨田區江東橋 3-4-2 <span style="color:#4a9a74;font-size:0.72rem">▸導航</span></a>｜錦糸町站走 5 分</div>
-        <div class="accom-highlights">
-          <span class="hl">免費迎賓飲料</span>
-          <span class="hl">24hr Lounge</span>
-          <span class="hl">自助洗衣</span>
-        </div>
-      </div>
-
-      <div class="accom-card hotel-mint">
-        <div class="accom-who">鈞家・岑家・多家</div>
-        <h5>Skytree 親子包棟民宿</h5>
-        <div class="accom-sub"><a href="https://maps.google.com/?q=Skytree+Family+Friendly+Airbnb+Sumida" target="_blank" style="color:inherit;text-decoration:none;">📍 墨田區（Airbnb）<span style="color:#4a9a74;font-size:0.72rem">▸導航</span></a>｜錦糸町站走 7 分</div>
-        <div class="accom-highlights">
-          <span class="hl">室內遊樂場</span>
-          <span class="hl">免費停車</span>
-          <span class="hl">嬰兒備品齊全</span>
-        </div>
-      </div>
-
-      <div class="accom-card hotel-lemon">
-        <div class="accom-who">淇家</div>
-        <h5>京成里士滿飯店</h5>
-        <div class="accom-sub"><a href="https://maps.google.com/?q=京成リッチモンドホテル東京錦糸町" target="_blank" style="color:inherit;text-decoration:none;">📍 墨田區江東橋 3-2-7 <span style="color:#4a9a74;font-size:0.72rem">▸導航</span></a>｜錦糸町站走 5 分</div>
-        <div class="accom-highlights">
-          <span class="hl">12歲以下免費同住</span>
-          <span class="hl">嬰兒備品可借</span>
-          <span class="hl">相撲火鍋早餐</span>
-        </div>
-      </div>
-
-    </div>
-    <div class="accom-note">
-      📍 三間住宿皆在<strong>墨田區錦糸町</strong>，步行 5～7 分鐘互達。周邊有 PARCO・阿卡將・唐吉訶德・Bic Camera，距晴空塔、淺草、秋葉原車程 15 分鐘內。
-    </div>
-  </div>
-</div>
-
-<!-- Airport Transport — independent section -->
-<div class="accom-section">
-  <div class="accom-title" onclick="this.parentElement.classList.toggle('open')">
-    🚌 錦糸町 ↔ 成田機場交通
-    <span class="toggle">▼</span>
-  </div>
-  <div class="accom-body">
-    <div style="font-size:0.82rem; display:grid; grid-template-columns:1fr; gap:0.4rem;">
-      <div style="background:#e4f5ed; border-radius:8px; padding:0.5rem 0.7rem;">
-        <strong style="color:#4a9a74;">★ 首選：天空樹穿梭巴士</strong><br>
-        ¥2,000／兒童 ¥1,000｜約 80 分鐘｜錦糸町站前 PARCO 前上車<br>
-        <span style="color:var(--t2);font-size:0.78rem;">司機搬行李、保證有座、小孩可睡｜班次：07:55 / 10:50 / 13:00 / 16:00</span>
-      </div>
-      <div style="background:#fdf5de; border-radius:8px; padding:0.5rem 0.7rem;">
-        <strong style="color:#a08530;">JR 總武線快速（直達免轉車）</strong><br>
-        ¥1,340／兒童 ¥670｜約 80 分鐘｜JR 錦糸町站<br>
-        <span style="color:var(--t2);font-size:0.78rem;">班次多但通勤車。帶小孩建議加 ¥1,000 買綠色車廂（寬敞對號座）</span>
-      </div>
-      <div style="background:#fde8ed; border-radius:8px; padding:0.5rem 0.7rem;">
-        <strong style="color:#c4687a;">利木津巴士</strong><br>
-        ¥3,100／兒童 ¥1,550｜約 90 分鐘｜東武黎凡特飯店上車<br>
-        <span style="color:var(--t2);font-size:0.78rem;">最貴但最輕鬆，飯店大廳直接上車｜建議入住時先劃位</span>
-      </div>
-    </div>
-    <p style="font-size:0.78rem; color:var(--t2); margin-top:0.3rem;">❌ 不建議搭地鐵轉京成（押上轉車扛行李＋推車 = 噩夢）</p>
-  </div>
-</div>
-
-<!-- Wreath greeting -->
-<div class="wreath-deco">
-  <img src="img/xmas-wreath.jpg" alt="Christmas Wreath">
-  <div>
-    <div class="greeting">Merry Christmas & Happy Skiing!</div>
-    <div class="greeting-sub">6 個家庭的聖誕滑雪冒險，一起留下最棒的回憶</div>
-  </div>
-</div>
-
-<!-- DAY 1 -->
-<div class="day-card day1 open">
-  <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="day-num">D1</div>
-    <div class="day-info">
-      <h3>12/24（四）平安夜</h3>
-      <div class="day-sub">抵達東京・Sanrio 旗艦店</div>
-    </div>
-    <div class="day-toggle">▼</div>
-  </div>
-  <div class="day-body">
-    <div class="timeline">
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">07:00</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（淇家）</div>
-        <div class="flight-inline">KHH <span class="fa">→</span> NRT T1 ・ 長榮 ・ 11:25 抵達</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-red)"></div>
-        <div class="t-time">~12:00</div>
-        <div class="t-content"><span class="tag tag-play">景點</span> Sanrio 旗艦店 + Cafe</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">13:05</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（妞媽・鈞・岑）</div>
-        <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 17:25 抵達</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- DAY 2 -->
-<div class="day-card day2">
-  <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="day-num">D2</div>
-    <div class="day-info">
-      <h3>12/25（五）聖誕節</h3>
-      <div class="day-sub">全員到齊・淺草和服・聖誕市集</div>
-    </div>
-    <div class="day-toggle">▼</div>
-  </div>
-  <div class="day-body">
-    <div class="timeline">
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">07:00</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（恩爸）</div>
-        <div class="flight-inline">KHH <span class="fa">→</span> NRT T1 ・ 長榮 ・ 11:25 抵達</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">08:00</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（恩+媽・妞）</div>
-        <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 12:20 抵達</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">~11:00</div>
-        <div class="t-content"><span class="tag tag-shop">逛街</span> 早上逛街購物（先到的人）</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">13:05</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> KHH 出發（多家）</div>
-        <div class="flight-inline">KHH <span class="fa">→</span> NRT T2 ・ 華航 ・ 17:25 抵達</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-red)"></div>
-        <div class="t-time">15:00</div>
-        <div class="t-content"><span class="tag tag-play">體驗</span> 淺草和服體驗</div>
-      </div>
-    </div>
-    <img src="img/xmas-market.jpg" alt="聖誕市集" class="deco-img">
-    <div class="night-section">
-      <span class="night-label">夜間</span> 六本木之丘聖誕市集（東京最經典）
-    </div>
-    <div class="info-box" style="margin-top:0.5rem;">
-      <h4>🎄 六本木之丘聖誕 2025</h4>
-      <ul>
-        <li>📍 港區六本木 6-10-1（欅坂通 / 66 廣場 / 大屋頂廣場）</li>
-        <li>📅 11/4（二）～ 12/25（四）</li>
-        <li>💡 點燈：欅坂 17:00～23:00 ／ 66 廣場 17:00～24:00（最終日至 23:00）</li>
-        <li>🎫 燈飾免費參觀｜市集依店舖消費</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- DAY 3 -->
-<div class="day-card day3">
-  <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="day-num">D3</div>
-    <div class="day-info">
-      <h3>12/26（六）滑雪日</h3>
-      <div class="day-sub">神樂滑雪場・請教練</div>
-    </div>
-    <div class="day-toggle">▼</div>
-  </div>
-  <div class="day-body">
-    <div class="timeline">
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-green)"></div>
-        <div class="t-time">全天</div>
-        <div class="t-content"><span class="tag tag-ski">滑雪</span> 神樂滑雪場（かぐらスキー場）</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-green)"></div>
-        <div class="t-content"><span class="tag tag-ski">教練</span> 請教練教學（初學者 & 小朋友）</div>
-      </div>
-    </div>
-    <div class="info-box" style="margin-top:0.5rem; background:#f5faf7; border-color:#b8d8c8;">
-      <h4 style="color:var(--xmas-green)">🎿 SNOWIN 滑雪教練費用（25/26 雪季・台幣）</h4>
-      <ul>
-        <li><strong>神樂滑雪場</strong> — 全日 5 小時 NT$15,300</li>
-        <li><strong>石打丸山</strong> — 全日 3 小時 NT$14,400 ／ 全日 5 小時 NT$18,900</li>
-      </ul>
-      <p style="margin-top:0.2rem;font-size:0.8rem;color:var(--t2)">SNOWIN 會員獨家價（9/1～季末）｜湯澤地區另有東北藏王方案：3hr NT$11,600 / 5hr NT$14,200</p>
-    </div>
-    <img src="img/family-ski.jpg" alt="家庭滑雪" class="deco-img">
-    <div class="night-section">
-      <span class="night-label">夜間</span> 明治神宮外苑 Christmas Market（需購票入場）
-    </div>
-  </div>
-</div>
-
-<!-- DAY 4 -->
-<div class="day-card day4">
-  <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="day-num">D4</div>
-    <div class="day-info">
-      <h3>12/27（日）</h3>
-      <div class="day-sub">寶可夢樂園</div>
-    </div>
-    <div class="day-toggle">▼</div>
-  </div>
-  <div class="day-body">
-    <div class="timeline">
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-red)"></div>
-        <div class="t-time">全天</div>
-        <div class="t-content"><span class="tag tag-play">景點</span> PokéPark KANTO 寶可夢主題樂園</div>
-      </div>
-    </div>
-    <div class="info-box">
-      <h4>🎫 PokéPark KANTO 票種資訊</h4>
-      <ul>
-        <li><strong>精英訓練家通行證</strong> — 無限次進出寶可夢森林＋草紗鎮、免費搭乘 2 種遊樂設施（優先通道）、預約草紗道館表演、進入草紗公館迎賓會</li>
-        <li><strong>訓練家通行證</strong> — 寶可夢森林限時進入 1 次（不可再入）＋草紗鎮無限次</li>
-        <li><strong>小鎮通行證</strong> — 僅草紗鎮（無法進入寶可夢森林）</li>
-      </ul>
-      <ul>
-        <li>全票（13 歲↑）／兒童票（3 歲↑）／敬老票（65 歲↑）／身心障礙票</li>
-        <li>未滿 3 歲免費入園</li>
-        <li>票價依入園日期浮動，需上官網確認</li>
-      </ul>
-      <p class="warn">⚠ 未滿 5 歲不可進入寶可夢森林（即使有大人陪伴）・需註冊官方會員才能購票</p>
-      <p style="margin-top:0.3rem"><a href="https://www.pokepark-kanto.co.jp/ppark/ticketInfo/type/index?languageKind=zh_TW" target="_blank">→ 官方購票頁面</a></p>
-    </div>
-    <div class="night-section">
-      <span class="night-label">夜間</span> 東京晴空塔聖誕市集
-    </div>
-  </div>
-</div>
-
-<!-- DAY 5 -->
-<div class="day-card day5">
-  <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="day-num">D5</div>
-    <div class="day-info">
-      <h3>12/28（一）</h3>
-      <div class="day-sub">石打丸山・圓頂帳篷</div>
-    </div>
-    <div class="day-toggle">▼</div>
-  </div>
-  <div class="day-body">
-    <div class="timeline">
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-green)"></div>
-        <div class="t-time">白天</div>
-        <div class="t-content"><span class="tag tag-ski">滑雪</span> 石打丸山滑雪場（自由玩）</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-red)"></div>
-        <div class="t-content"><span class="tag tag-play">住宿</span> 圓頂帳篷體驗（Glamping）</div>
-      </div>
-    </div>
-    <div class="info-box">
-      <h4>⛷️ 石打丸山 — 小朋友玩雪攻略</h4>
-      <p style="margin-bottom:0.4rem"><strong>兩大兒童區域：</strong></p>
-      <ul>
-        <li><strong>山麓「玩雪樂園」</strong> — 免搭纜車直達，電動魔毯代步，雪橇＋海綿遊具，適合幼童初體驗</li>
-        <li><strong>山腰「The Veranda」</strong> — 搭 Sunrise Express 包廂纜車上山（約 7 分鐘），有透明圓頂暖帳＋咖啡廳＋雪上競速車＋雪地滑步車＋充氣滑梯，邊看絕景邊玩</li>
-      </ul>
-      <p style="margin-top:0.4rem"><strong>票價參考：</strong></p>
-      <ul>
-        <li>大人 1 日券 ¥7,000 ／ 中小學生 ¥3,800 ／ 幼童（4 歲～未就學）¥1,500</li>
-        <li>3 歲以下免費（每 1 大人帶 1 名）</li>
-        <li>持 1 日券或纜車來回券 → 玩雪樂園<strong>免費入場</strong>；無券則 ¥1,000</li>
-        <li>The Veranda 纜車來回：大人 ~¥3,000 ／ 中小學生 ~¥1,600</li>
-      </ul>
-      <p style="margin-top:0.4rem"><strong>兒童滑雪學校（Skids Camp）：</strong>3 歲↑可報名「玩雪方案」或全日課程含午餐，等於實質托兒，大人可放心去滑</p>
-      <p class="warn">⚠ 營業 08:30～17:00 ／ 玩雪樂園 & The Veranda 10:00～16:00 ／ 可租雪靴雪衣手套，空手來也 OK</p>
-    </div>
-    <div class="info-box" style="margin-top:0.5rem; background:#f5faf7; border-color:#b8d8c8;">
-      <h4 style="color:var(--xmas-green)">🏕️ The Veranda 圓頂帳篷 — 餐飲菜單</h4>
-      <p style="margin-bottom:0.3rem">搭纜車上山腰，在透明暖帳裡邊看雪景邊用餐。以下為精選：</p>
-      <p style="margin-bottom:0.2rem"><strong>🥞 鬆餅（雪山の Pancake）</strong></p>
-      <ul>
-        <li>巧克力香蕉 ¥1,700 ／ 焦糖香蕉 ¥1,850 ／ 綜合莓果 ¥1,700 ／ 蘋果肉桂 ¥1,700</li>
-      </ul>
-      <p style="margin-top:0.3rem;margin-bottom:0.2rem"><strong>🍽️ 主餐</strong></p>
-      <ul>
-        <li>手撕豬肉三明治 ¥1,800 ／ 海與山鮮味咖哩 ¥1,750 ／ <strong>兒童咖哩 ¥800</strong></li>
-        <li>烤牛肉丼 ¥2,200（八海山醬油麴・限量）／ 歐姆蛋牛肉燴飯 ¥1,850</li>
-        <li>鷹嘴豆馬薩拉咖哩 ¥1,800（🌱 素食）</li>
-      </ul>
-      <p style="margin-top:0.3rem;margin-bottom:0.2rem"><strong>🍟 小食</strong></p>
-      <ul>
-        <li>水牛城辣雞翅 ¥1,000(4pc) ／ 炸魚薯條 ¥1,300 ／ 炸薯條 ¥600 ／ 日式炸雞 ¥700</li>
-        <li>拉克萊特起司＋香腸 ¥2,500（限內用）</li>
-      </ul>
-      <p style="margin-top:0.3rem;margin-bottom:0.2rem"><strong>☕ 飲料精選</strong></p>
-      <ul>
-        <li>咖啡 ¥600 ／ 拿鐵 ¥700 ／ 熱巧克力 ¥700 ／ 皇家奶茶 ¥950</li>
-        <li>麴拉西 ¥600（八海山甜酒製）／ 檸檬特調 ¥650 ／ 果汁 ¥400</li>
-        <li>🍺 奧地利生啤 ¥1,000 ／ 角嗨 ¥850 ／ 熱紅酒 ¥850</li>
-      </ul>
-      <p style="margin-top:0.4rem"><a href="https://ishiuchi.or.jp/winter/wp/wp-content/uploads/2025/12/2512vc_winter_a4_compressed-1.pdf" target="_blank" style="color:var(--xmas-green)">→ 完整菜單 PDF</a></p>
-      <p style="margin-top:0.5rem; padding-top:0.4rem; border-top:1px dashed #b8d8c8;"><strong>💰 圓頂帳篷費用（60 分鐘 / 棟）</strong></p>
-      <ul>
-        <li>大人（高中↑）¥2,400 ／ 中小學生 ¥1,000 ／ 幼童（4 歲～未就學）¥1,500 ／ 3 歲以下免費</li>
-        <li>每棟 2～8 人，1 人使用也收 2 人費用</li>
-        <li>另需纜車來回券：大人 ¥3,500 ／ 中小學生 ¥1,800</li>
-      </ul>
-      <p style="margin-top:0.3rem"><strong>📋 預約方式</strong></p>
-      <ul>
-        <li>強烈建議<strong>事前網路預約</strong>（官網 / KKday / じゃらん）</li>
-        <li>有「纜車＋帳篷」套票和「含餐」方案，比分開買划算</li>
-        <li>當日有空位也可現場排，但旺季常滿</li>
-      </ul>
-      <p class="warn">⚠ 預約時間前 60 分鐘抵達山麓 → 搭纜車 7 分鐘 → 30 分前到帳篷受付報到 → 先點餐再入帳。禁帶外食，需在旁邊咖啡廳買外帶入帳。</p>
-    </div>
-    <div class="night-section">
-      <span class="night-label">夜間</span> 澀谷街頭體驗
-    </div>
-  </div>
-</div>
-
-<!-- DAY 6 -->
-<div class="day-card day6">
-  <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="day-num">D6</div>
-    <div class="day-info">
-      <h3>12/29（二）回程</h3>
-      <div class="day-sub">teamLab Planets・回家</div>
-    </div>
-    <div class="day-toggle">▼</div>
-  </div>
-  <div class="day-body">
-    <div class="timeline">
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">退房後</div>
-        <div class="t-content"><span class="tag tag-shop">寄物</span> ecbo cloak 寄放行李（錦糸町周邊店家）</div>
-        <div class="flight-inline">線上預約 → 寄放 → 玩完再取｜<a href="https://cloak.ecbo.io/zh-TW/jpn/city/tokyo/221" target="_blank" style="color:var(--xmas-gold)">預約連結</a></div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-red)"></div>
-        <div class="t-time">上午</div>
-        <div class="t-content"><span class="tag tag-play">景點</span> teamLab Planets Tokyo</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">12:25</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> 恩家回程</div>
-        <div class="flight-inline">NRT T1 <span class="fa">→</span> KHH ・ 長榮 ・ 15:45 抵達高雄</div>
-      </div>
-      <div class="t-item">
-        <div class="t-dot" style="background:var(--xmas-gold)"></div>
-        <div class="t-time">18:25</div>
-        <div class="t-content"><span class="tag tag-flight">航班</span> 其餘成員回程（妞・鈞・淇・岑・多）</div>
-        <div class="flight-inline">NRT T2 <span class="fa">→</span> KHH ・ 華航 ・ 22:05 抵達高雄</div>
-      </div>
-    </div>
-    <div class="info-box" style="margin-top:0.5rem;">
-      <h4>🧳 最後一天行李寄放 — ecbo cloak</h4>
-      <ul>
-        <li>退房後將行李寄放在車站周邊合作店家，空手去玩</li>
-        <li><strong>費用：</strong>背包 ¥400／行李箱 ¥800（每件每日）</li>
-        <li><strong>流程：</strong>網站預約 → 到店出示 QR Code → 寄放 → 回來取件</li>
-        <li>比車站投幣置物櫃便宜，大行李也放得下</li>
-      </ul>
-      <p style="margin-top:0.3rem"><a href="https://cloak.ecbo.io/zh-TW/jpn/city/tokyo/221" target="_blank">→ ecbo cloak 東京寄物預約</a></p>
-    </div>
   </div>
 </div>
 
 </div>
 
 <footer>
-  2026 聖誕滑雪之旅 ・ 6 家庭 18 人
+  🎄 2026 聖誕滑雪之旅 ・ 6 家庭 18 人 ⛷️
 </footer>
 
 </body>
