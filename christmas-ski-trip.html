@@ -71,6 +71,12 @@ header .meta { font-size: 0.85rem; color: var(--t2); margin-top: 0.2rem; }
 .g-main { flex: 1; }
 .g-main .place { font-size: 1.08rem; font-weight: 900; }
 .g-main .night { font-size: 0.82rem; color: var(--t2); }
+.badge-tbc {
+  display: inline-block; vertical-align: 0.15em; margin-left: 0.3rem;
+  padding: 0.05rem 0.5rem; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+  background: var(--gold-bg); color: var(--gold); border: 1px solid #e5c87e;
+}
 
 /* ===== Day cards ===== */
 .days { margin-top: 1.8rem; }
@@ -229,7 +235,7 @@ footer {
       <div class="g-date"><div class="d">12/27</div><div class="w">日</div></div>
       <div class="g-emoji">🎮</div>
       <div class="g-main">
-        <div class="place">PokéPark 寶可夢樂園</div>
+        <div class="place">PokéPark 寶可夢樂園<span class="badge-tbc">待確認</span></div>
         <div class="night">晚上：晴空塔聖誕市集 🎄</div>
       </div>
     </a>
@@ -326,11 +332,11 @@ footer {
   <div class="day-card c-tokyo" id="d4">
     <div class="day-head">
       <div class="d-date">12/27（日）</div>
-      <div class="d-place">🎮 PokéPark 寶可夢樂園 → 🎄 晴空塔市集</div>
+      <div class="d-place">🎮 PokéPark 寶可夢樂園<span class="badge-tbc">待確認</span> → 🎄 晴空塔市集</div>
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">全天</span><span class="what"><strong>PokéPark KANTO 寶可夢主題樂園</strong></span></li>
+        <li><span class="when">全天</span><span class="what"><strong>PokéPark KANTO 寶可夢主題樂園</strong><span class="badge-tbc">待確認</span></span></li>
         <li><span class="when">晚上</span><span class="what"><strong>東京晴空塔聖誕市集</strong></span></li>
       </ul>
       <details class="more">
