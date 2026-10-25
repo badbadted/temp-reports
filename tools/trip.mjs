@@ -167,26 +167,29 @@ export function applyOps(trip, ops) {
         break;
       }
       case 'set_day': {
+        if (op.date === undefined && op.place === undefined) throw new Error('set_day 沒有要改的欄位');
+        // 值跟原本一樣的不列進說明（AI 常把沒變的欄位一起帶上）
         const parts = [];
-        if (op.date !== undefined) { d.date = str(op.date, 'date'); parts.push(`日期標題改成「${d.date}」`); }
-        if (op.place !== undefined) { d.place = str(op.place, 'place'); parts.push(`地點改成「${d.place}」`); }
-        if (!parts.length) throw new Error('set_day 沒有要改的欄位');
-        changes.push(`${d.id} ${parts.join('、')}`);
+        if (op.date !== undefined) { const v = str(op.date, 'date'); if (v !== d.date) { d.date = v; parts.push(`日期標題改成「${v}」`); } }
+        if (op.place !== undefined) { const v = str(op.place, 'place'); if (v !== d.place) { d.place = v; parts.push(`地點改成「${v}」`); } }
+        if (parts.length) changes.push(`${d.id} ${parts.join('、')}`);
         break;
       }
       case 'set_glance': {
+        if (op.emoji === undefined && op.place === undefined && op.note === undefined) throw new Error('set_glance 沒有要改的欄位');
+        const g = d.glance;
         const parts = [];
-        if (op.emoji !== undefined) { d.glance.emoji = str(op.emoji, 'emoji'); parts.push(`圖示改成 ${d.glance.emoji}`); }
-        if (op.place !== undefined) { d.glance.place = str(op.place, 'place'); parts.push(`地點改成「${d.glance.place}」`); }
-        if (op.note !== undefined) { d.glance.note = str(op.note, 'note', { allowEmpty: true }); parts.push(`備註改成「${d.glance.note}」`); }
-        if (!parts.length) throw new Error('set_glance 沒有要改的欄位');
-        changes.push(`行程一覽 ${d.glance.d} ${parts.join('、')}`);
+        if (op.emoji !== undefined) { const v = str(op.emoji, 'emoji'); if (v !== g.emoji) { g.emoji = v; parts.push(`圖示改成 ${v}`); } }
+        if (op.place !== undefined) { const v = str(op.place, 'place'); if (v !== g.place) { g.place = v; parts.push(`地點改成「${v}」`); } }
+        if (op.note !== undefined) { const v = str(op.note, 'note', { allowEmpty: true }); if (v !== g.note) { g.note = v; parts.push(`備註改成「${v}」`); } }
+        if (parts.length) changes.push(`行程一覽 ${g.d} ${parts.join('、')}`);
         break;
       }
       default:
         throw new Error(`不認得的修改：${op.op}`);
     }
   }
+  if (!changes.length) throw new Error('跟原本的行程一樣，沒有要改的');
   return changes;
 }
 

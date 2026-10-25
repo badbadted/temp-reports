@@ -52,6 +52,14 @@ test('改每日標題與一覽', () => {
   assert.match(html, /<div class="g-emoji">🍖<\/div>/);
 });
 
+test('值沒變的欄位不列進說明；全部沒變就擋下', () => {
+  const t = load();
+  const d3 = t.days[2];
+  const c = applyOps(t, [{ op: 'set_day', day: 'D3', date: d3.date, place: '⛷️ 神樂 → 🍽️ 東京站' }, { op: 'set_glance', day: 'D3', emoji: d3.glance.emoji, note: '晚上：東京站' }]);
+  assert.deepEqual(c, ['D3 地點改成「⛷️ 神樂 → 🍽️ 東京站」', '行程一覽 12/26 備註改成「晚上：東京站」']);
+  assert.throws(() => applyOps(load(), [{ op: 'set_day', day: 'D3', date: d3.date }]), /沒有要改的/);
+});
+
 test('塞 HTML 會被跳脫', () => {
   const t = load();
   applyOps(t, [{ op: 'add_item', day: 'D1', item: { title: '<script>alert(1)</script>', sub: '<img src=x onerror=alert(1)>' } },
