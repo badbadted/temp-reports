@@ -76,9 +76,12 @@ function renderDay(d) {
 }
 
 export function render(trip, tpl) {
+  // 用函式當取代值：行程文字裡的 $& $` $' 不會被 String.replace 當成特殊替換碼
+  const glance = trip.days.map(renderGlance).join('\n');
+  const days = trip.days.map(renderDay).join('\n\n');
   return tpl.replace(/\r\n/g, '\n') // Windows 簽出的模板是 CRLF，統一成 LF 再產生
-    .replace('<!-- TRIP-GLANCE -->', trip.days.map(renderGlance).join('\n'))
-    .replace('<!-- TRIP-DAYS -->', trip.days.map(renderDay).join('\n\n'));
+    .replace('<!-- TRIP-GLANCE -->', () => glance)
+    .replace('<!-- TRIP-DAYS -->', () => days);
 }
 
 export function outline(trip) {

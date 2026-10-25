@@ -62,6 +62,14 @@ test('塞 HTML 會被跳脫', () => {
   assert.ok(!html.includes('<b>x</b>'));
 });
 
+test('文字裡的 $ 替換碼照字面輸出', () => {
+  const t = load();
+  applyOps(t, [{ op: 'add_item', day: 'D1', item: { title: "費用 $` $' $& $$" } }]);
+  const html = render(t, tpl);
+  assert.ok(html.includes("<strong>費用 $` $' $&amp; $$</strong>") || html.includes("<strong>費用 $` $' $& $$</strong>"));
+  assert.equal(html.split('<!DOCTYPE html>').length, 2); // 模板沒有被複製一份進來
+});
+
 test('不合法的修改會被擋', () => {
   const t = load();
   assert.throws(() => applyOps(t, [{ op: 'remove_item', day: 'D1', index: 99 }]), /沒有第 99 項/);
