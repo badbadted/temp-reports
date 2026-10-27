@@ -92,7 +92,10 @@ test('不合法的修改會被擋', () => {
 });
 
 test('補充資訊：outline 讀得到、可以整個換掉或拿掉（字會跳脫）', () => {
-  assert.match(outline(load()), /D2[\s\S]*補充資訊「六本木聖誕市集資訊」：📍 港區六本木 6-10-1/);
+  // 用自己的樣本，不靠線上資料（群組隨時會改行程）
+  const sample = load();
+  sample.days[1].moreHtml = '      <details class="more">\n        <summary>測試資訊</summary>\n        <div class="inner"><ul><li>📍 A 地點</li><li>💡 17:00～23:00</li></ul></div>\n      </details>';
+  assert.match(outline(sample), /D2[\s\S]*補充資訊「測試資訊」：📍 A 地點／💡 17:00～23:00/);
   const t = load();
   const c = applyOps(t, [{ op: 'set_more', day: 'D2', title: '晴空塔聖誕市集資訊', lines: ['📍 晴空塔城 4F 廣場', '<script>alert(1)</script>'] }]);
   assert.match(c[0], /D2 補充資訊改成「晴空塔聖誕市集資訊」：📍 晴空塔城 4F 廣場／/);
