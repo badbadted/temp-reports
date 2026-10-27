@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<!-- 這頁由 tools/trip.mjs 產生：行程改 trips/snow-trip-2027.json、版面改 trips/snow-trip-2027.template.html，再跑 node tools/trip.mjs build snow-trip-2027。直接改這個 HTML 會跟資料檔不同步，LINE 小帥會拒絕更新。 -->
+<!-- 這頁由 tools/trip.mjs 產生（通用版面 trips/_base.template.html）：內容全部在 trips/<名稱>.json，改完跑 node tools/trip.mjs build <名稱>。直接改這個 HTML 會跟資料檔不同步，LINE 小帥會拒絕更新。 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2027 東京・青森雪國之旅 — 行程表</title>
+<title>❄️ 2027 東京・青森雪國之旅 ⛷️ — 行程表</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -40,7 +40,6 @@ header {
   border-bottom: 1px solid var(--line);
 }
 header h1 { font-size: 1.5rem; font-weight: 900; letter-spacing: 0.02em; }
-header h1 .xmas { color: var(--red); }
 header .date {
   font-size: 1.05rem; font-weight: 700; color: var(--green); margin-top: 0.2rem;
 }
@@ -187,6 +186,9 @@ details.big .big-inner { padding: 0 1.1rem 1rem; }
   padding: 0.55rem 0.9rem; font-size: 0.85rem; text-decoration: none; color: var(--t1);
 }
 .links-grid a:hover { background: var(--gold-bg); }
+.info-list { padding-left: 1.2rem; font-size: 0.87rem; }
+.info-list li { margin-bottom: 0.2rem; }
+.empty { color: var(--t2); font-size: 0.9rem; padding: 0.6rem 0; }
 
 footer {
   text-align: center; padding: 1.5rem 1rem; color: var(--t2); font-size: 0.8rem;
@@ -197,7 +199,7 @@ footer {
 <body>
 
 <header>
-  <h1>❄️ 2027 <span class="xmas">東京・青森雪國之旅</span> ⛷️</h1>
+  <h1>❄️ 2027 東京・青森雪國之旅 ⛷️</h1>
   <div class="date">1/30（六）— 2/6（六）・8 天</div>
   <div class="meta">高雄 ⇄ 東京 ⇄ 湯澤雪場 ⇄ 青森</div>
 </header>
@@ -394,46 +396,31 @@ footer {
   </div>
 </div>
 
-<!-- ===== 住宿・交通 ===== -->
+<!-- ===== 住宿・交通・其他資訊 ===== -->
 <div class="info-section">
-  <h2 class="section-h">ℹ️ 住宿・交通</h2>
-
+  <h2 class="section-h">ℹ️ 住宿・交通・其他資訊</h2>
   <details class="big">
-    <summary>🏨 住宿資訊 <span class="hint">錦糸町 5 晚・青森屋 2 晚</span><span class="arrow">▼</span></summary>
+    <summary>🏨 住宿 <span class="hint">錦糸町 5 晚・青森屋 2 晚</span><span class="arrow">▼</span></summary>
     <div class="big-inner">
-      <div class="accom-grid">
-        <div class="accom-card pink">
-          <div class="who">1/30～2/3（5 晚）</div>
-          <h5>錦糸町 住宿</h5>
-          <div class="sub">東京・墨田區錦糸町</div>
-        </div>
-        <div class="accom-card mint">
-          <div class="who">2/4～2/5（2 晚）</div>
-          <h5>星野リゾート 青森屋</h5>
-          <div class="sub">青森・三澤</div>
-        </div>
-      </div>
+      <ul class="info-list">
+        <li>1/30～2/3（5 晚）：錦糸町（東京・墨田區）</li>
+        <li>2/4～2/5（2 晚）：星野リゾート 青森屋（青森・三澤）</li>
+      </ul>
     </div>
   </details>
-
   <details class="big">
     <summary>✈️ 航班<span class="arrow">▼</span></summary>
     <div class="big-inner">
-      <div class="trans-opt" style="background:var(--gold-bg)">
-        <strong style="color:var(--gold)">去程 1/30（六）</strong><br>
-        華航 13:05 KHH → 17:25 成田 T2
-      </div>
-      <div class="trans-opt" style="background:var(--blue-bg)">
-        <strong style="color:var(--blue)">第二批 2/2（二）</strong><br>
-        聯合 11:30 KHH → 15:55 成田 T1
-      </div>
-      <div class="trans-opt" style="background:var(--green-bg)">
-        <strong style="color:var(--green)">回程 2/6（六）</strong><br>
-        華航 18:25 成田 T2 → 22:05 KHH
-      </div>
+      <ul class="info-list">
+        <li>去程 1/30（六）：華航 13:05 KHH → 17:25 成田 T2</li>
+        <li>第二批 2/2（二）：聯合 11:30 KHH → 15:55 成田 T1</li>
+        <li>回程 2/6（六）：華航 18:25 成田 T2 → 22:05 KHH</li>
+      </ul>
     </div>
   </details>
 </div>
+
+
 
 </div>
 
