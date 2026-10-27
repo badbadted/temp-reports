@@ -31,7 +31,7 @@ const LIMITS = {
   meta_title: 40, dates: 40, subtitle: 80, info_title: 30, hint: 30, info_line: 100, link_title: 40, url: 300, d: 5, w: 10,
 };
 const MORE_MAX_LINES = 8;
-const MAX_OPS = 8;
+const MAX_OPS = 15;
 
 const BASE_TPL = join(ROOT, 'trips', '_base.template.html');
 const paths = (name) => {
@@ -217,7 +217,7 @@ const label = (it) => `${it.when ? it.when + ' ' : ''}${[it.title, it.text].filt
 
 // ── 通用版面專用的修改 ───────────────────────────────
 
-const MAX_DAYS = 9;      // D1～D9
+const MAX_DAYS = 20;     // D1～D20
 const MAX_INFO = 8;
 const MAX_INFO_LINES = 12;
 const MAX_LINKS = 15;
