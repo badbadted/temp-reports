@@ -1,7 +1,7 @@
 // node tools/trip.test.mjs
 import assert from 'node:assert/strict';
 import { readFileSync } from 'fs';
-import { applyOps, outline, render } from './trip.mjs';
+import { applyOps, outline, render, isBase } from './trip.mjs';
 
 const load = () => JSON.parse(readFileSync(new URL('../trips/christmas-ski-trip.json', import.meta.url), 'utf8'));
 const tpl = readFileSync(new URL('../trips/christmas-ski-trip.template.html', import.meta.url), 'utf8');
@@ -107,6 +107,65 @@ test('補充資訊：outline 讀得到、可以整個換掉或拿掉（字會跳
   assert.throws(() => applyOps(t, [{ op: 'remove_more', day: 'D2' }]), /沒有補充資訊/);
   assert.throws(() => applyOps(load(), [{ op: 'set_more', day: 'D2', title: 'x', lines: [] }]), /至少要一行/);
   assert.throws(() => applyOps(load(), [{ op: 'set_more', day: 'D2', title: 'x', lines: Array(9).fill('a') }]), /最多 8 行/);
+});
+
+const baseTpl = readFileSync(new URL('../trips/_base.template.html', import.meta.url), 'utf8');
+const fresh = () => ({ title: '測試行程', meta: { title: '測試行程', dates: '', subtitle: '' }, days: [], info: [], links: [] });
+
+test('通用版面：空行程也產得出網頁', () => {
+  const html = render(fresh(), baseTpl);
+  assert.ok(html.includes('<title>測試行程 — 行程表</title>'));
+  assert.ok(html.includes('<h1>測試行程</h1>'));
+  assert.ok(html.includes('還沒有排行程'));
+  assert.ok(!html.includes('<!-- TRIP-'));
+  assert.ok(!html.includes('<div class="info-section">') && !html.includes('<div class="links-section">'));
+  assert.match(outline(fresh()), /通用版面[\s\S]*還沒有任何一天/);
+});
+
+test('通用版面：新增天數、頁首、資訊、連結，全部跳脫', () => {
+  const t = fresh();
+  const c = applyOps(t, [
+    { op: 'set_meta', title: '2028 北海道<b>', dates: '1/20（四）— 1/24（一）・5 天', subtitle: '高雄 ⇄ 札幌' },
+    { op: 'add_day', date: '1/20', weekday: '四', emoji: '✈️', place: '飛札幌', note: '華航 08:00', color: 'fly' },
+    { op: 'add_day', date: '1/21', weekday: '五', emoji: '⛷️', place: '二世谷', color: 'ski' },
+    { op: 'add_day', after: 0, date: '1/19', weekday: '三', place: '前一天集合' },
+    { op: 'set_info', title: '🏨 住宿', hint: '札幌 2 晚', lines: ['JR Tower Hotel', '<img src=x>'] },
+    { op: 'add_link', title: '二世谷雪況', url: 'https://www.niseko.ne.jp/' },
+  ]);
+  assert.equal(c.length, 6);
+  assert.deepEqual(t.days.map(d => `${d.id}${d.key}${d.date}`), ['D1d11/19（三）', 'D2d21/20（四）', 'D3d31/21（五）']);
+  // 新增的那天能直接加行程
+  applyOps(t, [{ op: 'add_item', day: 'D2', item: { when: '08:00', title: '高雄出發' } }]);
+  const html = render(t, baseTpl);
+  assert.ok(html.includes('<h1>2028 北海道&lt;b&gt;</h1>'));
+  assert.ok(html.includes('<li>&lt;img src=x&gt;</li>'));
+  assert.ok(html.includes('<a href="https://www.niseko.ne.jp/" target="_blank" rel="noopener">二世谷雪況</a>'));
+  assert.ok(html.includes('id="d2"') && html.includes('高雄出發'));
+  assert.match(outline(t), /資訊「🏨 住宿」（札幌 2 晚）：JR Tower Hotel／<img src=x>[\s\S]*連結 1\. 二世谷雪況/);
+  // 刪一天後重新編號
+  assert.match(applyOps(t, [{ op: 'remove_day', day: 'D1' }])[0], /刪掉 D1 1\/19（三）/);
+  assert.deepEqual(t.days.map(d => d.id), ['D1', 'D2']);
+  assert.equal(t.days[0].items[0].title, '高雄出發');
+  // 同名資訊是整塊替換、可刪；連結可刪
+  applyOps(t, [{ op: 'set_info', title: '🏨 住宿', lines: ['換飯店'] }]);
+  assert.deepEqual(t.info, [{ title: '🏨 住宿', hint: '札幌 2 晚', lines: ['換飯店'] }]);
+  applyOps(t, [{ op: 'remove_info', title: '🏨 住宿' }, { op: 'remove_link', index: 1 }]);
+  assert.deepEqual([t.info, t.links], [[], []]);
+});
+
+test('通用版面：不合法的擋下、手刻版面不能用', () => {
+  const t = fresh();
+  assert.throws(() => applyOps(t, [{ op: 'add_link', title: 'x', url: 'javascript:alert(1)' }]), /https/);
+  assert.throws(() => applyOps(t, [{ op: 'add_link', title: 'x', url: 'https://a.com/"onmouseover=1' }]), /https/);
+  assert.throws(() => applyOps(t, [{ op: 'add_day', date: '明天', place: 'x' }]), /1\/30/);
+  assert.throws(() => applyOps(t, [{ op: 'remove_day', day: 'D1' }]), /找不到/);
+  assert.throws(() => applyOps(t, [{ op: 'set_info', title: 'x', lines: [] }]), /至少要一行/);
+  const many = fresh();
+  for (let i = 0; i < 9; i++) applyOps(many, [{ op: 'add_day', date: `2/${i + 1}`, place: 'x' }]);
+  assert.throws(() => applyOps(many, [{ op: 'add_day', date: '2/10', place: 'x' }]), /最多 9 天/);
+  assert.ok(!isBase(load()));
+  assert.throws(() => applyOps(load(), [{ op: 'set_meta', title: 'x' }]), /手刻版面/);
+  assert.throws(() => applyOps(load(), [{ op: 'add_day', date: '1/1', place: 'x' }]), /手刻版面/);
 });
 
 console.log(`\n${pass} 項全部通過`);

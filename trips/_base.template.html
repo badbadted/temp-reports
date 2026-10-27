@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<!-- 這頁由 tools/trip.mjs 產生（通用版面 trips/_base.template.html）：內容全部在 trips/<名稱>.json，改完跑 node tools/trip.mjs build <名稱>。直接改這個 HTML 會跟資料檔不同步，LINE 小帥會拒絕更新。 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><!-- TRIP-TITLE --> — 行程表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf7f2;
+  --card: #ffffff;
+  --line: #eae4da;
+  --t1: #2d241c;
+  --t2: #8a7d6f;
+  --red: #c0392b;
+  --red-bg: #fdeeec;
+  --green: #1e7a46;
+  --green-bg: #e9f6ee;
+  --gold: #b07818;
+  --gold-bg: #fcf3dd;
+  --blue: #2563a8;
+  --blue-bg: #e9f1fa;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  background: var(--bg); color: var(--t1); line-height: 1.7;
+}
+a { color: var(--green); }
+
+.container { max-width: 720px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+/* ===== Header ===== */
+header {
+  text-align: center; padding: 1.6rem 1rem 1.2rem;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-bottom: 1px solid var(--line);
+}
+header h1 { font-size: 1.5rem; font-weight: 900; letter-spacing: 0.02em; }
+header .date {
+  font-size: 1.05rem; font-weight: 700; color: var(--green); margin-top: 0.2rem;
+}
+header .meta { font-size: 0.85rem; color: var(--t2); margin-top: 0.2rem; }
+
+/* ===== 行程一覽 ===== */
+.glance { margin-top: 1.2rem; }
+.glance h2, .section-h {
+  font-size: 1.05rem; font-weight: 900; margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.glance-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.glance-row {
+  display: flex; align-items: center; gap: 0.8rem;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 0.7rem 0.9rem; text-decoration: none; color: var(--t1);
+  border-left: 6px solid var(--line);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.glance-row:active { transform: scale(0.99); }
+.glance-row:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+.glance-row.c-fly { border-left-color: var(--gold); }
+.glance-row.c-tokyo { border-left-color: var(--red); }
+.glance-row.c-ski { border-left-color: var(--green); }
+.g-date { flex-shrink: 0; text-align: center; width: 3.2rem; line-height: 1.25; }
+.g-date .d { font-size: 1.15rem; font-weight: 900; }
+.g-date .w { font-size: 0.75rem; color: var(--t2); }
+.g-emoji { font-size: 1.7rem; flex-shrink: 0; }
+.g-main { flex: 1; }
+.g-main .place { font-size: 1.08rem; font-weight: 900; }
+.g-main .night { font-size: 0.82rem; color: var(--t2); }
+.badge-tbc {
+  display: inline-block; vertical-align: 0.15em; margin-left: 0.3rem;
+  padding: 0.05rem 0.5rem; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+  background: var(--gold-bg); color: var(--gold); border: 1px solid #e5c87e;
+}
+
+/* ===== Day cards ===== */
+.days { margin-top: 1.8rem; }
+.day-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  margin-bottom: 1rem; overflow: hidden; scroll-margin-top: 0.8rem;
+}
+.day-head {
+  padding: 0.9rem 1.1rem 0.7rem;
+  border-left: 6px solid var(--line);
+}
+.day-card.c-fly .day-head { border-left-color: var(--gold); }
+.day-card.c-tokyo .day-head { border-left-color: var(--red); }
+.day-card.c-ski .day-head { border-left-color: var(--green); }
+.day-head .d-date { font-size: 0.85rem; font-weight: 700; color: var(--t2); }
+.day-head .d-place { font-size: 1.25rem; font-weight: 900; line-height: 1.4; }
+.day-body { padding: 0.2rem 1.1rem 1rem calc(1.1rem + 6px); }
+
+.plan { list-style: none; }
+.plan li {
+  display: flex; gap: 0.7rem; padding: 0.35rem 0; font-size: 0.95rem;
+  align-items: baseline;
+}
+.plan .when {
+  flex-shrink: 0; width: 3.6rem; font-size: 0.8rem; font-weight: 700;
+  color: var(--t2); text-align: right;
+}
+.plan .what { flex: 1; }
+.plan .what strong { font-weight: 700; }
+.plan .sub { display: block; font-size: 0.8rem; color: var(--t2); }
+
+/* details 摺疊 */
+details.more {
+  margin-top: 0.6rem; border: 1px solid var(--line); border-radius: 10px;
+  background: #fbfaf7; font-size: 0.87rem;
+}
+details.more summary {
+  padding: 0.5rem 0.9rem; cursor: pointer; font-weight: 700;
+  color: var(--t2); font-size: 0.85rem; user-select: none; list-style: none;
+}
+details.more summary::before { content: "▸ "; }
+details.more[open] summary::before { content: "▾ "; }
+details.more summary::-webkit-details-marker { display: none; }
+details.more .inner { padding: 0 0.9rem 0.8rem; }
+details.more h4 { font-size: 0.88rem; margin: 0.5rem 0 0.25rem; }
+details.more ul { padding-left: 1.2rem; margin: 0.15rem 0; }
+details.more li { margin-bottom: 0.15rem; }
+details.more .warn { color: var(--red); font-weight: 700; font-size: 0.82rem; margin-top: 0.35rem; }
+details.more p { margin-top: 0.3rem; }
+
+/* ===== 底部資訊區 ===== */
+.info-section { margin-top: 2rem; }
+details.big {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  margin-bottom: 0.8rem; overflow: hidden;
+}
+details.big > summary {
+  padding: 0.9rem 1.1rem; cursor: pointer; font-weight: 900; font-size: 1rem;
+  user-select: none; list-style: none;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+details.big > summary::-webkit-details-marker { display: none; }
+details.big > summary .hint { font-weight: 400; font-size: 0.8rem; color: var(--t2); }
+details.big > summary .arrow { margin-left: auto; color: var(--t2); transition: transform 0.2s; }
+details.big[open] > summary .arrow { transform: rotate(180deg); }
+details.big .big-inner { padding: 0 1.1rem 1rem; }
+
+.accom-grid { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
+@media (min-width: 600px) { .accom-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.accom-card {
+  border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem 0.9rem;
+  font-size: 0.84rem; border-top: 4px solid;
+}
+.accom-card .who {
+  display: inline-block; font-size: 0.74rem; font-weight: 700;
+  padding: 0.12rem 0.55rem; border-radius: 10px; margin-bottom: 0.3rem;
+}
+.accom-card h5 { font-size: 0.92rem; font-weight: 900; }
+.accom-card .sub { font-size: 0.78rem; color: var(--t2); margin-bottom: 0.3rem; }
+.accom-card .hl {
+  display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.45rem;
+  border-radius: 5px; background: #f4f1ec; color: var(--t2); margin: 0 0.15rem 0.2rem 0;
+}
+.accom-card.pink { border-top-color: #e88a9c; }
+.accom-card.pink .who { background: #fde8ed; color: #c4687a; }
+.accom-card.mint { border-top-color: #6cc39c; }
+.accom-card.mint .who { background: #e4f5ed; color: #3c8a64; }
+.accom-card.lemon { border-top-color: #e5bd4e; }
+.accom-card.lemon .who { background: #fdf5de; color: #a08530; }
+.accom-note { font-size: 0.8rem; color: var(--t2); margin-top: 0.6rem; }
+
+.trans-opt { border-radius: 10px; padding: 0.55rem 0.8rem; font-size: 0.84rem; margin-bottom: 0.5rem; }
+.trans-opt .small { font-size: 0.78rem; color: var(--t2); }
+
+.members { font-size: 0.85rem; color: var(--t2); text-align: center; margin-top: 0.4rem; }
+.member-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-top: 0.4rem; }
+.chip {
+  padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.78rem;
+  background: var(--card); border: 1px solid var(--line);
+}
+.chip b { color: var(--red); font-weight: 700; }
+
+.links-section { margin-top: 1.5rem; }
+.links-grid { display: flex; flex-direction: column; gap: 0.4rem; }
+.links-grid a {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 0.55rem 0.9rem; font-size: 0.85rem; text-decoration: none; color: var(--t1);
+}
+.links-grid a:hover { background: var(--gold-bg); }
+.info-list { padding-left: 1.2rem; font-size: 0.87rem; }
+.info-list li { margin-bottom: 0.2rem; }
+.empty { color: var(--t2); font-size: 0.9rem; padding: 0.6rem 0; }
+
+footer {
+  text-align: center; padding: 1.5rem 1rem; color: var(--t2); font-size: 0.8rem;
+  border-top: 1px solid var(--line); margin-top: 2rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1><!-- TRIP-TITLE --></h1>
+  <div class="date"><!-- TRIP-DATES --></div>
+  <div class="meta"><!-- TRIP-SUBTITLE --></div>
+</header>
+
+<div class="container">
+
+<!-- ===== 行程一覽 ===== -->
+<div class="glance">
+  <h2>📌 這幾天要去哪</h2>
+  <div class="glance-list">
+<!-- TRIP-GLANCE -->
+  </div>
+</div>
+
+<!-- ===== 每日行程 ===== -->
+<div class="days">
+  <h2 class="section-h">🗓️ 每日行程</h2>
+
+<!-- TRIP-DAYS -->
+</div>
+
+<!-- TRIP-INFO -->
+
+<!-- TRIP-LINKS -->
+
+</div>
+
+<footer>
+  <!-- TRIP-TITLE -->
+</footer>
+
+</body>
+</html>

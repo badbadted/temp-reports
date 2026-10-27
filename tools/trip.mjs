@@ -7,6 +7,11 @@
  *   node tools/trip.mjs describe <name> <ops.json>   檢查修改內容，印出白話說明（不寫檔）
  *   node tools/trip.mjs apply    <name> <ops.json>   套用修改、重新產生網頁
  *   node tools/trip.mjs check    <name>              檢查網頁是否跟資料檔一致（有人直接手改網頁就會不一致）
+ *   node tools/trip.mjs create   <name> <標題>       開新行程（通用版面），並加進首頁清單
+ *
+ * 兩種版面：有 trips/<name>.template.html 的是手刻版面（頁首、住宿、連結寫死在模板裡，例如聖誕滑雪）；
+ * 沒有的用通用版面 trips/_base.template.html，頁首（meta）、資訊區（info）、連結（links）都在資料裡，
+ * 小帥也能用 set_meta／set_info／remove_info／add_link／remove_link／add_day／remove_day 改。開新行程一律用通用版面。
  *
  * 每天的資料：最上面「這幾天要去哪」那一行（glance）、每日行程的標題（date／place）與一條條行程（items）。
  * 可收摺的詳細資訊（moreHtml：時刻表、票價、菜單）：手寫的 HTML 原樣保留；ops 可以整個換成「標題＋條列」（set_more，字一律跳脫）或拿掉（remove_more）。
@@ -15,20 +20,27 @@
  * 不能塞 HTML 進公開網頁。describe／apply 輸出 JSON：{ ok, changes: [白話說明...], error? }
  */
 
-import { readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const LIMITS = { when: 12, title: 40, text: 80, sub: 120, date: 30, place: 60, note: 60, emoji: 8, more_title: 30, more_line: 80 };
+const LIMITS = {
+  when: 12, title: 40, text: 80, sub: 120, date: 30, place: 60, note: 60, emoji: 8, more_title: 30, more_line: 80,
+  // 通用版面
+  meta_title: 40, dates: 40, subtitle: 80, info_title: 30, hint: 30, info_line: 100, link_title: 40, url: 300, d: 5, w: 10,
+};
 const MORE_MAX_LINES = 8;
 const MAX_OPS = 8;
 
+const BASE_TPL = join(ROOT, 'trips', '_base.template.html');
 const paths = (name) => {
   if (!/^[a-z0-9-]+$/.test(name)) throw new Error(`行程名稱不合法：${name}`);
+  const own = join(ROOT, 'trips', `${name}.template.html`);
   return {
     json: join(ROOT, 'trips', `${name}.json`),
-    tpl: join(ROOT, 'trips', `${name}.template.html`),
+    // 有自己的手刻版面就用自己的，沒有就用通用版面
+    tpl: existsSync(own) ? own : BASE_TPL,
     html: join(ROOT, `${name}.html`),
   };
 };
@@ -76,14 +88,62 @@ function renderDay(d) {
   ].join('\n');
 }
 
+// ── 通用版面才有的區塊（頁首、底部資訊、連結都從資料產生）──────────
+
+const escAttr = (s) => esc(s).replace(/&(?!lt;|gt;)/g, '&amp;').replace(/"/g, '&quot;');
+
+function renderInfo(info) {
+  const secs = (info || []).filter(s => s.lines?.length);
+  if (!secs.length) return '';
+  return [
+    '<!-- ===== 住宿・交通・其他資訊 ===== -->',
+    '<div class="info-section">',
+    '  <h2 class="section-h">ℹ️ 住宿・交通・其他資訊</h2>',
+    ...secs.map(s => [
+      '  <details class="big">',
+      `    <summary>${esc(s.title)}${s.hint ? ` <span class="hint">${esc(s.hint)}</span>` : ''}<span class="arrow">▼</span></summary>`,
+      '    <div class="big-inner">',
+      '      <ul class="info-list">',
+      ...s.lines.map(l => `        <li>${esc(l)}</li>`),
+      '      </ul>',
+      '    </div>',
+      '  </details>',
+    ].join('\n')),
+    '</div>',
+  ].join('\n');
+}
+
+function renderLinks(links) {
+  if (!links?.length) return '';
+  return [
+    '<!-- ===== 實用連結 ===== -->',
+    '<div class="links-section">',
+    '  <h2 class="section-h">🔗 實用連結</h2>',
+    '  <div class="links-grid">',
+    ...links.map(l => `    <a href="${escAttr(l.url)}" target="_blank" rel="noopener">${esc(l.title)}</a>`),
+    '  </div>',
+    '</div>',
+  ].join('\n');
+}
+
 export function render(trip, tpl) {
   // 用函式當取代值：行程文字裡的 $& $` $' 不會被 String.replace 當成特殊替換碼
   const glance = trip.days.map(renderGlance).join('\n');
-  const days = trip.days.map(renderDay).join('\n\n');
+  const days = trip.days.length ? trip.days.map(renderDay).join('\n\n') : '  <p class="empty">還沒有排行程，在 LINE 群組叫小帥新增第一天吧。</p>';
+  const m = trip.meta || {};
   return tpl.replace(/\r\n/g, '\n') // Windows 簽出的模板是 CRLF，統一成 LF 再產生
     .replace('<!-- TRIP-GLANCE -->', () => glance)
-    .replace('<!-- TRIP-DAYS -->', () => days);
+    .replace('<!-- TRIP-DAYS -->', () => days)
+    // 以下只有通用版面（_base.template.html）有；手刻版面沒有這些標記，不受影響
+    .replaceAll('<!-- TRIP-TITLE -->', () => esc(m.title))
+    .replace('<!-- TRIP-DATES -->', () => esc(m.dates))
+    .replace('<!-- TRIP-SUBTITLE -->', () => esc(m.subtitle))
+    .replace('<!-- TRIP-INFO -->', () => renderInfo(trip.info))
+    .replace('<!-- TRIP-LINKS -->', () => renderLinks(trip.links));
 }
+
+/** 通用版面的行程：頁首、資訊、連結都在資料裡（手刻版面的沒有 meta） */
+export const isBase = (trip) => !!trip.meta;
 
 /** 補充資訊（moreHtml）→ { title, lines }，給 AI 看的純文字 */
 export function moreText(html) {
@@ -110,6 +170,13 @@ function renderMore(title, lines) {
 
 export function outline(trip) {
   const lines = [];
+  if (isBase(trip)) {
+    const m = trip.meta;
+    lines.push(`〔通用版面：頁首、資訊、連結也能改〕頁面標題：${m.title}｜日期：${m.dates || '（未填）'}｜說明：${m.subtitle || '（未填）'}`);
+    for (const s of trip.info || []) lines.push(`資訊「${s.title}」${s.hint ? `（${s.hint}）` : ''}：${s.lines.join('／')}`.slice(0, 500));
+    (trip.links || []).forEach((l, i) => lines.push(`連結 ${i + 1}. ${l.title} ${l.url}`));
+    if (!trip.days.length) lines.push('（還沒有任何一天）');
+  }
   for (const d of trip.days) {
     const g = d.glance;
     lines.push(`${d.id} ${d.date}｜${d.place}`);
@@ -148,6 +215,114 @@ function itemAt(d, index) {
 
 const label = (it) => `${it.when ? it.when + ' ' : ''}${[it.title, it.text].filter(Boolean).join('')}`;
 
+// ── 通用版面專用的修改 ───────────────────────────────
+
+const MAX_DAYS = 9;      // D1～D9
+const MAX_INFO = 8;
+const MAX_INFO_LINES = 12;
+const MAX_LINKS = 15;
+const COLORS = { fly: 'c-fly', city: 'c-tokyo', ski: 'c-ski' }; // 金：交通日、紅：城市、綠：雪場／戶外
+const URL_RE = /^https:\/\/[^\s"'<>\\]+$/;
+
+/** 刪掉或插入一天後重新編號（D1、D2… 與錨點 d1、d2…） */
+function renumber(trip) {
+  trip.days.forEach((d, i) => { d.id = `D${i + 1}`; d.key = `d${i + 1}`; });
+}
+
+function needBase(trip, what) {
+  if (!isBase(trip)) throw new Error(`這份行程是手刻版面，${what}請找 TED 改`);
+}
+
+function applyBaseOp(trip, op) {
+  switch (op.op) {
+    case 'set_meta': {
+      needBase(trip, '頁面標題');
+      const parts = [];
+      for (const [k, f, lim] of [['title', '標題', 'meta_title'], ['dates', '日期', 'dates'], ['subtitle', '說明', 'subtitle']]) {
+        if (op[k] === undefined) continue;
+        const v = str(op[k], lim, { allowEmpty: k !== 'title' });
+        if (v !== (trip.meta[k] || '')) { trip.meta[k] = v; parts.push(`${f}改成「${v}」`); }
+      }
+      if (op.title !== undefined) trip.title = trip.meta.title;
+      return parts.length ? `頁首 ${parts.join('、')}` : null;
+    }
+    case 'set_info': {
+      needBase(trip, '資訊區');
+      const title = str(op.title, 'info_title');
+      if (!Array.isArray(op.lines) || !op.lines.length) throw new Error('資訊至少要一行');
+      if (op.lines.length > MAX_INFO_LINES) throw new Error(`資訊最多 ${MAX_INFO_LINES} 行`);
+      const sec = { title, hint: op.hint === undefined ? undefined : str(op.hint, 'hint', { allowEmpty: true }), lines: op.lines.map(l => str(l, 'info_line')) };
+      trip.info ||= [];
+      const i = trip.info.findIndex(s => s.title === title);
+      if (i >= 0) {
+        if (sec.hint === undefined) sec.hint = trip.info[i].hint;
+        trip.info[i] = sec;
+      } else {
+        if (trip.info.length >= MAX_INFO) throw new Error(`資訊區最多 ${MAX_INFO} 塊`);
+        trip.info.push(sec);
+      }
+      if (!sec.hint) delete sec.hint;
+      return `資訊「${title}」${i >= 0 ? '改成' : '新增'}：${sec.lines.join('／')}`;
+    }
+    case 'remove_info': {
+      needBase(trip, '資訊區');
+      const i = (trip.info || []).findIndex(s => s.title === op.title);
+      if (i < 0) throw new Error(`沒有「${op.title}」這塊資訊`);
+      trip.info.splice(i, 1);
+      return `刪掉資訊「${op.title}」`;
+    }
+    case 'add_link': {
+      needBase(trip, '連結');
+      const title = str(op.title, 'link_title');
+      const url = str(op.url, 'url');
+      if (!URL_RE.test(url)) throw new Error('連結要是 https:// 開頭的網址');
+      trip.links ||= [];
+      if (trip.links.length >= MAX_LINKS) throw new Error(`連結最多 ${MAX_LINKS} 個`);
+      trip.links.push({ title, url });
+      return `新增連結「${title}」${url}`;
+    }
+    case 'remove_link': {
+      needBase(trip, '連結');
+      const i = Number(op.index) - 1;
+      if (!Number.isInteger(i) || i < 0 || i >= (trip.links || []).length) throw new Error(`沒有第 ${op.index} 個連結`);
+      const [l] = trip.links.splice(i, 1);
+      return `刪掉連結「${l.title}」`;
+    }
+    case 'add_day': {
+      needBase(trip, '新增一天');
+      if (trip.days.length >= MAX_DAYS) throw new Error(`最多 ${MAX_DAYS} 天`);
+      const d = str(op.date, 'd'), w = str(op.weekday ?? '', 'w', { allowEmpty: true });
+      if (!/^\d{1,2}\/\d{1,2}$/.test(d)) throw new Error('日期要寫成 1/30 這樣');
+      const emoji = str(op.emoji ?? '📍', 'emoji');
+      const place = str(op.place, 'place');
+      const note = str(op.note ?? '', 'note', { allowEmpty: true });
+      const tag = str(op.label ?? '', 'w', { allowEmpty: true });
+      const color = COLORS[op.color] || 'c-ski';
+      const day = {
+        id: '', key: '', color,
+        date: `${d}${w ? `（${w}）` : ''}${tag ? ` ${tag}` : ''}`,
+        place: `${emoji} ${place}`,
+        items: [],
+        glance: { color, d, w: [w, tag].filter(Boolean).join('・'), emoji, place, note },
+      };
+      const after = op.after == null ? trip.days.length : Number(op.after);
+      if (!Number.isInteger(after) || after < 0 || after > trip.days.length) throw new Error('新增那天的位置不對');
+      trip.days.splice(after, 0, day);
+      renumber(trip);
+      return `新增 ${day.id} ${day.date}｜${day.place}`;
+    }
+    case 'remove_day': {
+      needBase(trip, '刪掉一天');
+      const day = findDay(trip, op.day);
+      trip.days.splice(trip.days.indexOf(day), 1);
+      renumber(trip);
+      return `刪掉 ${op.day.toUpperCase()} ${day.date}（含 ${day.items.length} 項行程），後面的天數往前遞補`;
+    }
+    default:
+      return undefined; // 不是通用版面的修改
+  }
+}
+
 // 可留空的欄位：空字串＝拿掉；title 與 text 至少要留一個
 function setFields(it, f) {
   for (const k of ['when', 'title', 'text', 'sub']) {
@@ -166,6 +341,8 @@ export function applyOps(trip, ops) {
   if (ops.length > MAX_OPS) throw new Error(`一次最多改 ${MAX_OPS} 項`);
   const changes = [];
   for (const op of ops) {
+    const base = applyBaseOp(trip, op || {});
+    if (base !== undefined) { if (base) changes.push(base); continue; }
     const d = findDay(trip, op.day);
     switch (op.op) {
       case 'update_item': {
@@ -239,8 +416,30 @@ export function applyOps(trip, ops) {
 
 // ── CLI ───────────────────────────────────────────
 
+/** 開新行程（通用版面）：建資料檔、產生網頁、加進首頁清單。回傳 { ok, url?, error? } */
+export function createTrip(name, title, today = new Date().toISOString().slice(0, 10)) {
+  if (!/^[a-z0-9][a-z0-9-]{1,59}$/.test(name || '')) throw new Error('名稱只能用小寫英文、數字和 -（例如 snow-trip-2028）');
+  const p = paths(name);
+  if (existsSync(p.json) || existsSync(p.html)) throw new Error(`已經有「${name}」這個行程了`);
+  const t = str(title, 'meta_title');
+  const trip = { title: t, meta: { title: t, dates: '', subtitle: '' }, days: [], info: [], links: [] };
+  writeFileSync(p.json, JSON.stringify(trip, null, 2) + '\n');
+  writeFileSync(p.html, render(trip, readFileSync(BASE_TPL, 'utf8')));
+  // 首頁清單加一行（放最上面）
+  const idx = join(ROOT, 'index.html');
+  const html = readFileSync(idx, 'utf8').replace(/\r\n/g, '\n');
+  const li = `  <li><a href="${name}.html">${esc(t)} — 行程表</a><span class="date">${today}</span></li>`;
+  if (html.includes('<ul>\n')) writeFileSync(idx, html.replace('<ul>\n', () => `<ul>\n${li}\n`));
+  return { ok: true, name, title: t };
+}
+
 function main() {
   const [cmd, name, opsPath] = process.argv.slice(2);
+  if (cmd === 'create') {
+    try { console.log(JSON.stringify(createTrip(name, process.argv.slice(4).join(' ')))); }
+    catch (err) { console.log(JSON.stringify({ ok: false, error: err.message })); process.exitCode = 1; }
+    return;
+  }
   const p = paths(name || '');
   const trip = JSON.parse(readFileSync(p.json, 'utf8'));
   const tpl = () => readFileSync(p.tpl, 'utf8');
@@ -271,7 +470,7 @@ function main() {
     }
     return;
   }
-  console.error('用法：node tools/trip.mjs build|outline|describe|apply <name> [ops.json]');
+  console.error('用法：node tools/trip.mjs build|outline|describe|apply|check <name> [ops.json]，或 create <name> <標題>');
   process.exitCode = 2;
 }
 
