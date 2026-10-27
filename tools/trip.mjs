@@ -9,7 +9,7 @@
  *   node tools/trip.mjs check    <name>              檢查網頁是否跟資料檔一致（有人直接手改網頁就會不一致）
  *
  * 每天的資料：最上面「這幾天要去哪」那一行（glance）、每日行程的標題（date／place）與一條條行程（items）。
- * 可收摺的詳細資訊（moreHtml：時刻表、票價、菜單）是手寫 HTML，ops 改不到。
+ * 可收摺的詳細資訊（moreHtml：時刻表、票價、菜單）：手寫的 HTML 原樣保留；ops 可以整個換成「標題＋條列」（set_more，字一律跳脫）或拿掉（remove_more）。
  *
  * 修改內容（ops）由 LINE 群組的小帥產生、群組成員確認後才 apply。經 ops 寫進來的字一律跳脫 < >，
  * 不能塞 HTML 進公開網頁。describe／apply 輸出 JSON：{ ok, changes: [白話說明...], error? }
@@ -20,7 +20,8 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const LIMITS = { when: 12, title: 40, text: 80, sub: 120, date: 30, place: 60, note: 60, emoji: 8 };
+const LIMITS = { when: 12, title: 40, text: 80, sub: 120, date: 30, place: 60, note: 60, emoji: 8, more_title: 30, more_line: 80 };
+const MORE_MAX_LINES = 8;
 const MAX_OPS = 8;
 
 const paths = (name) => {
@@ -84,6 +85,29 @@ export function render(trip, tpl) {
     .replace('<!-- TRIP-DAYS -->', () => days);
 }
 
+/** 補充資訊（moreHtml）→ { title, lines }，給 AI 看的純文字 */
+export function moreText(html) {
+  if (!html) return null;
+  const plain = (x) => String(x).replace(/<[^>]*>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+  const title = plain(/<summary[^>]*>([\s\S]*?)<\/summary>/.exec(html)?.[1] || '補充資訊');
+  const lis = [...html.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map(m => plain(m[1])).filter(Boolean);
+  const lines = lis.length ? lis : [plain(html.replace(/<summary[\s\S]*?<\/summary>/, ''))].filter(Boolean);
+  return { title, lines };
+}
+
+function renderMore(title, lines) {
+  return [
+    '      <details class="more">',
+    `        <summary>${esc(title)}</summary>`,
+    '        <div class="inner">',
+    '          <ul>',
+    ...lines.map(l => `            <li>${esc(l)}</li>`),
+    '          </ul>',
+    '        </div>',
+    '      </details>',
+  ].join('\n');
+}
+
 export function outline(trip) {
   const lines = [];
   for (const d of trip.days) {
@@ -94,6 +118,8 @@ export function outline(trip) {
       const what = [it.title, it.text].filter(Boolean).join('');
       lines.push(`  ${d.id}-${i + 1} ${it.when || '（無時間）'} ${what}${it.sub ? `（${it.sub}）` : ''}`);
     });
+    const m = moreText(d.moreHtml);
+    if (m) lines.push(`  補充資訊「${m.title}」：${m.lines.join('／')}`.slice(0, 700));
   }
   return lines.join('\n');
 }
@@ -183,6 +209,24 @@ export function applyOps(trip, ops) {
         if (op.place !== undefined) { const v = str(op.place, 'place'); if (v !== g.place) { g.place = v; parts.push(`地點改成「${v}」`); } }
         if (op.note !== undefined) { const v = str(op.note, 'note', { allowEmpty: true }); if (v !== g.note) { g.note = v; parts.push(`備註改成「${v}」`); } }
         if (parts.length) changes.push(`行程一覽 ${g.d} ${parts.join('、')}`);
+        break;
+      }
+      case 'set_more': {
+        const title = str(op.title, 'more_title');
+        if (!Array.isArray(op.lines) || !op.lines.length) throw new Error('補充資訊至少要一行');
+        if (op.lines.length > MORE_MAX_LINES) throw new Error(`補充資訊最多 ${MORE_MAX_LINES} 行`);
+        const lines = op.lines.map(l => str(l, 'more_line'));
+        const html = renderMore(title, lines);
+        if (html === d.moreHtml) break;
+        d.moreHtml = html;
+        changes.push(`${d.id} 補充資訊改成「${title}」：${lines.join('／')}`);
+        break;
+      }
+      case 'remove_more': {
+        const m = moreText(d.moreHtml);
+        if (!m) throw new Error(`${d.id} 沒有補充資訊`);
+        delete d.moreHtml;
+        changes.push(`${d.id} 刪掉補充資訊「${m.title}」`);
         break;
       }
       default:

@@ -18,7 +18,7 @@ test('沒修改時產出與目前網頁一致', () => {
 test('outline 有一覽與每項編號', () => {
   const o = outline(load());
   assert.match(o, /D2-3 15:00 淺草和服體驗/);
-  assert.match(o, /一覽：🛍️ 三井 Outlet 木更津・摩天輪公園｜晚上：晴空塔聖誕市集 🎄/);
+  assert.match(o, /D2 12\/25（五）[^\n]*\n  一覽：👘 淺草和服體驗｜晚上：/);
   assert.match(o, /D4-2 （無時間） Kisarapia 摩天輪公園（就在 Outlet 隔壁）/);
 });
 
@@ -36,7 +36,9 @@ test('新增、刪除、拿掉說明', () => {
     { op: 'remove_item', day: 'D4', index: 3 },
     { op: 'update_item', day: 'D4', index: 1, fields: { sub: '' } },
   ]);
-  assert.deepEqual(t.days[3].items.map(i => i.title), ['三井 Outlet Park 木更津', '燒肉晚餐', '東京晴空塔聖誕市集']);
+  // 行程資料會被群組改來改去，期望值從原資料算：插在第 1 項後、再刪掉新的第 3 項（原本的第 2 項）
+  const orig = load().days[3].items.map(i => i.title);
+  assert.deepEqual(t.days[3].items.map(i => i.title), [orig[0], '燒肉晚餐', ...orig.slice(2)]);
   assert.ok(!('sub' in t.days[3].items[0]));
 });
 
@@ -87,6 +89,21 @@ test('不合法的修改會被擋', () => {
   assert.throws(() => applyOps(t, [{ op: 'update_item', day: 'D1', index: 2, fields: { text: '' } }]), /不能是空的/);
   assert.throws(() => applyOps(t, [{ op: 'drop_table', day: 'D1' }]), /不認得/);
   assert.throws(() => applyOps(t, []), /沒有修改/);
+});
+
+test('補充資訊：outline 讀得到、可以整個換掉或拿掉（字會跳脫）', () => {
+  assert.match(outline(load()), /D2[\s\S]*補充資訊「六本木聖誕市集資訊」：📍 港區六本木 6-10-1/);
+  const t = load();
+  const c = applyOps(t, [{ op: 'set_more', day: 'D2', title: '晴空塔聖誕市集資訊', lines: ['📍 晴空塔城 4F 廣場', '<script>alert(1)</script>'] }]);
+  assert.match(c[0], /D2 補充資訊改成「晴空塔聖誕市集資訊」：📍 晴空塔城 4F 廣場／/);
+  const html = render(t, tpl);
+  assert.ok(html.includes('<summary>晴空塔聖誕市集資訊</summary>'));
+  assert.ok(html.includes('<li>&lt;script&gt;alert(1)&lt;/script&gt;</li>'));
+  assert.ok(!html.includes('六本木聖誕市集資訊'));
+  assert.match(applyOps(t, [{ op: 'remove_more', day: 'D2' }])[0], /D2 刪掉補充資訊「晴空塔聖誕市集資訊」/);
+  assert.throws(() => applyOps(t, [{ op: 'remove_more', day: 'D2' }]), /沒有補充資訊/);
+  assert.throws(() => applyOps(load(), [{ op: 'set_more', day: 'D2', title: 'x', lines: [] }]), /至少要一行/);
+  assert.throws(() => applyOps(load(), [{ op: 'set_more', day: 'D2', title: 'x', lines: Array(9).fill('a') }]), /最多 8 行/);
 });
 
 console.log(`\n${pass} 項全部通過`);
