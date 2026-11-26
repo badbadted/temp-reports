@@ -170,4 +170,14 @@ test('通用版面：不合法的擋下、手刻版面不能用', () => {
   assert.throws(() => applyOps(load(), [{ op: 'add_day', date: '1/1', place: 'x' }]), /手刻版面/);
 });
 
+test('說明外面多包一層括號會拿掉，中間的括號保留', () => {
+  const t = load();
+  applyOps(t, [
+    { op: 'add_item', day: 'D4', item: { when: '19:00', title: 'A', sub: '（另外行動）' } },
+    { op: 'add_item', day: 'D4', item: { when: '20:00', title: 'B', sub: '(half)' } },
+    { op: 'add_item', day: 'D4', item: { when: '21:00', title: 'C', sub: '（甲）和（乙）' } },
+  ]);
+  assert.deepEqual(t.days[3].items.slice(-3).map(i => i.sub), ['另外行動', 'half', '（甲）和（乙）']);
+});
+
 console.log(`\n${pass} 項全部通過`);

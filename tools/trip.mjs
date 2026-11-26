@@ -327,7 +327,9 @@ function applyBaseOp(trip, op) {
 function setFields(it, f) {
   for (const k of ['when', 'title', 'text', 'sub']) {
     if (f[k] === undefined) continue;
-    const v = str(f[k], k, { allowEmpty: true });
+    let v = str(f[k], k, { allowEmpty: true });
+    // 網頁會自動幫 sub 加括號，AI 常自己再包一層 → 拿掉最外層的（）
+    if (k === 'sub') v = v.replace(/^[（(]([^（）()]*)[）)]$/, '$1').trim();
     if (k === 'when') it.when = v;
     else if (v) it[k] = v;
     else delete it[k];
