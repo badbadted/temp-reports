@@ -17,16 +17,18 @@ test('沒修改時產出與目前網頁一致', () => {
 
 test('outline 有一覽與每項編號', () => {
   const o = outline(load());
-  assert.match(o, /D2-3 15:00 淺草和服體驗/);
+  assert.match(o, /D2-\d+ 15:00 淺草和服體驗/);
   assert.match(o, /D2 12\/25（五）[^\n]*\n  一覽：👘 淺草和服體驗｜晚上：/);
   assert.match(o, /D4-2 （無時間） Kisarapia 摩天輪公園（就在 Outlet 隔壁）/);
 });
 
 test('改時間、標題、說明', () => {
   const t = load();
-  const c = applyOps(t, [{ op: 'update_item', day: 'D2', index: 3, fields: { when: '16:00', sub: '記得預約' } }]);
-  assert.match(c[0], /D2 第 3 項「15:00 淺草和服體驗」改成「16:00 淺草和服體驗（記得預約）」/);
-  assert.match(render(t, tpl), /<span class="when">16:00<\/span><span class="what"><strong>淺草和服體驗<\/strong><span class="sub">記得預約<\/span>/);
+  // 群組會在 D2 插項目，編號從資料找
+  const n = t.days[1].items.findIndex(i => i.title === '淺草和服體驗') + 1;
+  const c = applyOps(t, [{ op: 'update_item', day: 'D2', index: n, fields: { when: '16:00', sub: '記得預約' } }]);
+  assert.match(c[0], new RegExp(`D2 第 ${n} 項「15:00 淺草和服體驗」`));
+  assert.match(c[0], /」改成「16:00 淺草和服體驗（記得預約）」/);  assert.match(render(t, tpl), /<span class="when">16:00<\/span><span class="what"><strong>淺草和服體驗<\/strong><span class="sub">記得預約<\/span>/);
 });
 
 test('新增、刪除、拿掉說明', () => {
