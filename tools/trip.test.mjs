@@ -1,7 +1,7 @@
 // node tools/trip.test.mjs
 import assert from 'node:assert/strict';
 import { readFileSync } from 'fs';
-import { applyOps, outline, render, isBase } from './trip.mjs';
+import { applyOps, outline, render, isBase, kindOf, KINDS } from './trip.mjs';
 
 const load = () => JSON.parse(readFileSync(new URL('../trips/christmas-ski-trip.json', import.meta.url), 'utf8'));
 const tpl = readFileSync(new URL('../trips/christmas-ski-trip.template.html', import.meta.url), 'utf8');
@@ -188,6 +188,55 @@ test('說明外面多包一層括號會拿掉，中間的括號保留', () => {
     { op: 'add_item', day: 'D4', item: { when: '21:00', title: 'C', sub: '（甲）和（乙）' } },
   ]);
   assert.deepEqual(t.days[3].items.slice(-3).map(i => i.sub), ['另外行動', 'half', '（甲）和（乙）']);
+});
+
+test('項目分類：關鍵字與優先順序', () => {
+  const k = (title, text) => kindOf({ when: '', title, text });
+  assert.equal(k('錦糸町 → 東京站'), 'move');
+  assert.equal(k('新宿 → 錦糸町', '（晚餐／回飯店）'), 'move');       // 箭頭優先於用餐
+  assert.equal(k('搭三俣纜車上山'), 'move');
+  assert.equal(k('高雄出發'), 'move');
+  assert.equal(k('歸還雪具、領行李、買便當'), 'prep');                // 手續優先於用餐
+  assert.equal(k('櫻雪具出租 租借雪具與著裝'), 'prep');
+  assert.equal(k(undefined, '入住錦糸町'), 'prep');
+  assert.equal(k('晚餐方案 A：會場旁先吃'), 'food');
+  assert.equal(k('豐洲市場', '吃早餐逛市場'), 'food');
+  assert.equal(k('神樂滑雪場 滑雪課程', '（請教練）'), 'ski');
+  assert.equal(k('進階新手組', '：Sunrise Express 上山腰'), 'ski');
+  assert.equal(k('冬季巡遊雪景公園'), 'sight');                        // 有「雪」但不是滑雪
+  assert.equal(k(undefined, 'Sanrio 旗艦店 + Cafe 🎀'), 'sight');
+  assert.equal(k('淺草和服體驗'), 'sight');                            // 都沒中算活動
+  // sub 不參與判斷
+  assert.equal(kindOf({ when: '', title: '橫濱 YORUNOYO 燈光藝術秀', sub: '搭巴士、吃晚餐' }), 'sight');
+});
+
+test('項目分類：type 覆寫、改標題後回到自動判斷', () => {
+  assert.equal(kindOf({ title: '十和田湖巴士', type: 'sight' }), 'sight');
+  assert.equal(kindOf({ title: '十和田湖巴士', type: 'constructor' }), 'move'); // 不合法的 type 不理
+  const t = load();
+  t.days[0].items[0].type = 'food';
+  assert.match(render(t, tpl), /id="d1"[\s\S]*?<ul class="plan">\n        <li class="k-food"><span class="when">/);
+  applyOps(t, [{ op: 'update_item', day: 'D1', index: 1, fields: { sub: '改說明' } }]);
+  assert.equal(t.days[0].items[0].type, 'food');                      // 只改說明：保留
+  applyOps(t, [{ op: 'update_item', day: 'D1', index: 1, fields: { title: '高雄出發' } }]);
+  assert.ok(!('type' in t.days[0].items[0]));                         // 改標題：拿掉
+});
+
+test('項目分類：每一項都有類別，兩個模板的配色區塊一致', () => {
+  const t = load();
+  const html = render(t, tpl);
+  const n = t.days.reduce((s, d) => s + d.items.length, 0);
+  assert.equal((html.match(/<li class="k-(move|ski|food|sight|prep)"><span class="when">/g) || []).length, n);
+  assert.ok(!html.includes('<li><span class="when">'));
+  const block = (s) => /KIND-BEGIN[\s\S]*?KIND-END/.exec(lf(s))?.[0];
+  assert.ok(block(tpl));
+  assert.equal(block(tpl), block(baseTpl));
+  for (const [k, name] of Object.entries(KINDS)) assert.ok(block(tpl).includes(`.plan li.k-${k} .what::before { content: "${name}"; }`), k); // 標籤字跟 KINDS 一致
+});
+
+test('通用版面的行程網頁也與資料一致', () => {
+  const snow = JSON.parse(readFileSync(new URL('../trips/snow-trip-2027.json', import.meta.url), 'utf8'));
+  assert.equal(render(snow, baseTpl), lf(readFileSync(new URL('../snow-trip-2027.html', import.meta.url), 'utf8')));
 });
 
 console.log(`\n${pass} 項全部通過`);

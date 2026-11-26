@@ -73,4 +73,5 @@ git add trips/<名稱>.json <名稱>.html
 - Mac 上的 clone 在 `~/apps/temp-reports`，小帥每次改之前會 pull；那份 clone 有未提交的改動時，小帥會暫停更新。
 - 行程結束後可以 `/小帥 行程 取消` 解除綁定；網頁留著當紀念，不用刪。
 - 網頁是公開的：不要放護照號碼、電話、訂位代號這類個資。
+- 每一項行程依文字自動上色、加標籤（交通／滑雪／用餐／活動／手續，規則在 `tools/trip.mjs` 的 `kindOf()`）。判錯時在 `trips/<名稱>.json` 該項加 `"type": "move|ski|food|sight|prep"` 再 build；改了該項標題或內容，手動的 `type` 會自動拿掉。兩個模板的 `KIND-BEGIN`～`KIND-END` 要一起改（測試會比對）。
 - 每日行程是日期切換（一次顯示一天，另有「全部」籤）；網址帶 `#d3` 直接開那天，沒帶的話旅行期間開當天、其餘開 D1。沒有 JS、列印、小帥截圖（自動化瀏覽器，`navigator.webdriver` 為 true）時維持全部直排，改分頁 script 時不能拿掉這個判斷。兩個模板的 `TABS-BEGIN`～`TABS-END` 區塊要一起改（測試會比對）；本機用 Playwright 看分頁要在網址加 `?tabs=1`。

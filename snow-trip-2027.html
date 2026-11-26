@@ -107,6 +107,26 @@ header .meta { font-size: 0.85rem; color: var(--t2); margin-top: 0.2rem; }
 .plan .what { flex: 1; }
 .plan .what strong { font-weight: 700; }
 .plan .sub { display: block; font-size: 0.8rem; color: var(--t2); }
+/* ===== 行程項目分類上色 KIND-BEGIN：類別由 tools/trip.mjs 的 kindOf() 判斷；兩個模板這段要一樣（測試會比對） ===== */
+.plan li[class^="k-"] { gap: 0.55rem; }
+.plan li[class^="k-"] .what { border-left: 3px solid var(--k); padding-left: 0.55rem; }
+.plan li[class^="k-"] .what::before {
+  display: inline-block; margin-right: 0.4rem; padding: 0 0.4rem;
+  border-radius: 5px; font-size: 0.7rem; font-weight: 700; line-height: 1.5;
+  vertical-align: 0.08em; white-space: nowrap;
+  color: var(--k-t); background: var(--k-bg);
+}
+.plan li.k-move  { --k: var(--blue);  --k-t: var(--blue);  --k-bg: var(--blue-bg); }
+.plan li.k-move .what::before { content: "交通"; }
+.plan li.k-ski   { --k: var(--green); --k-t: var(--green); --k-bg: var(--green-bg); }
+.plan li.k-ski .what::before { content: "滑雪"; }
+.plan li.k-food  { --k: var(--gold);  --k-t: #8f5f0e;      --k-bg: var(--gold-bg); }
+.plan li.k-food .what::before { content: "用餐"; }
+.plan li.k-sight { --k: #7b4397;      --k-t: #7b4397;      --k-bg: #f3ecf8; }
+.plan li.k-sight .what::before { content: "活動"; }
+.plan li.k-prep  { --k: #8a7d6f;      --k-t: #6b6157;      --k-bg: #f1ede6; }
+.plan li.k-prep .what::before { content: "手續"; }
+/* KIND-END */
 
 /* details 摺疊 */
 details.more {
@@ -365,8 +385,8 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">13:05</span><span class="what"><strong>高雄出發</strong><span class="sub">華航 KHH → 成田 T2，17:25 抵達｜品岑家、陳二銘家、葶家、多家</span></span></li>
-        <li><span class="when">晚上</span><span class="what">入住錦糸町</span></li>
+        <li class="k-move"><span class="when">13:05</span><span class="what"><strong>高雄出發</strong><span class="sub">華航 KHH → 成田 T2，17:25 抵達｜品岑家、陳二銘家、葶家、多家</span></span></li>
+        <li class="k-prep"><span class="when">晚上</span><span class="what">入住錦糸町</span></li>
       </ul>
     </div>
   </div>
@@ -379,8 +399,8 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">白天</span><span class="what"><strong>岩原滑雪場</strong></span></li>
-        <li><span class="when">晚上</span><span class="what"><strong>東京巨蛋城冬季點燈</strong></span></li>
+        <li class="k-ski"><span class="when">白天</span><span class="what"><strong>岩原滑雪場</strong></span></li>
+        <li class="k-sight"><span class="when">晚上</span><span class="what"><strong>東京巨蛋城冬季點燈</strong></span></li>
       </ul>
     </div>
   </div>
@@ -393,8 +413,8 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">白天</span><span class="what"><strong>橫濱・鎌倉＋江之島</strong></span></li>
-        <li><span class="when">晚上</span><span class="what"><strong>江之島湘南寶石</strong><span class="sub">江之島冬季點燈</span></span></li>
+        <li class="k-sight"><span class="when">白天</span><span class="what"><strong>橫濱・鎌倉＋江之島</strong></span></li>
+        <li class="k-sight"><span class="when">晚上</span><span class="what"><strong>江之島湘南寶石</strong><span class="sub">江之島冬季點燈</span></span></li>
       </ul>
     </div>
   </div>
@@ -407,8 +427,8 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">白天</span><span class="what"><strong>湯澤中里滑雪場</strong></span></li>
-        <li><span class="when">11:30</span><span class="what"><strong>第二批出發：妞嬤</strong><span class="sub">聯合 KHH → 成田 T1，15:55 抵達</span></span></li>
+        <li class="k-ski"><span class="when">白天</span><span class="what"><strong>湯澤中里滑雪場</strong></span></li>
+        <li class="k-move"><span class="when">11:30</span><span class="what"><strong>第二批出發：妞嬤</strong><span class="sub">聯合 KHH → 成田 T1，15:55 抵達</span></span></li>
       </ul>
     </div>
   </div>
@@ -421,8 +441,8 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">白天</span><span class="what"><strong>讀賣樂園</strong></span></li>
-        <li><span class="when">晚上</span><span class="what"><strong>讀賣樂園點燈</strong></span></li>
+        <li class="k-sight"><span class="when">白天</span><span class="what"><strong>讀賣樂園</strong></span></li>
+        <li class="k-sight"><span class="when">晚上</span><span class="what"><strong>讀賣樂園點燈</strong></span></li>
       </ul>
     </div>
   </div>
@@ -435,8 +455,8 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">白天</span><span class="what"><strong>移動日</strong><span class="sub">東京 → 青森，入住星野 青森屋</span></span></li>
-        <li><span class="when">21:00</span><span class="what"><strong>陸奧祭屋</strong><span class="sub">青森屋的祭典表演</span></span></li>
+        <li class="k-move"><span class="when">白天</span><span class="what"><strong>移動日</strong><span class="sub">東京 → 青森，入住星野 青森屋</span></span></li>
+        <li class="k-sight"><span class="when">21:00</span><span class="what"><strong>陸奧祭屋</strong><span class="sub">青森屋的祭典表演</span></span></li>
       </ul>
     </div>
   </div>
@@ -449,8 +469,8 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">9:00</span><span class="what"><strong>冬季巡遊雪景公園</strong><span class="sub">這梯 6 位</span></span></li>
-        <li><span class="when">9:30</span><span class="what"><strong>冬季巡遊雪景公園</strong><span class="sub">這梯 4 位</span></span></li>
+        <li class="k-sight"><span class="when">9:00</span><span class="what"><strong>冬季巡遊雪景公園</strong><span class="sub">這梯 6 位</span></span></li>
+        <li class="k-sight"><span class="when">9:30</span><span class="what"><strong>冬季巡遊雪景公園</strong><span class="sub">這梯 4 位</span></span></li>
       </ul>
     </div>
   </div>
@@ -463,14 +483,14 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">8:45</span><span class="what"><strong>其他人：青森屋接駁車 → 三澤站</strong><span class="sub">12 位已預約，09:06 抵達三澤，09:26 到八戶</span></span></li>
-        <li><span class="when">9:38</span><span class="what"><strong>其他人：八戶站搭新幹線 → 東京</strong><span class="sub">12:32 抵達東京</span></span></li>
-        <li><span class="when">9:45</span><span class="what"><strong>妞家：青森屋出發</strong><span class="sub">妞家＋妞嬤</span></span></li>
-        <li><span class="when">10:45</span><span class="what"><strong>妞家：奧入瀨</strong></span></li>
-        <li><span class="when">13:00</span><span class="what"><strong>妞家：十和田湖巴士</strong><span class="sub">15:00 回</span></span></li>
-        <li><span class="when">15:03</span><span class="what"><strong>其他人：東京 → 成田機場第二航廈</strong><span class="sub">15:53 抵達；也可搭 14:33（15:23 到）或 15:33（16:23 到）</span></span></li>
-        <li><span class="when">18:25</span><span class="what"><strong>其他人：回程</strong><span class="sub">華航 成田 T2 → KHH，22:05 抵達高雄</span></span></li>
-        <li><span class="when">晚上</span><span class="what"><strong>妞家：入住星野 奧入瀨溪流飯店</strong><span class="sub">住 3 晚，2/9 回</span></span></li>
+        <li class="k-move"><span class="when">8:45</span><span class="what"><strong>其他人：青森屋接駁車 → 三澤站</strong><span class="sub">12 位已預約，09:06 抵達三澤，09:26 到八戶</span></span></li>
+        <li class="k-move"><span class="when">9:38</span><span class="what"><strong>其他人：八戶站搭新幹線 → 東京</strong><span class="sub">12:32 抵達東京</span></span></li>
+        <li class="k-move"><span class="when">9:45</span><span class="what"><strong>妞家：青森屋出發</strong><span class="sub">妞家＋妞嬤</span></span></li>
+        <li class="k-sight"><span class="when">10:45</span><span class="what"><strong>妞家：奧入瀨</strong></span></li>
+        <li class="k-move"><span class="when">13:00</span><span class="what"><strong>妞家：十和田湖巴士</strong><span class="sub">15:00 回</span></span></li>
+        <li class="k-move"><span class="when">15:03</span><span class="what"><strong>其他人：東京 → 成田機場第二航廈</strong><span class="sub">15:53 抵達；也可搭 14:33（15:23 到）或 15:33（16:23 到）</span></span></li>
+        <li class="k-move"><span class="when">18:25</span><span class="what"><strong>其他人：回程</strong><span class="sub">華航 成田 T2 → KHH，22:05 抵達高雄</span></span></li>
+        <li class="k-prep"><span class="when">晚上</span><span class="what"><strong>妞家：入住星野 奧入瀨溪流飯店</strong><span class="sub">住 3 晚，2/9 回</span></span></li>
       </ul>
     </div>
   </div>
@@ -507,12 +527,12 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">8:30</span><span class="what"><strong>妞嬤：星野奧入瀨出發，計程車到八戶站</strong><span class="sub">約 70 分鐘</span></span></li>
-        <li><span class="when">9:00</span><span class="what"><strong>妞媽跟妞：巴士往青森機場</strong><span class="sub">12:00 抵達青森機場</span></span></li>
-        <li><span class="when">10:17</span><span class="what"><strong>妞嬤：八戶站搭新幹線 → 東京</strong><span class="sub">13:04 抵達東京</span></span></li>
-        <li><span class="when">14:33</span><span class="what"><strong>妞嬤：東京出發往成田第一航廈</strong><span class="sub">15:27 抵達成田 T1</span></span></li>
-        <li><span class="when">15:30</span><span class="what"><strong>妞媽跟妞搭長榮 青森 AOJ 起飛</strong><span class="sub">19:00 抵達台北 TPE</span></span></li>
-        <li><span class="when">17:50</span><span class="what"><strong>妞嬤搭聯合 成田 T1 起飛</strong><span class="sub">21:25 抵達高雄 KHH</span></span></li>
+        <li class="k-move"><span class="when">8:30</span><span class="what"><strong>妞嬤：星野奧入瀨出發，計程車到八戶站</strong><span class="sub">約 70 分鐘</span></span></li>
+        <li class="k-move"><span class="when">9:00</span><span class="what"><strong>妞媽跟妞：巴士往青森機場</strong><span class="sub">12:00 抵達青森機場</span></span></li>
+        <li class="k-move"><span class="when">10:17</span><span class="what"><strong>妞嬤：八戶站搭新幹線 → 東京</strong><span class="sub">13:04 抵達東京</span></span></li>
+        <li class="k-move"><span class="when">14:33</span><span class="what"><strong>妞嬤：東京出發往成田第一航廈</strong><span class="sub">15:27 抵達成田 T1</span></span></li>
+        <li class="k-move"><span class="when">15:30</span><span class="what"><strong>妞媽跟妞搭長榮 青森 AOJ 起飛</strong><span class="sub">19:00 抵達台北 TPE</span></span></li>
+        <li class="k-move"><span class="when">17:50</span><span class="what"><strong>妞嬤搭聯合 成田 T1 起飛</strong><span class="sub">21:25 抵達高雄 KHH</span></span></li>
       </ul>
     </div>
   </div>

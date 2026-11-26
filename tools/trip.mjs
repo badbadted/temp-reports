@@ -14,6 +14,7 @@
  * 小帥也能用 set_meta／set_info／remove_info／add_link／remove_link／add_day／remove_day 改。開新行程一律用通用版面。
  *
  * 每天的資料：最上面「這幾天要去哪」那一行（glance）、每日行程的標題（date／place）與一條條行程（items）。
+ * 每項行程的顏色與標籤（交通／滑雪／用餐／活動／手續）由 kindOf() 依文字判斷；判錯時在 JSON 該項加 "type": "move|ski|food|sight|prep"。
  * 可收摺的詳細資訊（moreHtml：時刻表、票價、菜單）：手寫的 HTML 原樣保留；ops 可以整個換成「標題＋條列」（set_more，字一律跳脫）或拿掉（remove_more）。
  *
  * 修改內容（ops）由 LINE 群組的小帥產生、群組成員確認後才 apply。經 ops 寫進來的字一律跳脫 < >，
@@ -63,11 +64,34 @@ function renderGlance(d) {
   ].join('\n');
 }
 
+// ── 行程項目分類（上色用）─────────────────────────────
+// 類別 → 標籤名稱。網頁上的顏色與標籤字在模板的 KIND-BEGIN～KIND-END（.k-<類別>），改名要兩邊一起改
+export const KINDS = { move: '交通', ski: '滑雪', food: '用餐', sight: '活動', prep: '手續' };
+
+// 由上往下，第一個符合的算數；只看 title＋text，不看 sub（sub 雜訊多，例如交通項的說明常提到便當）
+const KIND_RULES = [
+  ['move', /→|⇄|↔|➜|->/],                                   // 有箭頭就是移動，最優先
+  ['prep', /租借|歸還|還雪具|領裝備|著裝|換裝|寄放|寄物|置物櫃|入住|退房|check ?-?(in|out)/i], // 要排在用餐前：「歸還雪具、領行李、買便當」
+  ['food', /早餐|午餐|晚餐|宵夜|早午餐|午茶|吃|用餐|餐廳|便當|燒肉|拉麵|壽司|居酒屋|咖啡|甜點|美食/],
+  ['move', /出發|抵達|回程|起飛|降落|飛往|航班|班機|機場|搭|轉乘|轉車|新幹線|巴士|bus|接駁|計程車|電車|地鐵|纜車|移動|前往|步行/i], // 要排在滑雪前：「搭纜車上山」
+  ['ski', /滑雪|雪場|雪道|玩雪|雪橇|雪上|雪板|單板|雙板|魔毯|教練|初學|新手/],
+];
+
+/** 這項行程的類別：資料有合法的 type 就用它，否則依關鍵字判斷，都沒中算「活動」 */
+export function kindOf(it) {
+  if (Object.prototype.hasOwnProperty.call(KINDS, it.type)) return it.type;
+  const head = `${it.title || ''}${it.text || ''}`;
+  for (const [k, re] of KIND_RULES) if (re.test(head)) return k;
+  return 'sight';
+}
+
 function renderItem(it) {
+  const k = kindOf(it);
   const what = (it.title !== undefined ? `<strong>${esc(it.title)}</strong>` : '')
     + esc(it.text || '')
     + (it.sub !== undefined ? `<span class="sub">${esc(it.sub)}</span>` : '');
-  return `        <li><span class="when">${esc(it.when)}</span><span class="what">${what}</span></li>`;
+  // 類別標籤由模板 CSS 依 class 畫出（::before），複製行程文字時不會多出標籤
+  return `        <li class="k-${k}"><span class="when">${esc(it.when)}</span><span class="what">${what}</span></li>`;
 }
 
 function renderDay(d) {
@@ -334,6 +358,8 @@ function setFields(it, f) {
     else if (v) it[k] = v;
     else delete it[k];
   }
+  // 標題或內容被改了：手動指定的類別（type）可能不再適用，拿掉改回自動判斷
+  if (f.title !== undefined || f.text !== undefined) delete it.type;
   if (!it.title && !it.text) throw new Error('行程內容不能是空的');
 }
 

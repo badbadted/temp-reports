@@ -108,6 +108,26 @@ header .meta { font-size: 0.85rem; color: var(--t2); margin-top: 0.2rem; }
 .plan .what { flex: 1; }
 .plan .what strong { font-weight: 700; }
 .plan .sub { display: block; font-size: 0.8rem; color: var(--t2); }
+/* ===== 行程項目分類上色 KIND-BEGIN：類別由 tools/trip.mjs 的 kindOf() 判斷；兩個模板這段要一樣（測試會比對） ===== */
+.plan li[class^="k-"] { gap: 0.55rem; }
+.plan li[class^="k-"] .what { border-left: 3px solid var(--k); padding-left: 0.55rem; }
+.plan li[class^="k-"] .what::before {
+  display: inline-block; margin-right: 0.4rem; padding: 0 0.4rem;
+  border-radius: 5px; font-size: 0.7rem; font-weight: 700; line-height: 1.5;
+  vertical-align: 0.08em; white-space: nowrap;
+  color: var(--k-t); background: var(--k-bg);
+}
+.plan li.k-move  { --k: var(--blue);  --k-t: var(--blue);  --k-bg: var(--blue-bg); }
+.plan li.k-move .what::before { content: "交通"; }
+.plan li.k-ski   { --k: var(--green); --k-t: var(--green); --k-bg: var(--green-bg); }
+.plan li.k-ski .what::before { content: "滑雪"; }
+.plan li.k-food  { --k: var(--gold);  --k-t: #8f5f0e;      --k-bg: var(--gold-bg); }
+.plan li.k-food .what::before { content: "用餐"; }
+.plan li.k-sight { --k: #7b4397;      --k-t: #7b4397;      --k-bg: #f3ecf8; }
+.plan li.k-sight .what::before { content: "活動"; }
+.plan li.k-prep  { --k: #8a7d6f;      --k-t: #6b6157;      --k-bg: #f1ede6; }
+.plan li.k-prep .what::before { content: "手續"; }
+/* KIND-END */
 
 /* details 摺疊 */
 details.more {
@@ -323,10 +343,10 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">07:00</span><span class="what"><strong>淇家出發</strong><span class="sub">長榮 KHH → 成田 T1，11:25 抵達</span></span></li>
-        <li><span class="when">~12:00</span><span class="what">Sanrio 旗艦店 + Cafe 🎀</span></li>
-        <li><span class="when">13:05</span><span class="what"><strong>妞媽・鈞・岑出發</strong><span class="sub">華航 KHH → 成田 T2，17:25 抵達</span></span></li>
-        <li><span class="when">晚上</span><span class="what"><strong>WATERRAS ILLUMINATION 或六本木夜景</strong><span class="sub">伺機而動，看當天狀況</span></span></li>
+        <li class="k-move"><span class="when">07:00</span><span class="what"><strong>淇家出發</strong><span class="sub">長榮 KHH → 成田 T1，11:25 抵達</span></span></li>
+        <li class="k-sight"><span class="when">~12:00</span><span class="what">Sanrio 旗艦店 + Cafe 🎀</span></li>
+        <li class="k-move"><span class="when">13:05</span><span class="what"><strong>妞媽・鈞・岑出發</strong><span class="sub">華航 KHH → 成田 T2，17:25 抵達</span></span></li>
+        <li class="k-sight"><span class="when">晚上</span><span class="what"><strong>WATERRAS ILLUMINATION 或六本木夜景</strong><span class="sub">伺機而動，看當天狀況</span></span></li>
       </ul>
     </div>
   </div>
@@ -339,11 +359,11 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">全天</span><span class="what"><strong>淇跟香港朋友 富士山一日遊</strong><span class="sub">淇和香港朋友另外行動</span></span></li>
-        <li><span class="when">上午</span><span class="what"><strong>剩餘成員抵達</strong><span class="sub">恩爸 07:00 長榮（11:25 到）／ 恩+媽・妞 08:00 華航（12:20 到）／ 多家 13:05 華航（17:25 到）</span></span></li>
-        <li><span class="when">~11:00</span><span class="what">先到的人逛街購物 🛍️</span></li>
-        <li><span class="when">15:00</span><span class="what"><strong>淺草和服體驗</strong></span></li>
-        <li><span class="when">晚上</span><span class="what"><strong>晴空塔聖誕市集</strong></span></li>
+        <li class="k-sight"><span class="when">全天</span><span class="what"><strong>淇跟香港朋友 富士山一日遊</strong><span class="sub">淇和香港朋友另外行動</span></span></li>
+        <li class="k-move"><span class="when">上午</span><span class="what"><strong>剩餘成員抵達</strong><span class="sub">恩爸 07:00 長榮（11:25 到）／ 恩+媽・妞 08:00 華航（12:20 到）／ 多家 13:05 華航（17:25 到）</span></span></li>
+        <li class="k-sight"><span class="when">~11:00</span><span class="what">先到的人逛街購物 🛍️</span></li>
+        <li class="k-sight"><span class="when">15:00</span><span class="what"><strong>淺草和服體驗</strong></span></li>
+        <li class="k-sight"><span class="when">晚上</span><span class="what"><strong>晴空塔聖誕市集</strong></span></li>
       </ul>
     </div>
   </div>
@@ -356,21 +376,21 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">06:20–06:35</span><span class="what"><strong>錦糸町 → 東京站</strong><span class="sub">JR 總武線快速直達，刷東京廣域周遊券進站</span></span></li>
-        <li><span class="when">07:04–08:10</span><span class="what"><strong>東京 → 越後湯澤</strong><span class="sub">上越新幹線指定席（東京廣域周遊券）</span></span></li>
-        <li><span class="when">08:10–09:00</span><span class="what"><strong>櫻雪具出租 租借雪具與著裝</strong>（10 大 8 小）<span class="sub">領裝備換裝、寄放背包；完成一組先分批往東口移動</span></span></li>
-        <li><span class="when">09:10–09:28</span><span class="what"><strong>越後湯澤站東口 → 神樂三俣站</strong><span class="sub">急行巴士（湯澤～神樂～苗場線），另刷西瓜卡或付現｜備案：分批搭計程車約 15 分鐘</span></span></li>
-        <li><span class="when">09:30–09:50</span><span class="what"><strong>搭三俣纜車上山</strong><span class="sub">購票／兌換纜車票，上山到神樂滑雪場集合</span></span></li>
-        <li><span class="when">10:00–16:00</span><span class="what"><strong>神樂滑雪場 滑雪課程</strong>（請教練）<span class="sub">10 大 8 小</span></span></li>
-        <li><span class="when">15:40–16:00</span><span class="what"><strong>提前收操、搭纜車下山</strong><span class="sub">15:40 滑回三俣纜車站下山，避開整點排隊人潮</span></span></li>
-        <li><span class="when">16:34–16:55</span><span class="what"><strong>かぐら三俣 → 越後湯澤站</strong><span class="sub">回程急行巴士，到越後湯澤站東口</span></span></li>
-        <li><span class="when">16:55–17:35</span><span class="what"><strong>歸還雪具、領行李、買晚餐</strong><span class="sub">回櫻雪具出租還裝備、領寄放行李，順便在站內買便當</span></span></li>
-        <li><span class="when">17:41–19:00</span><span class="what"><strong>越後湯澤 → 東京</strong>（主力劃位班次）<span class="sub">上越新幹線｜提早還完裝備可在發車前免費改搭 17:16；錯過指定席就憑周遊券改搭後續班次自由席</span></span></li>
-        <li><span class="when">19:10–19:25</span><span class="what"><strong>東京站 → 新宿站</strong><span class="sub">站內轉乘 JR 中央線快速，刷周遊券免出站</span></span></li>
-        <li><span class="when">19:25</span><span class="what"><strong>新宿西口地下置物櫃 寄放背包</strong><span class="sub">JR 新宿站 B1F 西口檢票口外（往大江戶線／西口地下連絡道），就在往都廳的地下道入口旁，看完原路回來拿｜18 人的隨身包集中放 2～3 個 L 櫃，可先上 JR Multi-Ecube 網站查西口／中央西口空位</span></span></li>
-        <li><span class="when">19:25–19:40</span><span class="what"><strong>新宿西口 → 東京都廳舍都民廣場</strong><span class="sub">走新宿西口地下連絡道，步行約 10–12 分鐘</span></span></li>
-        <li><span class="when">20:00–20:15</span><span class="what"><strong>「TOKYO Night & Light」光雕秀</strong><span class="sub">免費免預約｜晚間場次 19:30／20:00／20:30／21:30，每場約 15 分鐘</span></span></li>
-        <li><span class="when">20:30–21:05</span><span class="what"><strong>新宿 → 錦糸町</strong>（晚餐／回飯店）<span class="sub">JR 中央・總武線各站停車直達｜18 人晚餐備案（建議預約 21:00）：燒肉的和民 錦糸町南口站前店（可拆 3–4 桌）／すし土風炉 錦糸町站前廣場大廈店（和室包廂）</span></span></li>
+        <li class="k-move"><span class="when">06:20–06:35</span><span class="what"><strong>錦糸町 → 東京站</strong><span class="sub">JR 總武線快速直達，刷東京廣域周遊券進站</span></span></li>
+        <li class="k-move"><span class="when">07:04–08:10</span><span class="what"><strong>東京 → 越後湯澤</strong><span class="sub">上越新幹線指定席（東京廣域周遊券）</span></span></li>
+        <li class="k-prep"><span class="when">08:10–09:00</span><span class="what"><strong>櫻雪具出租 租借雪具與著裝</strong>（10 大 8 小）<span class="sub">領裝備換裝、寄放背包；完成一組先分批往東口移動</span></span></li>
+        <li class="k-move"><span class="when">09:10–09:28</span><span class="what"><strong>越後湯澤站東口 → 神樂三俣站</strong><span class="sub">急行巴士（湯澤～神樂～苗場線），另刷西瓜卡或付現｜備案：分批搭計程車約 15 分鐘</span></span></li>
+        <li class="k-move"><span class="when">09:30–09:50</span><span class="what"><strong>搭三俣纜車上山</strong><span class="sub">購票／兌換纜車票，上山到神樂滑雪場集合</span></span></li>
+        <li class="k-ski"><span class="when">10:00–16:00</span><span class="what"><strong>神樂滑雪場 滑雪課程</strong>（請教練）<span class="sub">10 大 8 小</span></span></li>
+        <li class="k-move"><span class="when">15:40–16:00</span><span class="what"><strong>提前收操、搭纜車下山</strong><span class="sub">15:40 滑回三俣纜車站下山，避開整點排隊人潮</span></span></li>
+        <li class="k-move"><span class="when">16:34–16:55</span><span class="what"><strong>かぐら三俣 → 越後湯澤站</strong><span class="sub">回程急行巴士，到越後湯澤站東口</span></span></li>
+        <li class="k-prep"><span class="when">16:55–17:35</span><span class="what"><strong>歸還雪具、領行李、買晚餐</strong><span class="sub">回櫻雪具出租還裝備、領寄放行李，順便在站內買便當</span></span></li>
+        <li class="k-move"><span class="when">17:41–19:00</span><span class="what"><strong>越後湯澤 → 東京</strong>（主力劃位班次）<span class="sub">上越新幹線｜提早還完裝備可在發車前免費改搭 17:16；錯過指定席就憑周遊券改搭後續班次自由席</span></span></li>
+        <li class="k-move"><span class="when">19:10–19:25</span><span class="what"><strong>東京站 → 新宿站</strong><span class="sub">站內轉乘 JR 中央線快速，刷周遊券免出站</span></span></li>
+        <li class="k-prep"><span class="when">19:25</span><span class="what"><strong>新宿西口地下置物櫃 寄放背包</strong><span class="sub">JR 新宿站 B1F 西口檢票口外（往大江戶線／西口地下連絡道），就在往都廳的地下道入口旁，看完原路回來拿｜18 人的隨身包集中放 2～3 個 L 櫃，可先上 JR Multi-Ecube 網站查西口／中央西口空位</span></span></li>
+        <li class="k-move"><span class="when">19:25–19:40</span><span class="what"><strong>新宿西口 → 東京都廳舍都民廣場</strong><span class="sub">走新宿西口地下連絡道，步行約 10–12 分鐘</span></span></li>
+        <li class="k-sight"><span class="when">20:00–20:15</span><span class="what"><strong>「TOKYO Night & Light」光雕秀</strong><span class="sub">免費免預約｜晚間場次 19:30／20:00／20:30／21:30，每場約 15 分鐘</span></span></li>
+        <li class="k-move"><span class="when">20:30–21:05</span><span class="what"><strong>新宿 → 錦糸町</strong>（晚餐／回飯店）<span class="sub">JR 中央・總武線各站停車直達｜18 人晚餐備案（建議預約 21:00）：燒肉的和民 錦糸町南口站前店（可拆 3–4 桌）／すし土風炉 錦糸町站前廣場大廈店（和室包廂）</span></span></li>
       </ul>
       <details class="more">
         <summary>神樂接駁巴士時刻表（12/26 週六適用「土・休日型」）</summary>
@@ -413,10 +433,10 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">全天</span><span class="what"><strong>三井 Outlet Park 木更津</strong></span></li>
-        <li><span class="when"></span><span class="what"><strong>Kisarapia 摩天輪公園</strong><span class="sub">就在 Outlet 隔壁</span></span></li>
-        <li><span class="when">晚上</span><span class="what"><strong>青之洞窟 SHIBUYA</strong><span class="sub">點燈期間到 12/27，這天是最後一天</span></span></li>
-        <li><span class="when">晚上</span><span class="what"><strong>澀谷街頭體驗</strong></span></li>
+        <li class="k-sight"><span class="when">全天</span><span class="what"><strong>三井 Outlet Park 木更津</strong></span></li>
+        <li class="k-sight"><span class="when"></span><span class="what"><strong>Kisarapia 摩天輪公園</strong><span class="sub">就在 Outlet 隔壁</span></span></li>
+        <li class="k-sight"><span class="when">晚上</span><span class="what"><strong>青之洞窟 SHIBUYA</strong><span class="sub">點燈期間到 12/27，這天是最後一天</span></span></li>
+        <li class="k-sight"><span class="when">晚上</span><span class="what"><strong>澀谷街頭體驗</strong></span></li>
       </ul>
     </div>
   </div>
@@ -429,24 +449,24 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">07:05–07:20</span><span class="what"><strong>錦糸町 → 東京站</strong><span class="sub">JR 總武線快速直達，刷東京廣域周遊券進站</span></span></li>
-        <li><span class="when">07:48–09:05</span><span class="what"><strong>東京 → 越後湯澤</strong><span class="sub">上越新幹線指定席（東京廣域周遊券）｜約 09:00 抵達，依 Ekinet 實際班次為準</span></span></li>
-        <li><span class="when">09:05–09:45</span><span class="what"><strong>櫻雪具 領裝備與著裝</strong>（12 大 10 小）<span class="sub">淇媽朋友一家這天加入｜依預約時段領雪衣、雪靴、雪板並換裝、寄放背包；完成一組先分批往東口移動</span></span></li>
-        <li><span class="when">09:45–10:15</span><span class="what"><strong>越後湯澤站東口 → 石打丸山中央口</strong><span class="sub">石打丸山免費接駁巴士約 10 分鐘（22 人帶雪具建議分批，或分批搭計程車）｜到了買纜車票／1 日券（持券玩雪樂園免費，無券 ¥1,000）；Skids Camp 這時報到</span></span></li>
-        <li><span class="when">10:15–13:00</span><span class="what"><strong>初學零經驗組</strong>：中央口山麓初學者魔毯區<span class="sub">免搭吊椅，練穿脫板、落葉飄與煞車</span></span></li>
-        <li><span class="when">10:15–13:00</span><span class="what"><strong>進階新手組</strong>：Sunrise Express 上山腰<span class="sub">箱型車廂可直接拿板進去，不怕下吊椅摔倒｜滑超寬綠線（銀座雪道下段／中央家庭雪道）回中央口，認「中央口」指標不會迷路</span></span></li>
-        <li><span class="when">10:15–13:00</span><span class="what"><strong>幼童組</strong>：山麓玩雪樂園<span class="sub">10:00 開放，電動魔毯、雪橇、海綿遊具</span></span></li>
-        <li><span class="when">13:00–13:30</span><span class="what"><strong>山麓集合 → 纜車上山腰報到</strong>（以預約 14:00 場次為例）<span class="sub">13:00 前在中央口集合（預約前 60 分鐘）→ 13:15 搭 Sunrise Express（約 7 分鐘）→ 13:30 前到 The Veranda 受付報到，在咖啡廳點餐外帶（禁帶外食）</span></span></li>
-        <li><span class="when">14:00–15:00</span><span class="what"><strong>圓頂帳篷午茶</strong>（共 3 棟，60 分鐘）<span class="sub">透明暖帳裡吃鬆餅、咖哩、炸物、熱飲，看雪景休息</span></span></li>
-        <li><span class="when">15:00–15:45</span><span class="what"><strong>The Veranda 雪上遊樂區</strong><span class="sub">雪上競速車、雪地滑步車、充氣滑梯（開放到 16:00）</span></span></li>
-        <li><span class="when">15:45–16:15</span><span class="what"><strong>搭纜車下山 → 中央口集合</strong><span class="sub">16:00 前回到山麓中央口</span></span></li>
-        <li><span class="when">16:15–16:40</span><span class="what"><strong>石打丸山中央口 → 越後湯澤站</strong><span class="sub">免費接駁巴士；客滿或帶雪具不便就分批搭計程車（約 10 分鐘）</span></span></li>
-        <li><span class="when">16:40–17:25</span><span class="what"><strong>歸還雪具、領行李、買便當</strong><span class="sub">回櫻雪具還裝備、換回一般鞋、領寄放行李，順便在站內買駅弁帶上新幹線</span></span></li>
-        <li><span class="when">17:41–19:00</span><span class="what"><strong>越後湯澤 → 東京</strong>（主力劃位班次）<span class="sub">上越新幹線，車上先吃便當墊肚子｜提早還完裝備可在發車前免費改搭 17:16</span></span></li>
-        <li><span class="when">19:10–19:45</span><span class="what"><strong>東京站 → 橫濱站 → 日本大通／馬車道站</strong><span class="sub">站內轉 JR 上野東京線（東海道線）或橫須賀線到橫濱（周遊券，約 25–30 分鐘）→ 轉港未來線（刷西瓜卡，約 5 分鐘）</span></span></li>
-        <li><span class="when">19:50–20:45</span><span class="what"><strong>橫濱 YORUNOYO 燈光藝術秀</strong><span class="sub">免費入場（17:00～21:05）｜主會場在新港中央廣場／象鼻公園，每半小時有全城燈光音樂連動秀（20:00、20:30）</span></span></li>
-        <li><span class="when">20:45–21:45</span><span class="what"><strong>晚餐方案 A：會場旁先吃</strong><span class="sub">紅磚倉庫 2 號館 1F 美食街（拉麵、蛋包飯、漢堡排，21:00 前點餐）或 3F Chano-ma（和室床墊包廂，適合帶小孩）</span></span></li>
-        <li><span class="when">20:45–21:45</span><span class="what"><strong>晚餐方案 B：回錦糸町吃</strong><span class="sub">港未來線回橫濱（西瓜卡）→ JR 橫須賀線・總武線快速直達錦糸町（周遊券，約 40 分鐘）→ 站前薩莉亞或 Gusto（開到深夜，4–6 人卡座好拆桌）</span></span></li>
+        <li class="k-move"><span class="when">07:05–07:20</span><span class="what"><strong>錦糸町 → 東京站</strong><span class="sub">JR 總武線快速直達，刷東京廣域周遊券進站</span></span></li>
+        <li class="k-move"><span class="when">07:48–09:05</span><span class="what"><strong>東京 → 越後湯澤</strong><span class="sub">上越新幹線指定席（東京廣域周遊券）｜約 09:00 抵達，依 Ekinet 實際班次為準</span></span></li>
+        <li class="k-prep"><span class="when">09:05–09:45</span><span class="what"><strong>櫻雪具 領裝備與著裝</strong>（12 大 10 小）<span class="sub">淇媽朋友一家這天加入｜依預約時段領雪衣、雪靴、雪板並換裝、寄放背包；完成一組先分批往東口移動</span></span></li>
+        <li class="k-move"><span class="when">09:45–10:15</span><span class="what"><strong>越後湯澤站東口 → 石打丸山中央口</strong><span class="sub">石打丸山免費接駁巴士約 10 分鐘（22 人帶雪具建議分批，或分批搭計程車）｜到了買纜車票／1 日券（持券玩雪樂園免費，無券 ¥1,000）；Skids Camp 這時報到</span></span></li>
+        <li class="k-ski"><span class="when">10:15–13:00</span><span class="what"><strong>初學零經驗組</strong>：中央口山麓初學者魔毯區<span class="sub">免搭吊椅，練穿脫板、落葉飄與煞車</span></span></li>
+        <li class="k-ski"><span class="when">10:15–13:00</span><span class="what"><strong>進階新手組</strong>：Sunrise Express 上山腰<span class="sub">箱型車廂可直接拿板進去，不怕下吊椅摔倒｜滑超寬綠線（銀座雪道下段／中央家庭雪道）回中央口，認「中央口」指標不會迷路</span></span></li>
+        <li class="k-ski"><span class="when">10:15–13:00</span><span class="what"><strong>幼童組</strong>：山麓玩雪樂園<span class="sub">10:00 開放，電動魔毯、雪橇、海綿遊具</span></span></li>
+        <li class="k-move"><span class="when">13:00–13:30</span><span class="what"><strong>山麓集合 → 纜車上山腰報到</strong>（以預約 14:00 場次為例）<span class="sub">13:00 前在中央口集合（預約前 60 分鐘）→ 13:15 搭 Sunrise Express（約 7 分鐘）→ 13:30 前到 The Veranda 受付報到，在咖啡廳點餐外帶（禁帶外食）</span></span></li>
+        <li class="k-food"><span class="when">14:00–15:00</span><span class="what"><strong>圓頂帳篷午茶</strong>（共 3 棟，60 分鐘）<span class="sub">透明暖帳裡吃鬆餅、咖哩、炸物、熱飲，看雪景休息</span></span></li>
+        <li class="k-ski"><span class="when">15:00–15:45</span><span class="what"><strong>The Veranda 雪上遊樂區</strong><span class="sub">雪上競速車、雪地滑步車、充氣滑梯（開放到 16:00）</span></span></li>
+        <li class="k-move"><span class="when">15:45–16:15</span><span class="what"><strong>搭纜車下山 → 中央口集合</strong><span class="sub">16:00 前回到山麓中央口</span></span></li>
+        <li class="k-move"><span class="when">16:15–16:40</span><span class="what"><strong>石打丸山中央口 → 越後湯澤站</strong><span class="sub">免費接駁巴士；客滿或帶雪具不便就分批搭計程車（約 10 分鐘）</span></span></li>
+        <li class="k-prep"><span class="when">16:40–17:25</span><span class="what"><strong>歸還雪具、領行李、買便當</strong><span class="sub">回櫻雪具還裝備、換回一般鞋、領寄放行李，順便在站內買駅弁帶上新幹線</span></span></li>
+        <li class="k-move"><span class="when">17:41–19:00</span><span class="what"><strong>越後湯澤 → 東京</strong>（主力劃位班次）<span class="sub">上越新幹線，車上先吃便當墊肚子｜提早還完裝備可在發車前免費改搭 17:16</span></span></li>
+        <li class="k-move"><span class="when">19:10–19:45</span><span class="what"><strong>東京站 → 橫濱站 → 日本大通／馬車道站</strong><span class="sub">站內轉 JR 上野東京線（東海道線）或橫須賀線到橫濱（周遊券，約 25–30 分鐘）→ 轉港未來線（刷西瓜卡，約 5 分鐘）</span></span></li>
+        <li class="k-sight"><span class="when">19:50–20:45</span><span class="what"><strong>橫濱 YORUNOYO 燈光藝術秀</strong><span class="sub">免費入場（17:00～21:05）｜主會場在新港中央廣場／象鼻公園，每半小時有全城燈光音樂連動秀（20:00、20:30）</span></span></li>
+        <li class="k-food"><span class="when">20:45–21:45</span><span class="what"><strong>晚餐方案 A：會場旁先吃</strong><span class="sub">紅磚倉庫 2 號館 1F 美食街（拉麵、蛋包飯、漢堡排，21:00 前點餐）或 3F Chano-ma（和室床墊包廂，適合帶小孩）</span></span></li>
+        <li class="k-food"><span class="when">20:45–21:45</span><span class="what"><strong>晚餐方案 B：回錦糸町吃</strong><span class="sub">港未來線回橫濱（西瓜卡）→ JR 橫須賀線・總武線快速直達錦糸町（周遊券，約 40 分鐘）→ 站前薩莉亞或 Gusto（開到深夜，4–6 人卡座好拆桌）</span></span></li>
       </ul>
       <details class="more">
         <summary>小朋友玩雪攻略＋纜車票價</summary>
@@ -504,12 +524,12 @@ footer {
     </div>
     <div class="day-body">
       <ul class="plan">
-        <li><span class="when">退房</span><span class="what"><strong>錦糸町飯店出發</strong><span class="sub">恩家退房直接前往機場</span></span></li>
-        <li><span class="when">8-9點</span><span class="what"><strong>豐洲市場</strong>吃早餐逛市場</span></li>
-        <li><span class="when">11:30</span><span class="what"><strong>teamLab Planets Tokyo</strong><span class="sub">票買 11:30-12:00 入場，14:00 離開</span></span></li>
-        <li><span class="when">12:25</span><span class="what"><strong>恩家回程</strong><span class="sub">長榮 成田 T1 → KHH，15:45 抵達高雄</span></span></li>
-        <li><span class="when">14:45</span><span class="what"><strong>豐洲站搭 BUS 前往機場</strong><span class="sub">15:45 抵達成田 T2</span></span></li>
-        <li><span class="when">18:25</span><span class="what"><strong>其餘成員回程</strong>（妞・鈞・淇・岑・多）<span class="sub">華航 成田 T2 → KHH，22:05 抵達高雄</span></span></li>
+        <li class="k-move"><span class="when">退房</span><span class="what"><strong>錦糸町飯店出發</strong><span class="sub">恩家退房直接前往機場</span></span></li>
+        <li class="k-food"><span class="when">8-9點</span><span class="what"><strong>豐洲市場</strong>吃早餐逛市場</span></li>
+        <li class="k-sight"><span class="when">11:30</span><span class="what"><strong>teamLab Planets Tokyo</strong><span class="sub">票買 11:30-12:00 入場，14:00 離開</span></span></li>
+        <li class="k-move"><span class="when">12:25</span><span class="what"><strong>恩家回程</strong><span class="sub">長榮 成田 T1 → KHH，15:45 抵達高雄</span></span></li>
+        <li class="k-move"><span class="when">14:45</span><span class="what"><strong>豐洲站搭 BUS 前往機場</strong><span class="sub">15:45 抵達成田 T2</span></span></li>
+        <li class="k-move"><span class="when">18:25</span><span class="what"><strong>其餘成員回程</strong>（妞・鈞・淇・岑・多）<span class="sub">華航 成田 T2 → KHH，22:05 抵達高雄</span></span></li>
       </ul>
       <details class="more">
         <summary>ecbo cloak 行李寄放說明</summary>

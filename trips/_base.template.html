@@ -107,6 +107,26 @@ header .meta { font-size: 0.85rem; color: var(--t2); margin-top: 0.2rem; }
 .plan .what { flex: 1; }
 .plan .what strong { font-weight: 700; }
 .plan .sub { display: block; font-size: 0.8rem; color: var(--t2); }
+/* ===== 行程項目分類上色 KIND-BEGIN：類別由 tools/trip.mjs 的 kindOf() 判斷；兩個模板這段要一樣（測試會比對） ===== */
+.plan li[class^="k-"] { gap: 0.55rem; }
+.plan li[class^="k-"] .what { border-left: 3px solid var(--k); padding-left: 0.55rem; }
+.plan li[class^="k-"] .what::before {
+  display: inline-block; margin-right: 0.4rem; padding: 0 0.4rem;
+  border-radius: 5px; font-size: 0.7rem; font-weight: 700; line-height: 1.5;
+  vertical-align: 0.08em; white-space: nowrap;
+  color: var(--k-t); background: var(--k-bg);
+}
+.plan li.k-move  { --k: var(--blue);  --k-t: var(--blue);  --k-bg: var(--blue-bg); }
+.plan li.k-move .what::before { content: "交通"; }
+.plan li.k-ski   { --k: var(--green); --k-t: var(--green); --k-bg: var(--green-bg); }
+.plan li.k-ski .what::before { content: "滑雪"; }
+.plan li.k-food  { --k: var(--gold);  --k-t: #8f5f0e;      --k-bg: var(--gold-bg); }
+.plan li.k-food .what::before { content: "用餐"; }
+.plan li.k-sight { --k: #7b4397;      --k-t: #7b4397;      --k-bg: #f3ecf8; }
+.plan li.k-sight .what::before { content: "活動"; }
+.plan li.k-prep  { --k: #8a7d6f;      --k-t: #6b6157;      --k-bg: #f1ede6; }
+.plan li.k-prep .what::before { content: "手續"; }
+/* KIND-END */
 
 /* details 摺疊 */
 details.more {
