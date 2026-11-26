@@ -114,6 +114,16 @@ test('補充資訊：outline 讀得到、可以整個換掉或拿掉（字會跳
 const baseTpl = readFileSync(new URL('../trips/_base.template.html', import.meta.url), 'utf8');
 const fresh = () => ({ title: '測試行程', meta: { title: '測試行程', dates: '', subtitle: '' }, days: [], info: [], links: [] });
 
+test('日期切換：兩個模板的分頁區塊一致，產出的網頁有帶到', () => {
+  const blocks = (s) => [...lf(s).matchAll(/TABS-BEGIN[\s\S]*?TABS-END/g)].map(m => m[0]);
+  const a = blocks(tpl), b = blocks(baseTpl);
+  assert.equal(a.length, 2); // CSS 一段、script 一段
+  assert.deepEqual(a, b);
+  assert.ok(a[1].includes('navigator.webdriver')); // 小帥截圖靠這個維持全部直排，不能拿掉
+  const html = render(load(), tpl);
+  assert.ok(html.indexOf('TABS-BEGIN', html.indexOf('id="d1"')) > 0); // script 在每日行程後面
+});
+
 test('通用版面：空行程也產得出網頁', () => {
   const html = render(fresh(), baseTpl);
   assert.ok(html.includes('<title>測試行程 — 行程表</title>'));
