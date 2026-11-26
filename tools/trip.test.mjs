@@ -239,4 +239,83 @@ test('通用版面的行程網頁也與資料一致', () => {
   assert.equal(render(snow, baseTpl), lf(readFileSync(new URL('../snow-trip-2027.html', import.meta.url), 'utf8')));
 });
 
+const AT = '2026-11-26 14:05';
+const addC = (day, text, by = '葶', at = AT) => ({ op: 'add_comment', day, text, by, at });
+
+test('留言：新增後網頁出現留言區（名字、時間、內容）', () => {
+  const t = load();
+  const c = applyOps(t, [addC('D3', '神樂雪具記得帶手套')]);
+  assert.deepEqual(c, ['D3 第 1 則留言 葶：「神樂雪具記得帶手套」']);
+  assert.deepEqual(t.days[2].comments, [{ no: 1, by: '葶', at: AT, text: '神樂雪具記得帶手套' }]);
+  const html = render(t, tpl);
+  assert.match(html, /id="d3"[\s\S]*?<div class="cmts">[\s\S]*?<span class="c-no">1<\/span><span class="c-by">葶<\/span><span class="c-at">11\/26 14:05<\/span><span class="c-text">神樂雪具記得帶手套<\/span>/);
+  assert.equal((html.match(/class="cmts"/g) || []).length, 1); // 只有 D3 有
+  assert.ok(!render(load(), tpl).includes('class="cmts"'));   // 沒留言就沒有留言區
+});
+
+test('留言：跳脫、各種擋下', () => {
+  const t = load();
+  applyOps(t, [addC('D1', '<script>alert(1)</script>', '<img src=x onerror>')]);
+  const html = render(t, tpl);
+  assert.ok(!html.includes('<script>alert') && !html.includes('<img src=x'));
+  assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
+  const bad = (op, re) => assert.throws(() => applyOps(load(), [op]), re);
+  bad(addC('D1', ''), /不能是空的/);
+  bad(addC('D1', 'a'.repeat(101)), /太長/);
+  bad(addC('D1', 'hi', 'b'.repeat(21)), /太長/);
+  bad(addC('D1', 'hi', '葶', '2026/11/26 14:05'), /時間格式/);
+  bad(addC('D1', 'hi', '葶', null), /時間格式/);
+  bad(addC('D1', 'hi', '葶', '2026-99-99 99:99'), /時間格式/);
+  bad(addC('D1', '  \n \n '), /不能是空的/);
+  const ok = load();
+  applyOps(ok, [addC('D1', '😀'.repeat(100))]);                   // emoji 算 1 字
+  applyOps(ok, [addC('D1', '第一行  有空白\r\n\n\n\n第二行 ')]);      // 換行保留、多的空行壓成一行
+  assert.equal(ok.days[0].comments[1].text, '第一行 有空白\n\n第二行');
+  bad(addC('D99', 'hi'), /找不到/);
+  bad({ op: 'remove_comment', day: 'D1', index: 1 }, /沒有第 1 則留言/);
+  const full = load();
+  applyOps(full, Array.from({ length: 15 }, (_, i) => addC('D2', `第${i}`)));
+  applyOps(full, Array.from({ length: 5 }, (_, i) => addC('D2', `第${i + 15}`)));
+  assert.throws(() => applyOps(full, [addC('D2', '第 21 則')]), /留言滿了/);
+  const dup = load();
+  applyOps(dup, [addC('D1', '同一句')]);
+  assert.throws(() => applyOps(dup, [addC('D1', '同一句')]), /已經有了/);
+  applyOps(dup, [addC('D1', '同一句', '別人')]); // 不同人可以講一樣的話
+});
+
+test('留言：固定編號刪除、刪光後留言區消失、outline 只給則數不給內容', () => {
+  const t = load();
+  applyOps(t, ['一', '二', '三', '四', '五', '六'].map(x => addC('D4', x)));
+  const o = outline(t);
+  assert.match(o, /網頁上這天有 6 則留言（內容不提供）/);
+  assert.ok(!o.includes('：四'));                                     // 留言內容不給 AI
+  const c = applyOps(t, [{ op: 'remove_comment', day: 'D4', index: 2 }]);
+  assert.deepEqual(c, ['D4 刪掉留言 葶：「二」']);
+  assert.deepEqual(t.days[3].comments.map(x => `${x.no}${x.text}`), ['1一', '3三', '4四', '5五', '6六']);
+  assert.throws(() => applyOps(t, [{ op: 'remove_comment', day: 'D4', index: 2 }]), /沒有第 2 則留言/); // 同一句重送不會刪到別人
+  assert.deepEqual(applyOps(t, [addC('D4', '七')]), ['D4 第 7 則留言 葶：「七」']);    // 新的接著最大編號
+  applyOps(t, [1, 3, 4, 5, 6, 7].map(n => ({ op: 'remove_comment', day: 'D4', index: n })));
+  assert.ok(!('comments' in t.days[3]));
+  assert.equal(render(t, tpl), render(load(), tpl));
+});
+
+test('留言：通用版面插入／刪掉天數時留言跟著那天走', () => {
+  const t = fresh();
+  applyOps(t, [{ op: 'add_day', date: '1/30', place: 'A' }, { op: 'add_day', date: '1/31', place: 'B' }]);
+  applyOps(t, [addC('D2', 'B 的留言')]);
+  applyOps(t, [{ op: 'add_day', date: '1/29', place: 'Z', after: 0 }]);
+  assert.equal(t.days[2].place.endsWith('B'), true);
+  assert.equal(t.days[2].comments[0].text, 'B 的留言');
+  const c = applyOps(t, [{ op: 'remove_day', day: 'D3' }]);
+  assert.match(c[0], /含 0 項行程、1 則留言/);
+  assert.ok(render(t, baseTpl).includes('class="cmt-hint"'));
+});
+
+test('留言：兩個模板的留言區塊一致', () => {
+  const block = (s) => /CMT-BEGIN[\s\S]*?CMT-END/.exec(lf(s))?.[0];
+  assert.ok(block(tpl) && block(tpl) === block(baseTpl));
+  const hint = (s) => /<p class="cmt-hint">.*<\/p>/.exec(s)?.[0];
+  assert.ok(hint(tpl) && hint(tpl) === hint(baseTpl));
+});
+
 console.log(`\n${pass} 項全部通過`);

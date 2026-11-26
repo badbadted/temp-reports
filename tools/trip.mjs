@@ -11,14 +11,16 @@
  *
  * 兩種版面：有 trips/<name>.template.html 的是手刻版面（頁首、住宿、連結寫死在模板裡，例如聖誕滑雪）；
  * 沒有的用通用版面 trips/_base.template.html，頁首（meta）、資訊區（info）、連結（links）都在資料裡，
- * 小帥也能用 set_meta／set_info／remove_info／add_link／remove_link／add_day／remove_day 改。開新行程一律用通用版面。
+ * 也能用 set_meta／set_info／remove_info／add_link／remove_link／add_day／remove_day 改。開新行程一律用通用版面。
  *
  * 每天的資料：最上面「這幾天要去哪」那一行（glance）、每日行程的標題（date／place）與一條條行程（items）。
  * 每項行程的顏色與標籤（交通／滑雪／用餐／活動／手續）由 kindOf() 依文字判斷；判錯時在 JSON 該項加 "type": "move|ski|food|sight|prep"。
  * 可收摺的詳細資訊（moreHtml：時刻表、票價、菜單）：手寫的 HTML 原樣保留；ops 可以整個換成「標題＋條列」（set_more，字一律跳脫）或拿掉（remove_more）。
  *
- * 修改內容（ops）由 LINE 群組的小帥產生、群組成員確認後才 apply。經 ops 寫進來的字一律跳脫 < >，
- * 不能塞 HTML 進公開網頁。describe／apply 輸出 JSON：{ ok, changes: [白話說明...], error? }
+ * 行程本身由 TED 在電腦上改（改 JSON 後 build，或寫 ops 用 apply）。LINE 群組的小帥只負責留言：
+ * 群組成員說「小帥 12/26 留言：內容」，小帥用 add_comment／remove_comment 經 apply 寫入（不用回「好」）。
+ * 每天的留言存在 days[].comments：[{ by: LINE 名稱, at: "YYYY-MM-DD HH:MM"（台北時間，由小帥帶入）, text }]。
+ * 經 ops 寫進來的字一律跳脫 < >，不能塞 HTML 進公開網頁。describe／apply 輸出 JSON：{ ok, changes: [白話說明...], error? }
  */
 
 import { existsSync, readFileSync, writeFileSync } from 'fs';
@@ -30,8 +32,21 @@ const LIMITS = {
   when: 12, title: 40, text: 80, sub: 120, date: 30, place: 60, note: 60, emoji: 8, more_title: 30, more_line: 80,
   // 通用版面
   meta_title: 40, dates: 40, subtitle: 80, info_title: 30, hint: 30, info_line: 100, link_title: 40, url: 300, d: 5, w: 10,
+  // 留言
+  comment: 100, by: 20,
 };
 const MORE_MAX_LINES = 8;
+const MAX_COMMENTS_PER_DAY = 20;
+const AT_RE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) ([01]\d|2[0-3]):[0-5]\d$/;
+
+/** 留言內容：保留換行（多的空行壓成一行）、字數照實際字元算（emoji 算 1 字） */
+function commentText(v) {
+  if (typeof v !== 'string') throw new Error('留言要是文字');
+  const s = v.replace(/\r\n?/g, '\n').replace(/[ \t]+/g, ' ').replace(/ ?\n ?/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  if (!s) throw new Error('留言不能是空的');
+  if (Array.from(s).length > LIMITS.comment) throw new Error(`留言太長（最多 ${LIMITS.comment} 字）`);
+  return s;
+}
 const MAX_OPS = 15;
 
 const BASE_TPL = join(ROOT, 'trips', '_base.template.html');
@@ -107,8 +122,21 @@ function renderDay(d) {
     ...d.items.map(renderItem),
     '      </ul>',
     ...(d.moreHtml ? [d.moreHtml] : []),
+    ...(d.comments?.length ? [renderComments(d.comments)] : []),
     '    </div>',
     '  </div>',
+  ].join('\n');
+}
+
+// 留言區（在 LINE 群叫小帥留言寫進來的）；沒有留言就不輸出。時間顯示成 11/26 14:05
+function renderComments(cs) {
+  return [
+    '      <div class="cmts">',
+    `        <div class="cmts-h">留言<span class="n">${cs.length} 則</span></div>`,
+    '        <ol>',
+    ...cs.map(c => `          <li><span class="c-no">${Number(c.no) || ''}</span><span class="c-by">${esc(c.by)}</span><span class="c-at">${esc(String(c.at).slice(5).replace('-', '/'))}</span><span class="c-text">${esc(c.text)}</span></li>`),
+    '        </ol>',
+    '      </div>',
   ].join('\n');
 }
 
@@ -211,6 +239,9 @@ export function outline(trip) {
     });
     const m = moreText(d.moreHtml);
     if (m) lines.push(`  補充資訊「${m.title}」：${m.lines.join('／')}`.slice(0, 700));
+    // 留言只列則數、不給內容：outline 是給小帥的 AI 看的，留言是任何群組成員寫的，避免有人在留言裡夾帶指令
+    const nc = (d.comments || []).length;
+    if (nc) lines.push(`  網頁上這天有 ${nc} 則留言（內容不提供）`);
   }
   return lines.join('\n');
 }
@@ -340,7 +371,8 @@ function applyBaseOp(trip, op) {
       const day = findDay(trip, op.day);
       trip.days.splice(trip.days.indexOf(day), 1);
       renumber(trip);
-      return `刪掉 ${op.day.toUpperCase()} ${day.date}（含 ${day.items.length} 項行程），後面的天數往前遞補`;
+      const nc = (day.comments || []).length;
+      return `刪掉 ${op.day.toUpperCase()} ${day.date}（含 ${day.items.length} 項行程${nc ? `、${nc} 則留言` : ''}），後面的天數往前遞補`;
     }
     default:
       return undefined; // 不是通用版面的修改
@@ -432,6 +464,28 @@ export function applyOps(trip, ops) {
         if (!m) throw new Error(`${d.id} 沒有補充資訊`);
         delete d.moreHtml;
         changes.push(`${d.id} 刪掉補充資訊「${m.title}」`);
+        break;
+      }
+      case 'add_comment': {
+        const text = commentText(op.text);
+        const by = str(op.by, 'by');
+        if (!AT_RE.test(String(op.at || ''))) throw new Error('留言時間格式不對');
+        d.comments ||= [];
+        // 滿了擋下、不自動丟最舊的：自動丟會無聲遺失別人的留言
+        if (d.comments.length >= MAX_COMMENTS_PER_DAY) throw new Error(`${d.id} 留言滿了（最多 ${MAX_COMMENTS_PER_DAY} 則），先刪掉舊的再留`);
+        if (d.comments.some(c => c.by === by && c.text === text)) throw new Error('一樣的留言已經有了');
+        // 固定編號（那天最大的編號＋1）：刪掉一則後其他則的編號不變，照網頁編號刪不會刪到別人的
+        const no = Math.max(0, ...d.comments.map(c => c.no || 0)) + 1;
+        d.comments.push({ no, by, at: op.at, text });
+        changes.push(`${d.id} 第 ${no} 則留言 ${by}：「${text}」`);
+        break;
+      }
+      case 'remove_comment': {
+        const i = (d.comments || []).findIndex(c => c.no === Number(op.index));
+        if (i < 0) throw new Error(`${d.id} 沒有第 ${op.index} 則留言`);
+        const [c] = d.comments.splice(i, 1);
+        if (!d.comments.length) delete d.comments;
+        changes.push(`${d.id} 刪掉留言 ${c.by}：「${c.text}」`);
         break;
       }
       default:

@@ -128,6 +128,29 @@ header .meta { font-size: 0.85rem; color: var(--t2); margin-top: 0.2rem; }
 .plan li.k-prep  { --k: #8a7d6f;      --k-t: #6b6157;      --k-bg: #f1ede6; }
 .plan li.k-prep .what::before { content: "手續"; }
 /* KIND-END */
+/* ===== 留言區 CMT-BEGIN：資料在 days[].comments，由 tools/trip.mjs 的 renderComments() 產生；兩個模板這段要一樣（測試會比對） ===== */
+.cmts { margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px dashed var(--line); }
+.cmts-h { display: flex; align-items: center; gap: 0.45rem; font-size: 0.85rem; font-weight: 700; color: var(--t1); margin-bottom: 0.5rem; }
+.cmts-h::before {
+  content: ""; position: relative; flex-shrink: 0; width: 0.95rem; height: 0.7rem;
+  border: 2px solid var(--t2); border-radius: 4px 4px 4px 1px;
+}
+.cmts-h .n { font-size: 0.75rem; font-weight: 400; color: var(--t2); }
+.cmts ol { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+.cmts li {
+  position: relative; min-width: 0;
+  background: #fbfaf7; border: 1px solid var(--line); border-radius: 10px;
+  padding: 0.45rem 0.7rem 0.5rem 2rem; font-size: 0.87rem;
+}
+.cmts .c-no {
+  position: absolute; left: 0.6rem; top: 0.5rem;
+  min-width: 1rem; font-size: 0.72rem; font-weight: 700; color: var(--t2); text-align: center;
+}
+.cmts .c-by { font-weight: 700; margin-right: 0.45rem; }
+.cmts .c-at { font-size: 0.75rem; color: var(--t2); }
+.cmts .c-text { display: block; margin-top: 0.1rem; overflow-wrap: anywhere; white-space: pre-wrap; }
+.cmt-hint { margin-top: 0.8rem; font-size: 0.78rem; color: var(--t2); text-align: center; }
+/* CMT-END */
 
 /* details 摺疊 */
 details.more {
@@ -289,6 +312,7 @@ footer {
   <h2 class="section-h">🗓️ 每日行程</h2>
 
 <!-- TRIP-DAYS -->
+  <p class="cmt-hint">想在某天底下留言：在 LINE 群說「小帥 12/26 留言：內容」（100 字內）</p>
 </div>
 
 <script>
